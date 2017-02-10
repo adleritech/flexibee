@@ -33,7 +33,7 @@ public class IssuedInvoiceTest {
 
         Serializer serializer = new Persister();
 
-        Winstrom example = serializer.read(Winstrom.class, xml);
+        WinstromRequest example = serializer.read(WinstromRequest.class, xml);
 
         assertThat(example.getAddressBook()).isNotNull();
         assertThat(example.getAddressBook().getCode()).isEqualTo("PBENDA");
@@ -71,7 +71,7 @@ public class IssuedInvoiceTest {
 
         Serializer serializer = new Persister();
 
-        Winstrom envelope = Winstrom.builder()
+        WinstromRequest envelope = WinstromRequest.builder()
                 .issuedInvoice(
                         IssuedInvoice.builder()
                                 .company("code:PBENDA")
