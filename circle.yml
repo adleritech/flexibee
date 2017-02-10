@@ -5,3 +5,11 @@ machine:
 test:
   override:
     - mvn test
+  post:
+    - sed "s/OSSRH_USERNAME/$SONATYPE_USER/g; s/OSSRH_PASSWORD/$SONATYPE_PASSWORD/g" < .settings.xml > ${HOME}/.m2/settings.xml
+
+deployment:
+  prod:
+    branch: master
+    commands:
+      - mvn deploy -DskipTests
