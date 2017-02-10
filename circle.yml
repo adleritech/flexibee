@@ -2,17 +2,6 @@ machine:
   java:
     version: oraclejdk8
 
-dependencies:
-  override:
-    - mvn dependency:go-offline -s settings.xml
-
 test:
   override:
     - mvn test
-
-deployment:
-  docker:
-    branch: master
-    commands:
-      # deploy to nexus
-      - mvn deploy source:jar -DskipTests -s settings.xml
