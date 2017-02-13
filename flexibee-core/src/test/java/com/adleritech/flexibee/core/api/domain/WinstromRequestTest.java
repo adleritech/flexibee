@@ -1,4 +1,4 @@
-package com.adleritech.flexibee.api.domain;
+package com.adleritech.flexibee.core.api.domain;
 
 import org.junit.Test;
 import org.simpleframework.xml.Serializer;
@@ -17,7 +17,7 @@ public class WinstromRequestTest {
                         .company("code:ABCFIRM1#")
                         .documentType("code:FAKTURA")
                         .withoutItems(true)
-                        .sumWithoutVat(1000)
+                        .sumWithoutVat(1000d)
                         .build()).build();
 
         ByteArrayOutputStream result = new ByteArrayOutputStream();

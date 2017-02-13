@@ -1,4 +1,4 @@
-package com.adleritech.flexibee.api.domain;
+package com.adleritech.flexibee.core.api.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +18,7 @@ public class WinstromResponse extends Winstrom {
     @Element(name = "success")
     private boolean success;
 
-    @Element(name = "result", required = false)
-    private Result result;
+    @Element(name = "results", required = false)
+    private Results results;
 
 }

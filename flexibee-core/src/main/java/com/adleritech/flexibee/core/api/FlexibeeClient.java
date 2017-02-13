@@ -1,7 +1,7 @@
-package com.adleritech.flexibee.api;
+package com.adleritech.flexibee.core.api;
 
-import com.adleritech.flexibee.api.domain.WinstromRequest;
-import com.adleritech.flexibee.api.domain.WinstromResponse;
+import com.adleritech.flexibee.core.api.domain.WinstromRequest;
+import com.adleritech.flexibee.core.api.domain.WinstromResponse;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -22,8 +22,9 @@ public class FlexibeeClient {
         client = RetrofitClientFactory.createService(Api.class, API_BASE_URL, username, password);
     }
 
-    public Response<WinstromResponse> createInvoice(WinstromRequest winstromRequest) throws IOException {
-        return client.issueInvoice(company, winstromRequest).execute();
+    public WinstromResponse createInvoice(WinstromRequest winstromRequest) throws IOException {
+        Response<WinstromResponse> response = client.issueInvoice(company, winstromRequest).execute();
+        return response.body();
     }
 
     interface Api {

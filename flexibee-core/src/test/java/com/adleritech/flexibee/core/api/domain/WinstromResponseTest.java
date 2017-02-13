@@ -1,4 +1,4 @@
-package com.adleritech.flexibee.api.domain;
+package com.adleritech.flexibee.core.api.domain;
 
 import org.junit.Test;
 import org.simpleframework.xml.Serializer;
@@ -42,9 +42,19 @@ public class WinstromResponseTest {
     public void parseSuccessResponse() throws Exception {
         String xml = "<winstrom version=\"1.0\">\n" +
                 "  <success>true</success>\n" +
-                "  <result>\n" +
-                "    <id>105</id>\n" +
-                "  </result>\n" +
+                "  <stats>\n" +
+                "    <created>1</created>\n" +
+                "    <updated>0</updated>\n" +
+                "    <deleted>0</deleted>\n" +
+                "    <skipped>0</skipped>\n" +
+                "    <failed>0</failed>\n" +
+                "  </stats>\n" +
+                "  <results>\n" +
+                "    <result>\n" +
+                "      <id>2186</id>\n" +
+                "      <ref>/c/demo/faktura-vydana/2186.xml</ref>\n" +
+                "    </result>\n" +
+                "  </results>\n" +
                 "</winstrom>";
 
 
@@ -52,7 +62,7 @@ public class WinstromResponseTest {
         WinstromResponse example = serializer.read(WinstromResponse.class, xml);
 
         assertThat(example.isSuccess()).isTrue();
-        assertThat(example.getResult().getId()).isEqualTo("105");
+        assertThat(example.getResults().getResult().getId()).isEqualTo("2186");
     }
 
 }

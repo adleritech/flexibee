@@ -1,4 +1,4 @@
-package com.adleritech.flexibee.api;
+package com.adleritech.flexibee.core.api;
 
 import okhttp3.Credentials;
 import okhttp3.Interceptor;
