@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 
-import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 
@@ -17,14 +17,14 @@ import java.util.List;
 @AllArgsConstructor
 public class IssuedInvoice {
 
-    @Element(name="typDokl")
+    @Element(name = "typDokl", required = false)
     private String documentType;
 
-    @Element(name="firma")
+    @Element(name = "firma", required = false)
     private String company;
 
     @Element(name = "datVyst", required = false)
-    private Instant issued;
+    private Date issued;
 
     @Element(name = "bezPolozek", required = false)
     private Boolean withoutItems;

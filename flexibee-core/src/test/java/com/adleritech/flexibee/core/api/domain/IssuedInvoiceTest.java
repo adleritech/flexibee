@@ -1,11 +1,13 @@
 package com.adleritech.flexibee.core.api.domain;
 
+import com.adleritech.flexibee.core.api.transformers.Factory;
 import org.junit.Test;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
+import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -102,6 +104,7 @@ public class IssuedInvoiceTest {
                 .issuedInvoice(IssuedInvoice.builder()
                         .company("code:ABCFIRM1#")
                         .documentType("code:FAKTURA")
+                        .issued(new Date())
                         .items(Arrays.asList(
                                 IssuedInvoiceItem.builder()
                                         .name("Bla bla jizdne")
@@ -109,13 +112,17 @@ public class IssuedInvoiceTest {
                                         .sumVat(1500d)
                                         .unitPrice(9000d)
                                         .sumWithoutVat(7500d)
+                                        .priceKind(PriceKind.a)
                                         .vatRate(21d).build()
                         ))
                         .build()).build();
 
+        // Maybe you have to correct this or use another / no Locale
+
         ByteArrayOutputStream result = new ByteArrayOutputStream();
-        Serializer serializer = new Persister();
+        Serializer serializer = Factory.persister();
         serializer.write(envelope, result);
+
 
         String xml = "<winstrom version=\"1.0\">\n" +
                 "   <faktura-vydana>\n" +
@@ -134,7 +141,6 @@ public class IssuedInvoiceTest {
                 "   </faktura-vydana>\n" +
                 "</winstrom>";
         assertThat(result.toString()).isXmlEqualTo(xml);
-
     }
 
 }

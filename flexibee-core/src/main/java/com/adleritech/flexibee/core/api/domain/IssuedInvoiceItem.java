@@ -32,7 +32,10 @@ public class IssuedInvoiceItem {
 
     @Element(name = "cenaMj")
     Double unitPrice;
-//
+
+    @Element(name = "typCenyDphK")
+    PriceKind priceKind;
+    //
 //    @Element(name="typSzbDphK")
 //    Enum totalSum;
 //

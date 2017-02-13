@@ -1,5 +1,6 @@
 package com.adleritech.flexibee.core.api;
 
+import com.adleritech.flexibee.core.api.transformers.Factory;
 import okhttp3.Credentials;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -18,7 +19,7 @@ class RetrofitClientFactory {
 
     static <S> S createService(Class<S> serviceClass, String apiBaseUrl, String username, String password) {
         builder = new Retrofit.Builder().baseUrl(apiBaseUrl)
-                .addConverterFactory(SimpleXmlConverterFactory.create());
+                .addConverterFactory(SimpleXmlConverterFactory.create(Factory.persister()));
         String authToken = Credentials.basic(username, password);
         return createService(serviceClass, authToken);
     }
