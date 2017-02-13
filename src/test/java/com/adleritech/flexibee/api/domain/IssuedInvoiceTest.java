@@ -69,8 +69,6 @@ public class IssuedInvoiceTest {
                 "   </adresar>\n" +
                 "</winstrom>";
 
-        Serializer serializer = new Persister();
-
         WinstromRequest envelope = WinstromRequest.builder()
                 .issuedInvoice(
                         IssuedInvoice.builder()
@@ -91,9 +89,10 @@ public class IssuedInvoiceTest {
                 .build();
 
         ByteArrayOutputStream result = new ByteArrayOutputStream();
+        Serializer serializer = new Persister();
         serializer.write(envelope, result);
 
-        assertThat(result.toString()).isEqualTo(xml);
+        assertThat(result.toString()).isXmlEqualTo(xml);
     }
 
 }

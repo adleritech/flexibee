@@ -19,4 +19,10 @@ public class IssuedInvoice {
     @Element(name="firma")
     private String company;
 
+    @Element(name = "bezPolozek")
+    private boolean withoutItems;
+
+    @Element(name = "sumDphZakl")
+    private double sumWithoutVat;
+
 }
