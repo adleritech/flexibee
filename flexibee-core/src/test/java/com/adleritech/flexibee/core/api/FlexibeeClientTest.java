@@ -30,7 +30,6 @@ public class FlexibeeClientTest {
         assertThat(response.isSuccess()).isTrue();
     }
 
-
     @Test
     public void createDummyInvoice() throws Exception {
         WinstromRequest request = WinstromRequest.builder()

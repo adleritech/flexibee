@@ -14,31 +14,31 @@ import org.simpleframework.xml.Element;
 @AllArgsConstructor
 public class AddressBook {
 
-    @Attribute(name="update", empty = "ignore")
+    @Attribute(name = "update", empty = "ignore")
     private Update update;
 
-    @Element(name="id")
+    @Element(name = "id")
     private String id;
 
-    @Element(name="ic")
+    @Element(name = "ic")
     private String regNo;
 
-    @Element(name="psc")
+    @Element(name = "psc")
     private String postCode;
 
-    @Element(name="nazev")
+    @Element(name = "nazev")
     private String name;
 
-    @Element(name="mesto")
+    @Element(name = "mesto")
     private String city;
 
-    @Element(name="dic")
+    @Element(name = "dic")
     private String vatId;
 
-    @Element(name="ulice")
+    @Element(name = "ulice")
     private String street;
 
-    @Element(name="kod")
+    @Element(name = "kod")
     private String code;
 
 }

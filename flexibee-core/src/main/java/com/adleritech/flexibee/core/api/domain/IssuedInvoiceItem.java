@@ -33,16 +33,7 @@ public class IssuedInvoiceItem {
     @Element(name = "cenaMj")
     Double unitPrice;
 
-    @Element(name = "typCenyDphK")
+    @Element(name = "typCenyDphK", required = false)
     PriceKind priceKind;
-    //
-//    @Element(name="typSzbDphK")
-//    Enum totalSum;
-//
-//    <nazev>Bla bla jizdne</nazev>
-//    <mnozBaleni>1</mnozBaleni>
-//    <szbDph>21.0</szbDph>
-//    <typCenyDphK>typCeny.sDphKoef</typCenyDphK>
-//    <typSzbDphK>typSzbDph.dphZakl</typSzbDphK>
 
 }

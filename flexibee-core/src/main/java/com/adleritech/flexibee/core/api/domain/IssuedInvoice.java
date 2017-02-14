@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 
@@ -24,7 +24,13 @@ public class IssuedInvoice {
     private String company;
 
     @Element(name = "datVyst", required = false)
-    private Date issued;
+    private Instant issued;
+
+    @Element(name = "datSplat", required = false)
+    private Instant dueDate;
+
+    @Element(name = "duzpPuv", required = false)
+    private Instant timeOfSupply;
 
     @Element(name = "bezPolozek", required = false)
     private Boolean withoutItems;

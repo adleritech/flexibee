@@ -6,8 +6,8 @@ import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
 import java.io.ByteArrayOutputStream;
+import java.time.Instant;
 import java.util.Arrays;
-import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -104,7 +104,7 @@ public class IssuedInvoiceTest {
                 .issuedInvoice(IssuedInvoice.builder()
                         .company("code:ABCFIRM1#")
                         .documentType("code:FAKTURA")
-                        .issued(new Date())
+                        .issued(Instant.parse("2017-02-14T08:23:15.830Z"))
                         .items(Arrays.asList(
                                 IssuedInvoiceItem.builder()
                                         .name("Bla bla jizdne")
@@ -125,20 +125,22 @@ public class IssuedInvoiceTest {
 
 
         String xml = "<winstrom version=\"1.0\">\n" +
-                "   <faktura-vydana>\n" +
-                "      <typDokl>code:FAKTURA</typDokl>\n" +
-                "      <firma>code:ABCFIRM1#</firma>\n" +
-                "      <polozkyFaktury class=\"java.util.Arrays$ArrayList\">\n" +
-                "         <faktura-vydana-polozka>\n" +
-                "            <nazev>Bla bla jizdne</nazev>\n" +
-                "            <mnozBaleni>1</mnozBaleni>\n" +
-                "            <szbDph>21.0</szbDph>\n" +
-                "            <sumZkl>7500.0</sumZkl>\n" +
-                "            <sumDph>1500.0</sumDph>\n" +
-                "            <cenaMj>9000.0</cenaMj>\n" +
-                "         </faktura-vydana-polozka>\n" +
-                "      </polozkyFaktury>\n" +
-                "   </faktura-vydana>\n" +
+                "    <faktura-vydana>\n" +
+                "        <typDokl>code:FAKTURA</typDokl>\n" +
+                "        <firma>code:ABCFIRM1#</firma>\n" +
+                "        <datVyst>2017-02-14T08:23:15.830Z</datVyst>\n" +
+                "        <polozkyFaktury class=\"java.util.Arrays$ArrayList\">\n" +
+                "            <faktura-vydana-polozka>\n" +
+                "                <nazev>Bla bla jizdne</nazev>\n" +
+                "                <mnozBaleni>1</mnozBaleni>\n" +
+                "                <szbDph>21.0</szbDph>\n" +
+                "                <sumZkl>7500.0</sumZkl>\n" +
+                "                <sumDph>1500.0</sumDph>\n" +
+                "                <cenaMj>9000.0</cenaMj>\n" +
+                "                <typCenyDphK>typCeny.sDphKoef</typCenyDphK>\n" +
+                "            </faktura-vydana-polozka>\n" +
+                "        </polozkyFaktury>\n" +
+                "    </faktura-vydana>\n" +
                 "</winstrom>";
         assertThat(result.toString()).isXmlEqualTo(xml);
     }
