@@ -25,8 +25,8 @@ public class FlexibeeClientTest {
 
         FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         WinstromResponse response = flexibeeClient.createInvoice(request);
-        assertThat(response.getResults().getResult().getId()).isNotEmpty();
-        Assertions.assertThat(response.getResults().getResult().getId()).isNotEmpty();
+        assertThat(response.getResults().get(0).getId()).isNotEmpty();
+        Assertions.assertThat(response.getResults().get(0).getId()).isNotEmpty();
         assertThat(response.isSuccess()).isTrue();
     }
 
@@ -49,7 +49,31 @@ public class FlexibeeClientTest {
 
         FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         WinstromResponse response = flexibeeClient.createInvoice(request);
-        assertThat(response.getResults().getResult().getId()).isNotEmpty();
+        assertThat(response.getResults().get(0).getId()).isNotEmpty();
         assertThat(response.isSuccess()).isTrue();
     }
+
+    @Test
+    public void createInvoiceWithAddressBook() throws Exception {
+        WinstromRequest request = WinstromRequest.builder()
+                .issuedInvoice(IssuedInvoice.builder()
+                        .company("code:ABCFIRM1#")
+                        .documentType("code:FAKTURA")
+                        .items(Arrays.asList(
+                                IssuedInvoiceItem.builder()
+                                        .name("Bla bla jizdne")
+                                        .amount(1)
+                                        .sumVat(1500d)
+                                        .unitPrice(9000d)
+                                        .sumWithoutVat(7500d)
+                                        .vatRate(21d).build()
+                        ))
+                        .build()).build();
+
+        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
+        WinstromResponse response = flexibeeClient.createInvoice(request);
+        assertThat(response.getResults().get(0).getId()).isNotEmpty();
+        assertThat(response.isSuccess()).isTrue();
+    }
+
 }

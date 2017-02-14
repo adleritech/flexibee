@@ -17,7 +17,7 @@ public class AddressBook {
     @Attribute(name = "update", empty = "ignore")
     private Update update;
 
-    @Element(name = "id")
+    @Element(name = "id", required = false)
     private String id;
 
     @Element(name = "ic")
@@ -38,7 +38,7 @@ public class AddressBook {
     @Element(name = "ulice")
     private String street;
 
-    @Element(name = "kod")
+    @Element(name = "kod", required = false)
     private String code;
 
 }

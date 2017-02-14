@@ -56,20 +56,20 @@ public class IssuedInvoiceTest {
     @Test
     public void parseFromObjectToXml() throws Exception {
         String xml = "<winstrom version=\"1.0\">\n" +
-                "   <faktura-vydana>\n" +
-                "      <typDokl>code:FAKTURA</typDokl>\n" +
-                "      <firma>code:PBENDA</firma>\n" +
-                "   </faktura-vydana>\n" +
-                "   <adresar update=\"ignore\">\n" +
-                "      <id>code</id>\n" +
-                "      <ic>12345678</ic>\n" +
-                "      <psc>150 </psc>\n" +
-                "      <nazev>Papírnictví</nazev>\n" +
-                "      <mesto>Praha </mesto>\n" +
-                "      <dic>CZ7002051235</dic>\n" +
-                "      <ulice>Plzeňská</ulice>\n" +
-                "      <kod>PBENDA</kod>\n" +
-                "   </adresar>\n" +
+                "    <adresar update=\"ignore\">\n" +
+                "        <id>code</id>\n" +
+                "        <ic>12345678</ic>\n" +
+                "        <psc>150 </psc>\n" +
+                "        <nazev>Papírnictví</nazev>\n" +
+                "        <mesto>Praha </mesto>\n" +
+                "        <dic>CZ7002051235</dic>\n" +
+                "        <ulice>Plzeňská</ulice>\n" +
+                "        <kod>PBENDA</kod>\n" +
+                "    </adresar>\n" +
+                "    <faktura-vydana>\n" +
+                "        <typDokl>code:FAKTURA</typDokl>\n" +
+                "        <firma>code:PBENDA</firma>\n" +
+                "    </faktura-vydana>\n" +
                 "</winstrom>";
 
         WinstromRequest envelope = WinstromRequest.builder()
@@ -145,4 +145,59 @@ public class IssuedInvoiceTest {
         assertThat(result.toString()).isXmlEqualTo(xml);
     }
 
+    @Test
+    public void invoiceWithAddressBook() throws Exception {
+        WinstromRequest envelope = WinstromRequest.builder()
+                .addressBook(AddressBook.builder()
+                        .name("Československá obchodní banka, a. s.")
+                        .vatId("CZ00001350")
+                        .regNo("00001350")
+                        .city("Praha 5")
+                        .street("Radlická 333/150")
+                        .postCode("15057")
+                        .build())
+                .issuedInvoice(IssuedInvoice.builder()
+                        .company("code:ČESKOSLOVENSKÁ0")
+                        .documentType("code:FAKTURA")
+                        .items(Arrays.asList(
+                                IssuedInvoiceItem.builder()
+                                        .name("Bla bla jizdne")
+                                        .amount(1)
+                                        .sumVat(1500d)
+                                        .unitPrice(9000d)
+                                        .sumWithoutVat(7500d)
+                                        .vatRate(21d).build()
+                        ))
+                        .build()).build();
+
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
+        Serializer serializer = Factory.persister();
+        serializer.write(envelope, result);
+
+        String xml = "<winstrom version=\"1.0\">\n" +
+                "    <adresar update=\"ignore\">\n" +
+                "        <ic>00001350</ic>\n" +
+                "        <psc>15057</psc>\n" +
+                "        <nazev>Československá obchodní banka, a. s.</nazev>\n" +
+                "        <mesto>Praha 5</mesto>\n" +
+                "        <dic>CZ00001350</dic>\n" +
+                "        <ulice>Radlická 333/150</ulice>\n" +
+                "    </adresar>\n" +
+                "    <faktura-vydana>\n" +
+                "        <typDokl>code:FAKTURA</typDokl>\n" +
+                "        <firma>code:ČESKOSLOVENSKÁ0</firma>\n" +
+                "        <polozkyFaktury class=\"java.util.Arrays$ArrayList\">\n" +
+                "            <faktura-vydana-polozka>\n" +
+                "                <nazev>Bla bla jizdne</nazev>\n" +
+                "                <mnozBaleni>1</mnozBaleni>\n" +
+                "                <szbDph>21.0</szbDph>\n" +
+                "                <sumZkl>7500.0</sumZkl>\n" +
+                "                <sumDph>1500.0</sumDph>\n" +
+                "                <cenaMj>9000.0</cenaMj>\n" +
+                "            </faktura-vydana-polozka>\n" +
+                "        </polozkyFaktury>\n" +
+                "    </faktura-vydana>\n" +
+                "</winstrom>";
+        assertThat(result.toString()).isXmlEqualTo(xml);
+    }
 }

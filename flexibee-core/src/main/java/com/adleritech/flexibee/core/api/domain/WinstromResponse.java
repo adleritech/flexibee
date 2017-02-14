@@ -5,7 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
+
+import java.util.List;
 
 
 @Data
@@ -18,7 +21,7 @@ public class WinstromResponse extends Winstrom {
     @Element(name = "success")
     private boolean success;
 
-    @Element(name = "results", required = false)
-    private Results results;
+    @ElementList(name = "results", required = false)
+    private List<Result> results;
 
 }

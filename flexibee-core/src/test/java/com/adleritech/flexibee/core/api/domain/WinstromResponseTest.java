@@ -43,7 +43,7 @@ public class WinstromResponseTest {
         String xml = "<winstrom version=\"1.0\">\n" +
                 "  <success>true</success>\n" +
                 "  <stats>\n" +
-                "    <created>1</created>\n" +
+                "    <created>2</created>\n" +
                 "    <updated>0</updated>\n" +
                 "    <deleted>0</deleted>\n" +
                 "    <skipped>0</skipped>\n" +
@@ -51,18 +51,22 @@ public class WinstromResponseTest {
                 "  </stats>\n" +
                 "  <results>\n" +
                 "    <result>\n" +
-                "      <id>2186</id>\n" +
-                "      <ref>/c/demo/faktura-vydana/2186.xml</ref>\n" +
+                "      <id>2234</id>\n" +
+                "      <ref>/c/demo/faktura-vydana/2234.xml</ref>\n" +
+                "    </result>\n" +
+                "    <result>\n" +
+                "      <id>1092</id>\n" +
+                "      <ref>/c/demo/adresar/1092.xml</ref>\n" +
                 "    </result>\n" +
                 "  </results>\n" +
-                "</winstrom>";
+                "</winstrom>\n";
 
 
         Serializer serializer = new Persister();
         WinstromResponse example = serializer.read(WinstromResponse.class, xml);
 
         assertThat(example.isSuccess()).isTrue();
-        assertThat(example.getResults().getResult().getId()).isEqualTo("2186");
+        assertThat(example.getResults().get(0).getId()).isEqualTo("2234");
     }
 
 }

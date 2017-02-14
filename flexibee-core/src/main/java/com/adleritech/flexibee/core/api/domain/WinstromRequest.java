@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Order;
 import org.simpleframework.xml.Root;
 
 @Data
@@ -12,13 +13,14 @@ import org.simpleframework.xml.Root;
 @NoArgsConstructor
 @AllArgsConstructor
 @Root(name = "winstrom")
+@Order(elements = {"adresar", "faktura-vydana"})
 public class WinstromRequest extends Winstrom {
-
-    @Element(name = "faktura-vydana")
-    private IssuedInvoice issuedInvoice;
 
     @Element(name = "adresar", required = false)
     private AddressBook addressBook;
+
+    @Element(name = "faktura-vydana")
+    private IssuedInvoice issuedInvoice;
 
 }
 
