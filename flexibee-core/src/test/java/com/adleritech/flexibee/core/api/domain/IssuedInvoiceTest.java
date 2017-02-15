@@ -6,7 +6,7 @@ import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
 import java.io.ByteArrayOutputStream;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -104,15 +104,15 @@ public class IssuedInvoiceTest {
                 .issuedInvoice(IssuedInvoice.builder()
                         .company("code:ABCFIRM1#")
                         .documentType("code:FAKTURA")
-                        .issued(Instant.parse("2017-02-14T08:23:15.830Z"))
+                        .issued(LocalDate.of(2017, 4, 2))
                         .items(Arrays.asList(
                                 IssuedInvoiceItem.builder()
                                         .name("Bla bla jizdne")
                                         .amount(1)
                                         .sumVat(1500d)
-                                        .unitPrice(9000d)
-                                        .sumWithoutVat(7500d)
-                                        .priceKind(PriceKind.a)
+                                        .unitPrice(7500d)
+                                        .sumTotal(9000d)
+                                        .priceKind(PriceKind.withVat)
                                         .vatRate(21d).build()
                         ))
                         .build()).build();
@@ -128,18 +128,37 @@ public class IssuedInvoiceTest {
                 "    <faktura-vydana>\n" +
                 "        <typDokl>code:FAKTURA</typDokl>\n" +
                 "        <firma>code:ABCFIRM1#</firma>\n" +
-                "        <datVyst>2017-02-14T08:23:15.830Z</datVyst>\n" +
+                "        <datVyst>2017-04-02</datVyst>\n" +
                 "        <polozkyFaktury class=\"java.util.Arrays$ArrayList\">\n" +
                 "            <faktura-vydana-polozka>\n" +
                 "                <nazev>Bla bla jizdne</nazev>\n" +
                 "                <mnozBaleni>1</mnozBaleni>\n" +
                 "                <szbDph>21.0</szbDph>\n" +
-                "                <sumZkl>7500.0</sumZkl>\n" +
                 "                <sumDph>1500.0</sumDph>\n" +
-                "                <cenaMj>9000.0</cenaMj>\n" +
+                "                <sumCelkem>9000.0</sumCelkem>\n" +
+                "                <cenaMj>7500.0</cenaMj>\n" +
                 "                <typCenyDphK>typCeny.sDphKoef</typCenyDphK>\n" +
                 "            </faktura-vydana-polozka>\n" +
                 "        </polozkyFaktury>\n" +
+                "    </faktura-vydana>\n" +
+                "</winstrom>";
+        assertThat(result.toString()).isXmlEqualTo(xml);
+    }
+
+    @Test
+    public void LocalDateIsParsed() throws Exception {
+        WinstromRequest envelope = WinstromRequest.builder()
+                .issuedInvoice(IssuedInvoice.builder()
+                        .issued(LocalDate.of(2017, 4, 2))
+                        .build()).build();
+
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
+        Serializer serializer = Factory.persister();
+        serializer.write(envelope, result);
+
+        String xml = "<winstrom version=\"1.0\">\n" +
+                "    <faktura-vydana>\n" +
+                "        <datVyst>2017-04-02</datVyst>\n" +
                 "    </faktura-vydana>\n" +
                 "</winstrom>";
         assertThat(result.toString()).isXmlEqualTo(xml);
@@ -164,8 +183,8 @@ public class IssuedInvoiceTest {
                                         .name("Bla bla jizdne")
                                         .amount(1)
                                         .sumVat(1500d)
-                                        .unitPrice(9000d)
-                                        .sumWithoutVat(7500d)
+                                        .unitPrice(7500d)
+                                        .sumTotal(9000d)
                                         .vatRate(21d).build()
                         ))
                         .build()).build();
@@ -191,9 +210,9 @@ public class IssuedInvoiceTest {
                 "                <nazev>Bla bla jizdne</nazev>\n" +
                 "                <mnozBaleni>1</mnozBaleni>\n" +
                 "                <szbDph>21.0</szbDph>\n" +
-                "                <sumZkl>7500.0</sumZkl>\n" +
                 "                <sumDph>1500.0</sumDph>\n" +
-                "                <cenaMj>9000.0</cenaMj>\n" +
+                "                <sumCelkem>9000.0</sumCelkem>\n" +
+                "                <cenaMj>7500.0</cenaMj>\n" +
                 "            </faktura-vydana-polozka>\n" +
                 "        </polozkyFaktury>\n" +
                 "    </faktura-vydana>\n" +

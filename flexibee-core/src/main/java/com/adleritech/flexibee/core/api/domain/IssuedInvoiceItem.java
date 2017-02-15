@@ -24,11 +24,14 @@ public class IssuedInvoiceItem {
     @Element(name = "szbDph")
     Double vatRate;
 
-    @Element(name = "sumZkl")
+    @Element(name = "sumZkl", required = false)
     Double sumWithoutVat;
 
     @Element(name = "sumDph")
     Double sumVat;
+
+    @Element(name = "sumCelkem", required = false)
+    Double sumTotal;
 
     @Element(name = "cenaMj")
     Double unitPrice;

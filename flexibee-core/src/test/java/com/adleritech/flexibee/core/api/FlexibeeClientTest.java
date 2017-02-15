@@ -41,8 +41,8 @@ public class FlexibeeClientTest {
                                         .name("Bla bla jizdne")
                                         .amount(1)
                                         .sumVat(1500d)
-                                        .unitPrice(9000d)
-                                        .sumWithoutVat(7500d)
+                                        .unitPrice(7500d)
+                                        .sumTotal(9000d)
                                         .vatRate(21d).build()
                         ))
                         .build()).build();
@@ -64,8 +64,8 @@ public class FlexibeeClientTest {
                                         .name("Bla bla jizdne")
                                         .amount(1)
                                         .sumVat(1500d)
-                                        .unitPrice(9000d)
-                                        .sumWithoutVat(7500d)
+                                        .unitPrice(7500d)
+                                        .sumTotal(9000d)
                                         .vatRate(21d).build()
                         ))
                         .build()).build();

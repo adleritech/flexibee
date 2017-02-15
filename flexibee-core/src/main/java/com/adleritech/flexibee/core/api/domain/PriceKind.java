@@ -2,7 +2,7 @@ package com.adleritech.flexibee.core.api.domain;
 
 public enum PriceKind {
 
-    a("typCeny.sDphKoef");
+    withVat("typCeny.sDphKoef");
 
     String label;
 
