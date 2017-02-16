@@ -34,7 +34,7 @@ public class IssuedInvoiceTest {
                 "</winstrom>";
 
 
-        Serializer serializer = new Persister();
+        Serializer serializer = new Persister(Factory.matchers());
 
         WinstromRequest example = serializer.read(WinstromRequest.class, xml);
 
@@ -50,7 +50,7 @@ public class IssuedInvoiceTest {
 
         assertThat(example.getIssuedInvoice()).isNotNull();
         assertThat(example.getIssuedInvoice().getCompany()).isEqualTo("code:PBENDA");
-        assertThat(example.getIssuedInvoice().getDocumentType()).isEqualTo("code:FAKTURA");
+        assertThat(example.getIssuedInvoice().getDocumentType()).isEqualTo(DocumentType.invoice);
     }
 
     @Test
@@ -76,7 +76,7 @@ public class IssuedInvoiceTest {
                 .issuedInvoice(
                         IssuedInvoice.builder()
                                 .company("code:PBENDA")
-                                .documentType("code:FAKTURA")
+                                .documentType(DocumentType.invoice)
                                 .build())
                 .addressBook(
                         AddressBook.builder()
@@ -92,7 +92,7 @@ public class IssuedInvoiceTest {
                 .build();
 
         ByteArrayOutputStream result = new ByteArrayOutputStream();
-        Serializer serializer = new Persister();
+        Serializer serializer = new Persister(Factory.matchers());
         serializer.write(envelope, result);
 
         assertThat(result.toString()).isXmlEqualTo(xml);
@@ -103,7 +103,7 @@ public class IssuedInvoiceTest {
         WinstromRequest envelope = WinstromRequest.builder()
                 .issuedInvoice(IssuedInvoice.builder()
                         .company("code:ABCFIRM1#")
-                        .documentType("code:FAKTURA")
+                        .documentType(DocumentType.invoice)
                         .issued(LocalDate.of(2017, 4, 2))
                         .items(Arrays.asList(
                                 IssuedInvoiceItem.builder()
@@ -177,7 +177,7 @@ public class IssuedInvoiceTest {
                         .build())
                 .issuedInvoice(IssuedInvoice.builder()
                         .company("code:ČESKOSLOVENSKÁ0")
-                        .documentType("code:FAKTURA")
+                        .documentType(DocumentType.invoice)
                         .items(Arrays.asList(
                                 IssuedInvoiceItem.builder()
                                         .name("Bla bla jizdne")

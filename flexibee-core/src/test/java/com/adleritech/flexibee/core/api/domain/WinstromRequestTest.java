@@ -1,8 +1,8 @@
 package com.adleritech.flexibee.core.api.domain;
 
+import com.adleritech.flexibee.core.api.transformers.Factory;
 import org.junit.Test;
 import org.simpleframework.xml.Serializer;
-import org.simpleframework.xml.core.Persister;
 
 import java.io.ByteArrayOutputStream;
 
@@ -15,13 +15,13 @@ public class WinstromRequestTest {
         WinstromRequest request = WinstromRequest.builder()
                 .issuedInvoice(IssuedInvoice.builder()
                         .company("code:ABCFIRM1#")
-                        .documentType("code:FAKTURA")
+                        .documentType(DocumentType.invoice)
                         .withoutItems(true)
                         .sumWithoutVat(1000d)
                         .build()).build();
 
         ByteArrayOutputStream result = new ByteArrayOutputStream();
-        Serializer serializer = new Persister();
+        Serializer serializer = Factory.persister();
         serializer.write(request, result);
 
         String xml = "<winstrom version=\"1.0\">\n" +

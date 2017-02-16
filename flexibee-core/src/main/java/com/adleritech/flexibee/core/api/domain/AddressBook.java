@@ -32,7 +32,7 @@ public class AddressBook {
     @Element(name = "mesto")
     private String city;
 
-    @Element(name = "dic")
+    @Element(name = "dic", required = false)
     private String vatId;
 
     @Element(name = "ulice")

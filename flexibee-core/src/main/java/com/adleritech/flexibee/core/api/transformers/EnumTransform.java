@@ -10,7 +10,7 @@ public class EnumTransform implements Transform<Enum> {
     }
 
     public Enum read(String value) throws Exception {
-        for (Object o : type.getClass().getEnumConstants()) {
+        for (Object o : type.getEnumConstants()) {
             if (o.toString().equals(value)) {
                 return (Enum) o;
             }
