@@ -29,6 +29,9 @@ public class IssuedInvoice {
     @Element(name = "datSplat", required = false)
     private LocalDate dueDate;
 
+    @Element(name = "formaUhrK", required = false)
+    private PaymentMethod paymentMethod;
+
     @Element(name = "duzpPuv", required = false)
     private LocalDate timeOfSupply;
 

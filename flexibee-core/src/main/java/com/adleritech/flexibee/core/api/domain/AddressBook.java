@@ -14,7 +14,7 @@ import org.simpleframework.xml.Element;
 @AllArgsConstructor
 public class AddressBook {
 
-    @Attribute(name = "update", empty = "ignore")
+    @Attribute(name = "update", required = false)
     private Update update;
 
     @Element(name = "id", required = false)

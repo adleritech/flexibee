@@ -21,7 +21,7 @@ public class AddressBookTest {
                 .postCode("15057")
                 .build();
 
-        String xml = "<addressBook update=\"ignore\">\n" +
+        String xml = "<addressBook>\n" +
                 "    <ic>00001350</ic>\n" +
                 "    <psc>15057</psc>\n" +
                 "    <nazev>Československá obchodní banka, a. s.</nazev>\n" +

@@ -17,7 +17,7 @@ public class IssuedInvoiceTest {
     public void parseFromXmlToObject() throws Exception {
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<winstrom version=\"1.0\">\n" +
-                "   <adresar update=\"ignore\">\n" +
+                "   <adresar>\n" +
                 "      <kod>PBENDA</kod>\n" +
                 "      <id>code:PBENDA</id>\n" +
                 "      <nazev>Papírnictví Benda</nazev>\n" +
@@ -56,7 +56,7 @@ public class IssuedInvoiceTest {
     @Test
     public void parseFromObjectToXml() throws Exception {
         String xml = "<winstrom version=\"1.0\">\n" +
-                "    <adresar update=\"ignore\">\n" +
+                "    <adresar>\n" +
                 "        <id>code</id>\n" +
                 "        <ic>12345678</ic>\n" +
                 "        <psc>150 </psc>\n" +
@@ -122,7 +122,6 @@ public class IssuedInvoiceTest {
         ByteArrayOutputStream result = new ByteArrayOutputStream();
         Serializer serializer = Factory.persister();
         serializer.write(envelope, result);
-
 
         String xml = "<winstrom version=\"1.0\">\n" +
                 "    <faktura-vydana>\n" +
@@ -194,7 +193,7 @@ public class IssuedInvoiceTest {
         serializer.write(envelope, result);
 
         String xml = "<winstrom version=\"1.0\">\n" +
-                "    <adresar update=\"ignore\">\n" +
+                "    <adresar>\n" +
                 "        <ic>00001350</ic>\n" +
                 "        <psc>15057</psc>\n" +
                 "        <nazev>Československá obchodní banka, a. s.</nazev>\n" +
