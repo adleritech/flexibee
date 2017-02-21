@@ -62,11 +62,9 @@ public class FlexibeeClientTest {
                         .documentType(DocumentType.invoice)
                         .items(Arrays.asList(
                                 IssuedInvoiceItem.builder()
-                                        .name("Bla bla jizdne")
+                                        .name("Invoice line")
                                         .amount(1)
-                                        .sumVat(1500d)
-                                        .unitPrice(7500d)
-                                        .sumTotal(9000d)
+                                        .unitPrice(128_140.96)
                                         .vatRate(21d).build()
                         ))
                         .build()).build();

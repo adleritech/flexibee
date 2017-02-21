@@ -27,7 +27,7 @@ public class IssuedInvoiceItem {
     @Element(name = "sumZkl", required = false)
     Double sumWithoutVat;
 
-    @Element(name = "sumDph")
+    @Element(name = "sumDph", required = false)
     Double sumVat;
 
     @Element(name = "sumCelkem", required = false)
