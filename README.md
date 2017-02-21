@@ -1,6 +1,4 @@
-# Flexibee
-
-[![CircleCI](https://circleci.com/gh/adleritech/flexibee.svg?style=shield)](https://circleci.com/gh/adleritech/flexibee)
+# Flexibee [![CircleCI](https://circleci.com/gh/adleritech/flexibee.svg?style=shield)](https://circleci.com/gh/adleritech/flexibee) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.adleritech/flexibee-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.adleritech/flexibee-core)
 
 It's unofficial Java library for [Flexibee.eu](https://www.flexibee.eu) . The library offers set of Flexibee API objects for creating invoices via its REST API.
 
