@@ -22,6 +22,11 @@ public class FlexibeeClient {
         client = RetrofitClientFactory.createService(Api.class, API_BASE_URL, username, password);
     }
 
+    public FlexibeeClient(String username, String password, String company, String apiBaseUrl) {
+        this.company = company;
+        client = RetrofitClientFactory.createService(Api.class, apiBaseUrl, username, password);
+    }
+
     public WinstromResponse createInvoice(WinstromRequest winstromRequest) throws IOException {
         Response<WinstromResponse> response = client.issueInvoice(company, winstromRequest).execute();
         return response.body();
