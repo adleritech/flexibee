@@ -21,14 +21,14 @@ public class AddressBookTest {
                 .postCode("15057")
                 .build();
 
-        String xml = "<addressBook>\n" +
+        String xml = "<adresar>\n" +
                 "    <ic>00001350</ic>\n" +
                 "    <psc>15057</psc>\n" +
                 "    <nazev>Československá obchodní banka, a. s.</nazev>\n" +
                 "    <mesto>Praha 5</mesto>\n" +
                 "    <dic>CZ00001350</dic>\n" +
                 "    <ulice>Radlická 333/150</ulice>\n" +
-                "</addressBook>";
+                "</adresar>";
 
         ByteArrayOutputStream result = new ByteArrayOutputStream();
         Serializer serializer = Factory.persister();

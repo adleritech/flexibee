@@ -6,12 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
 
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Root(name = "adresar")
 public class AddressBook {
 
     @Attribute(name = "update", required = false)
