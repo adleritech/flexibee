@@ -25,7 +25,7 @@ To create an invoice and sent it to flexibee you can use the following code snip
 WinstromRequest request = WinstromRequest.builder()
         .issuedInvoice(IssuedInvoice.builder()
                 .company("code:ABCFIRM1#")
-                .documentType(DocumentType.invoice)
+                .documentType("code:FAKTURA")
                 .items(Arrays.asList(
                         IssuedInvoiceItem.builder()
                                 .name("Invoice line")
@@ -39,4 +39,4 @@ FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo
 WinstromResponse response = flexibeeClient.createInvoice(request);
 ```
 
-For more examples please check test.
+For more examples please check tests.
