@@ -18,7 +18,7 @@ import java.util.List;
 public class IssuedInvoice {
 
     @Element(name = "typDokl", required = false)
-    private DocumentType documentType;
+    private String documentType;
 
     @Element(name = "firma", required = false)
     private String company;

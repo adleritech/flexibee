@@ -15,7 +15,7 @@ public class WinstromRequestTest {
         WinstromRequest request = WinstromRequest.builder()
                 .issuedInvoice(IssuedInvoice.builder()
                         .company("code:ABCFIRM1#")
-                        .documentType(DocumentType.invoice)
+                        .documentType("code:FAKTURA")
                         .withoutItems(true)
                         .sumWithoutVat(1000d)
                         .build()).build();

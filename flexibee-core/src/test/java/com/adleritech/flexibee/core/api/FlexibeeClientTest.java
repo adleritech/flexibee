@@ -1,6 +1,5 @@
 package com.adleritech.flexibee.core.api;
 
-import com.adleritech.flexibee.core.api.domain.DocumentType;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoice;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoiceItem;
 import com.adleritech.flexibee.core.api.domain.WinstromRequest;
@@ -19,7 +18,7 @@ public class FlexibeeClientTest {
         WinstromRequest request = WinstromRequest.builder()
                 .issuedInvoice(IssuedInvoice.builder()
                         .company("code:ABCFIRM1#")
-                        .documentType(DocumentType.invoice)
+                        .documentType("code:faktura")
                         .withoutItems(true)
                         .sumWithoutVat(1000d)
                         .build()).build();
@@ -36,7 +35,7 @@ public class FlexibeeClientTest {
         WinstromRequest request = WinstromRequest.builder()
                 .issuedInvoice(IssuedInvoice.builder()
                         .company("code:ABCFIRM1#")
-                        .documentType(DocumentType.invoice)
+                        .documentType("code:faktura")
                         .items(Arrays.asList(
                                 IssuedInvoiceItem.builder()
                                         .name("Bla bla jizdne")
@@ -59,7 +58,7 @@ public class FlexibeeClientTest {
         WinstromRequest request = WinstromRequest.builder()
                 .issuedInvoice(IssuedInvoice.builder()
                         .company("code:ABCFIRM1#")
-                        .documentType(DocumentType.invoice)
+                        .documentType("code:faktura")
                         .items(Arrays.asList(
                                 IssuedInvoiceItem.builder()
                                         .name("Invoice line")
