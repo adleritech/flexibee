@@ -18,7 +18,8 @@ class RetrofitClientFactory {
     private static Retrofit.Builder builder;
 
     static <S> S createService(Class<S> serviceClass, String apiBaseUrl, String username, String password) {
-        builder = new Retrofit.Builder().baseUrl(apiBaseUrl)
+        builder = new Retrofit.Builder()
+                .baseUrl(apiBaseUrl)
                 .addConverterFactory(SimpleXmlConverterFactory.create(Factory.persister()));
         String authToken = Credentials.basic(username, password);
         return createService(serviceClass, authToken);
@@ -29,7 +30,8 @@ class RetrofitClientFactory {
         Retrofit retrofit = null;
         if (!httpClient.interceptors().contains(interceptor)) {
             httpClient.addInterceptor(interceptor);
-
+            httpClient.followRedirects(true);
+            httpClient.followSslRedirects(true);
             builder.client(httpClient.build());
             retrofit = builder.build();
         }
