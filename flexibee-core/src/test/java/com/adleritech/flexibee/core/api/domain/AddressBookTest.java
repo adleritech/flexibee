@@ -41,4 +41,81 @@ public class AddressBookTest {
         assertThat(result.toString()).isXmlEqualTo(xml);
     }
 
+    @Test
+    public void parseXmlIntoAddressBook() throws Exception {
+        String responseBody = "<winstrom version=\"1.0\">\n" +
+                "  <adresar>\n" +
+                "    <id>1344</id>\n" +
+                "    <lastUpdate>2017-03-06T12:14:11.996+01:00</lastUpdate>\n" +
+                "    <kod>AUERAUER</kod>\n" +
+                "    <nazev>Auer-Auer</nazev>\n" +
+                "    <nazevA></nazevA>\n" +
+                "    <nazevB></nazevB>\n" +
+                "    <nazevC></nazevC>\n" +
+                "    <poznam></poznam>\n" +
+                "    <popis></popis>\n" +
+                "    <platiOd>0</platiOd>\n" +
+                "    <platiDo>9999</platiDo>\n" +
+                "    <ulice>82252 Josue Manors</ulice>\n" +
+                "    <mesto>Port Thaliahaven</mesto>\n" +
+                "    <psc>32885</psc>\n" +
+                "    <tel></tel>\n" +
+                "    <mobil></mobil>\n" +
+                "    <fax></fax>\n" +
+                "    <email></email>\n" +
+                "    <www></www>\n" +
+                "    <stat showAs=\"Česká republika\" ref=\"/c/demo/stat/39.xml\">code:CZ</stat>\n" +
+                "    <eanKod></eanKod>\n" +
+                "    <ic>329529</ic>\n" +
+                "    <dic></dic>\n" +
+                "    <vatId></vatId>\n" +
+                "    <postovniShodna>true</postovniShodna>\n" +
+                "    <faEanKod></faEanKod>\n" +
+                "    <faJmenoFirmy></faJmenoFirmy>\n" +
+                "    <faUlice></faUlice>\n" +
+                "    <faMesto></faMesto>\n" +
+                "    <faPsc></faPsc>\n" +
+                "    <splatDny></splatDny>\n" +
+                "    <limitFak>0.0</limitFak>\n" +
+                "    <limitPoSplatDny></limitPoSplatDny>\n" +
+                "    <limitPoSplatZakaz>false</limitPoSplatZakaz>\n" +
+                "    <platceDph>false</platceDph>\n" +
+                "    <formExportK></formExportK>\n" +
+                "    <typVztahuK showAs=\"Odběr./Dodav.\">typVztahu.odberDodav</typVztahuK>\n" +
+                "    <kodPojistovny></kodPojistovny>\n" +
+                "    <nazevPojistovny></nazevPojistovny>\n" +
+                "    <osloveni></osloveni>\n" +
+                "    <slevaDokl>0.0</slevaDokl>\n" +
+                "    <obpAutomHotovo>false</obpAutomHotovo>\n" +
+                "    <nazev2></nazev2>\n" +
+                "    <nazev2A></nazev2A>\n" +
+                "    <nazev2B></nazev2B>\n" +
+                "    <nazev2C></nazev2C>\n" +
+                "    <nespolehlivyPlatce>false</nespolehlivyPlatce>\n" +
+                "    <revize>0</revize>\n" +
+                "    <stitky></stitky>\n" +
+                "    <pocetPriloh>0</pocetPriloh>\n" +
+                "    <katastrUzemi></katastrUzemi>\n" +
+                "    <parcela></parcela>\n" +
+                "    <datNaroz></datNaroz>\n" +
+                "    <rodCis></rodCis>\n" +
+                "    <datZaloz></datZaloz>\n" +
+                "    <canceled>false</canceled>\n" +
+                "    <skupFir></skupFir>\n" +
+                "    <stredisko></stredisko>\n" +
+                "    <faStat></faStat>\n" +
+                "    <zodpOsoba></zodpOsoba>\n" +
+                "    <skupCen></skupCen>\n" +
+                "    <formaUhradyCis></formaUhradyCis>\n" +
+                "    <kontakty></kontakty>\n" +
+                "    <mistaUrceni></mistaUrceni>\n" +
+                "  </adresar>\n" +
+                "</winstrom>\n";
+
+        Serializer serializer = Factory.persister();
+        AddressBookResponse addressBook = serializer.read(AddressBookResponse.class, responseBody);
+
+        assertThat(addressBook.getAddressBook().getRegNo()).isEqualTo("329529");
+    }
+
 }

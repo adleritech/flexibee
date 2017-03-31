@@ -13,7 +13,7 @@ import org.simpleframework.xml.Root;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Root(name = "adresar")
+@Root(name = "adresar", strict = false)
 public class AddressBook {
 
     @Attribute(name = "update", required = false)
