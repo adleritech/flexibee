@@ -28,6 +28,9 @@ public class AddressBook {
     @Element(name = "psc")
     private String postCode;
 
+    @Element(name = "stat", required = false)
+    private String country;
+
     @Element(name = "nazev")
     private String name;
 
@@ -36,6 +39,9 @@ public class AddressBook {
 
     @Element(name = "dic", required = false)
     private String vatId;
+
+    @Element(name = "platceDph", required = false)
+    private Boolean paysVat;
 
     @Element(name = "ulice")
     private String street;

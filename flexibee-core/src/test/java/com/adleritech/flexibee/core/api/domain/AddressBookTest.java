@@ -19,14 +19,18 @@ public class AddressBookTest {
                 .city("Praha 5")
                 .street("Radlická 333/150")
                 .postCode("15057")
+                .paysVat(true)
+                .country(Country.cz.code)
                 .build();
 
         String xml = "<adresar>\n" +
                 "    <ic>00001350</ic>\n" +
                 "    <psc>15057</psc>\n" +
+                "    <stat>code:CZ</stat>\n" +
                 "    <nazev>Československá obchodní banka, a. s.</nazev>\n" +
                 "    <mesto>Praha 5</mesto>\n" +
                 "    <dic>CZ00001350</dic>\n" +
+                "    <platceDph>true</platceDph>\n" +
                 "    <ulice>Radlická 333/150</ulice>\n" +
                 "</adresar>";
 
@@ -36,4 +40,5 @@ public class AddressBookTest {
 
         assertThat(result.toString()).isXmlEqualTo(xml);
     }
+
 }
