@@ -19,7 +19,8 @@ public class IssuedInvoiceTest {
                 "<winstrom version=\"1.0\">\n" +
                 "   <adresar>\n" +
                 "      <kod>PBENDA</kod>\n" +
-                "      <id>code:PBENDA</id>\n" +
+                "      <id>ext:33866089</id>\n" +
+                "      <id>ext:1976780508</id>\n" +
                 "      <nazev>Papírnictví Benda</nazev>\n" +
                 "      <ulice>Plzeňská 65</ulice>\n" +
                 "      <mesto>Praha 5</mesto>\n" +
@@ -40,7 +41,7 @@ public class IssuedInvoiceTest {
 
         assertThat(example.getAddressBook()).isNotNull();
         assertThat(example.getAddressBook().getCode()).isEqualTo("PBENDA");
-        assertThat(example.getAddressBook().getId()).isEqualTo("code:PBENDA");
+        assertThat(example.getAddressBook().getId()).isEqualTo(Arrays.asList("ext:33866089", "ext:1976780508"));
         assertThat(example.getAddressBook().getName()).isEqualTo("Papírnictví Benda");
         assertThat(example.getAddressBook().getStreet()).isEqualTo("Plzeňská 65");
         assertThat(example.getAddressBook().getCity()).isEqualTo("Praha 5");
@@ -81,7 +82,7 @@ public class IssuedInvoiceTest {
                 .addressBook(
                         AddressBook.builder()
                                 .code("PBENDA")
-                                .id("code")
+                                .id(Arrays.asList("code"))
                                 .name("Papírnictví")
                                 .street("Plzeňská")
                                 .city("Praha ")

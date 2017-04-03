@@ -19,7 +19,7 @@ public class WinstromRequest extends Winstrom {
     @Element(name = "adresar", required = false)
     private AddressBook addressBook;
 
-    @Element(name = "faktura-vydana")
+    @Element(name = "faktura-vydana", required = false)
     private IssuedInvoice issuedInvoice;
 
 }

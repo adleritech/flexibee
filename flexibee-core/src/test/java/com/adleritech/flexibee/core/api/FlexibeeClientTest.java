@@ -1,5 +1,6 @@
 package com.adleritech.flexibee.core.api;
 
+import com.adleritech.flexibee.core.api.domain.AddressBook;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoice;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoiceItem;
 import com.adleritech.flexibee.core.api.domain.WinstromRequest;
@@ -8,6 +9,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Random;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -74,4 +76,18 @@ public class FlexibeeClientTest {
         assertThat(response.isSuccess()).isTrue();
     }
 
+    @Test
+    public void updateAddressBook() throws Exception {
+        WinstromRequest request = WinstromRequest.builder()
+                .addressBook(
+                    AddressBook.builder()
+                        .id(Arrays.asList(String.format("ext:%s", new Random().nextInt())))
+                        .build()
+                ).build();
+
+        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
+        WinstromResponse response = flexibeeClient.updateAddressBook("1569", request);
+        assertThat(response.getResults().get(0).getId()).isNotEmpty();
+        assertThat(response.isSuccess()).isTrue();
+    }
 }

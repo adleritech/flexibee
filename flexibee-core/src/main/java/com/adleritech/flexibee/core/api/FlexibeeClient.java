@@ -41,14 +41,24 @@ public class FlexibeeClient {
         return response.body();
     }
 
+    public WinstromResponse updateAddressBook(String id, WinstromRequest request) throws IOException, NotFound {
+        Response<WinstromResponse> response = client.updateAddressBook(company, id, request).execute();
+        return response.body();
+    }
+
     interface Api {
+
         @PUT("/c/{company}/faktura-vydana.xml")
         Call<WinstromResponse> issueInvoice(@Path("company") String company, @Body WinstromRequest request);
 
         @GET("c/{company}/adresar/in:{regNo}.xml")
         Call<AddressBookResponse> findCompanyByRegNo(@Path("company") String company, @Path("regNo") String regNo);
+
+        @PUT("/c/{company}/adresar/{id}.xml")
+        Call<WinstromResponse> updateAddressBook(@Path("company") String company, @Path("id") String id, @Body WinstromRequest request);
+
     }
 
-    private class NotFound extends Exception {
+    public static class NotFound extends Exception {
     }
 }
