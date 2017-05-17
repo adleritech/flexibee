@@ -41,8 +41,11 @@ public class FlexibeeClient {
         return response.body();
     }
 
-    public WinstromResponse updateAddressBook(String id, WinstromRequest request) throws IOException, NotFound {
+    public WinstromResponse updateAddressBook(String id, WinstromRequest request) throws IOException, FlexibeeException {
         Response<WinstromResponse> response = client.updateAddressBook(company, id, request).execute();
+        if (!response.isSuccessful()) {
+            throw new FlexibeeException("Address book update failed for company " + id);
+        }
         return response.body();
     }
 
@@ -59,6 +62,16 @@ public class FlexibeeClient {
 
     }
 
-    public static class NotFound extends Exception {
+    public static class NotFound extends FlexibeeException {
+        private NotFound() {
+            super("");
+        }
     }
+
+    public static class FlexibeeException extends Exception {
+        private FlexibeeException(String s) {
+            super(s);
+        }
+    }
+
 }
