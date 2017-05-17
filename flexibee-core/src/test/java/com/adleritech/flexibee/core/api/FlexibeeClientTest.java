@@ -8,7 +8,7 @@ import com.adleritech.flexibee.core.api.domain.WinstromResponse;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -38,7 +38,7 @@ public class FlexibeeClientTest {
                 .issuedInvoice(IssuedInvoice.builder()
                         .company("code:ABCFIRM1#")
                         .documentType("code:faktura")
-                        .items(Arrays.asList(
+                        .items(Collections.singletonList(
                                 IssuedInvoiceItem.builder()
                                         .name("Bla bla jizdne")
                                         .amount(1)
@@ -61,7 +61,7 @@ public class FlexibeeClientTest {
                 .issuedInvoice(IssuedInvoice.builder()
                         .company("code:ABCFIRM1#")
                         .documentType("code:faktura")
-                        .items(Arrays.asList(
+                        .items(Collections.singletonList(
                                 IssuedInvoiceItem.builder()
                                         .name("Invoice line")
                                         .amount(1)
@@ -81,7 +81,7 @@ public class FlexibeeClientTest {
         WinstromRequest request = WinstromRequest.builder()
                 .addressBook(
                     AddressBook.builder()
-                        .id(Arrays.asList(String.format("ext:%s", new Random().nextInt())))
+                        .id(Collections.singletonList(String.format("ext:%s", new Random().nextInt())))
                         .build()
                 ).build();
 
@@ -89,5 +89,14 @@ public class FlexibeeClientTest {
         WinstromResponse response = flexibeeClient.updateAddressBook("1569", request);
         assertThat(response.getResults().get(0).getId()).isNotEmpty();
         assertThat(response.isSuccess()).isTrue();
+    }
+
+    @Test(expected = FlexibeeClient.FlexibeeException.class)
+    public void updateCompanyWithDuplicatedId() throws Exception {
+        String alreadyExistingId = "-1207125871";
+        WinstromRequest request = WinstromRequest.builder().addressBook(AddressBook.builder().id(Collections.singletonList(Helpers.externalId(alreadyExistingId))).build()).build();
+
+        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
+        flexibeeClient.updateAddressBook("1568", request);
     }
 }
