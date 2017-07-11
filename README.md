@@ -10,14 +10,14 @@ It's unofficial Java library for [Flexibee.eu](https://www.flexibee.eu) . The li
 <dependency>
     <groupId>com.adleritech</groupId>
     <artifactId>flexibee</artifactId>
-    <version>...</version>
+    <version>0.0.12</version>
 </dependency>
 ```
 
 
 ### Gradle
 ```
-compile "com.adleritech:flexibee:..."
+compile "com.adleritech:flexibee:0.0.12"
 ```
 
 To create an invoice and sent it to flexibee you can use the following code snipped:
@@ -40,3 +40,9 @@ WinstromResponse response = flexibeeClient.createInvoice(request);
 ```
 
 For more examples please check tests.
+
+## Dev
+
+### Troubleshooting 
+
+Before package release you might have to run `export GPG_TTY=$(tty)`.
