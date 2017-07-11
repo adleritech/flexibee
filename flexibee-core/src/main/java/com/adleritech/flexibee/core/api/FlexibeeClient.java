@@ -11,6 +11,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class FlexibeeClient {
 
@@ -44,7 +45,12 @@ public class FlexibeeClient {
     public WinstromResponse updateAddressBook(String id, WinstromRequest request) throws IOException, FlexibeeException {
         Response<WinstromResponse> response = client.updateAddressBook(company, id, request).execute();
         if (!response.isSuccessful()) {
-            throw new FlexibeeException("Address book update failed for company " + id);
+            String errorBody = new String(response.errorBody().bytes(), StandardCharsets.UTF_8);
+            throw new FlexibeeException("Address book u update failed for " +
+                    "company=" + id + ", " +
+                    "httpStatusCode=" + response.code() + "," +
+                    "responseBody=" + errorBody + "," +
+                    "requestBody=" + request.toString());
         }
         return response.body();
     }
