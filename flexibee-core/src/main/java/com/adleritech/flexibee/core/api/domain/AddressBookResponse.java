@@ -5,8 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
+
+import java.util.List;
 
 
 @Data
@@ -19,7 +21,7 @@ public class AddressBookResponse {
     @Attribute(name = "version")
     private String version;
 
-    @Element(name = "adresar", required = false)
-    private AddressBook addressBook;
+    @ElementList(name = "adresar", inline = true)
+    private List<AddressBook> addressBook;
 
 }

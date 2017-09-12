@@ -3,12 +3,14 @@ package com.adleritech.flexibee.core.api;
 import com.adleritech.flexibee.core.api.domain.AddressBookResponse;
 import com.adleritech.flexibee.core.api.domain.WinstromRequest;
 import com.adleritech.flexibee.core.api.domain.WinstromResponse;
+import lombok.Getter;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -16,7 +18,10 @@ import java.nio.charset.StandardCharsets;
 public class FlexibeeClient {
 
     private static final String API_BASE_URL = "https://demo.flexibee.eu:5434";
+
     private final String company;
+
+    @Getter
     private final Api client;
 
     public FlexibeeClient(String username, String password, String company) {
@@ -62,6 +67,9 @@ public class FlexibeeClient {
 
         @GET("c/{company}/adresar/in:{regNo}.xml")
         Call<AddressBookResponse> findCompanyByRegNo(@Path("company") String company, @Path("regNo") String regNo);
+
+        @GET("/c/{company}/adresar.xml")
+        Call<AddressBookResponse> searchInAddressBook(@Path("company") String company, @Query("q") String q);
 
         @PUT("/c/{company}/adresar/{id}.xml")
         Call<WinstromResponse> updateAddressBook(@Path("company") String company, @Path("id") String id, @Body WinstromRequest request);

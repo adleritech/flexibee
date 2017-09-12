@@ -8,6 +8,7 @@ import org.simpleframework.xml.core.Persister;
 import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -82,7 +83,7 @@ public class IssuedInvoiceTest {
                 .addressBook(
                         AddressBook.builder()
                                 .code("PBENDA")
-                                .id(Arrays.asList("code"))
+                                .id(Collections.singletonList("code"))
                                 .name("Papírnictví")
                                 .street("Plzeňská")
                                 .city("Praha ")

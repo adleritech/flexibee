@@ -99,4 +99,5 @@ public class FlexibeeClientTest {
         FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         flexibeeClient.updateAddressBook("1568", request);
     }
+
 }
