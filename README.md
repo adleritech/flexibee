@@ -42,7 +42,7 @@ WinstromResponse response = flexibeeClient.createInvoice(request);
 For more examples please check tests.
 
 ## Dev
-
+ 
 ### Troubleshooting 
 
 Before package release you might have to run `export GPG_TTY=$(tty)`.
