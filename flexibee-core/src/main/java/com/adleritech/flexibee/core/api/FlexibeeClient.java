@@ -4,6 +4,7 @@ import com.adleritech.flexibee.core.api.domain.AddressBookResponse;
 import com.adleritech.flexibee.core.api.domain.WinstromRequest;
 import com.adleritech.flexibee.core.api.domain.WinstromResponse;
 import lombok.Getter;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -39,11 +40,36 @@ public class FlexibeeClient {
         return response.body();
     }
 
-    public AddressBookResponse findCompanyByRegNo(String regNo) throws IOException, NotFound {
-        Response<AddressBookResponse> response = client.findCompanyByRegNo(company, regNo).execute();
-        if (response.code() != 200) {
+    public WinstromResponse createAddressBook(WinstromRequest winstromRequest) throws IOException, FlexibeeException {
+        Response<WinstromResponse> response = client.createAddressBook(company, winstromRequest).execute();
+        handleErrorResponse(response);
+        return response.body();
+    }
+
+    private void handleErrorResponse(Response response) throws FlexibeeException {
+        if (response.code() == 404) {
             throw new NotFound();
         }
+        if (!response.isSuccessful()) {
+            throw new FlexibeeException(response.message());
+        }
+    }
+
+    public AddressBookResponse findAddressBookByRegNo(String regNo) throws IOException, FlexibeeException {
+        Response<AddressBookResponse> response = client.findAddressBookByRegNo(company, regNo).execute();
+        handleErrorResponse(response);
+        return response.body();
+    }
+
+    public ResponseBody downloadIssuedInvoiceAsPdf(String id) throws IOException, FlexibeeException {
+        Response<ResponseBody> response = client.downloadIssuedInvoiceAsPdf(company, id).execute();
+        handleErrorResponse(response);
+        return response.body();
+    }
+
+    public AddressBookResponse findAddressBookByCode(String code) throws IOException, FlexibeeException {
+        Response<AddressBookResponse> response = client.findAddressBookByCode(company, code).execute();
+        handleErrorResponse(response);
         return response.body();
     }
 
@@ -60,19 +86,34 @@ public class FlexibeeClient {
         return response.body();
     }
 
+    public AddressBookResponse searchInAddressBook(String q) throws IOException, FlexibeeException {
+        Response<AddressBookResponse> response = client.searchInAddressBook(company, q).execute();
+        handleErrorResponse(response);
+        return response.body();
+    }
+
     interface Api {
 
         @PUT("/c/{company}/faktura-vydana.xml")
         Call<WinstromResponse> issueInvoice(@Path("company") String company, @Body WinstromRequest request);
 
+        @GET("/c/{company}/faktura-vydana/{id}.pdf")
+        Call<ResponseBody> downloadIssuedInvoiceAsPdf(@Path("company") String company, @Path("id") String id);
+
         @GET("c/{company}/adresar/in:{regNo}.xml")
-        Call<AddressBookResponse> findCompanyByRegNo(@Path("company") String company, @Path("regNo") String regNo);
+        Call<AddressBookResponse> findAddressBookByRegNo(@Path("company") String company, @Path("regNo") String regNo);
+
+        @GET("c/{company}/adresar/(kod={kod}).xml")
+        Call<AddressBookResponse> findAddressBookByCode(@Path("company") String company, @Path("kod") String kod);
 
         @GET("/c/{company}/adresar.xml")
         Call<AddressBookResponse> searchInAddressBook(@Path("company") String company, @Query("q") String q);
 
         @PUT("/c/{company}/adresar/{id}.xml")
         Call<WinstromResponse> updateAddressBook(@Path("company") String company, @Path("id") String id, @Body WinstromRequest request);
+
+        @PUT("/c/{company}/adresar.xml")
+        Call<WinstromResponse> createAddressBook(@Path("company") String company, @Body WinstromRequest request);
 
     }
 
