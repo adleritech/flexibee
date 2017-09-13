@@ -9,10 +9,18 @@
     <modules>
         <module>flexibee-core</module>
     </modules>
-    
+
     <name>flexibee</name>
     <description>flexibee sdk</description>
     <url>https://github.com/adleritech/flexibee</url>
+
+    <scm>
+        <connection>scm:git:git@github.com:adleritech/flexibee.git</connection>
+        <developerConnection>scm:git:git@github.com:adleritech/flexibee.git</developerConnection>
+        <url>scm:git:git@github.com:adleritech/flexibee.git</url>
+        <tag>HEAD</tag>
+    </scm>
+
 
     <developers>
         <developer>
@@ -63,12 +71,17 @@
         </repository>
     </repositories>
 
-    <scm>
-        <connection>scm:git:git@github.com:adleritech/flexibee.git</connection>
-        <developerConnection>scm:git:git@github.com:adleritech/flexibee.git</developerConnection>
-        <url>scm:git:git@github.com:adleritech/flexibee.git</url>
-        <tag>HEAD</tag>
-    </scm>
-
+    <distributionManagement>
+        <repository>
+            <id>deployment.release</id>
+            <name>Releases</name>
+            <url>https://nexus.aitinternal.org/nexus/content/repositories/adler-itech</url>
+        </repository>
+        <snapshotRepository>
+            <id>deployment.snap</id>
+            <name>Snapshots</name>
+            <url>https://nexus.aitinternal.org/nexus/content/repositories/adler-itech-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 </project>
