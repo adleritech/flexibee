@@ -103,7 +103,7 @@ public class FlexibeeClient {
         @GET("c/{company}/adresar/in:{regNo}.xml")
         Call<AddressBookResponse> findAddressBookByRegNo(@Path("company") String company, @Path("regNo") String regNo);
 
-        @GET("c/{company}/adresar/(kod={kod}).xml")
+        @GET("c/{company}/adresar/(kod='{kod}').xml")
         Call<AddressBookResponse> findAddressBookByCode(@Path("company") String company, @Path("kod") String kod);
 
         @GET("/c/{company}/adresar.xml")
