@@ -21,7 +21,7 @@ public class AddressBookResponse {
     @Attribute(name = "version")
     private String version;
 
-    @ElementList(name = "adresar", inline = true)
+    @ElementList(name = "adresar", inline = true, required = false)
     private List<AddressBook> addressBook;
 
 }

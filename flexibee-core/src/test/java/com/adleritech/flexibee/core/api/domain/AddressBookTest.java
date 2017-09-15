@@ -154,4 +154,25 @@ public class AddressBookTest {
         assertThat(addressBook.getAddressBook().get(0).getRegNo()).isEqualTo("329529");
     }
 
+    @Test
+    public void winstromWithoutAddressBookIsValid() throws Exception {
+        String responseBody = "<winstrom version=\"1.0\">\n" +
+                "</winstrom>\n";
+
+        Serializer serializer = Factory.persister();
+        AddressBookResponse addressBook = serializer.read(AddressBookResponse.class, responseBody);
+        assertThat(addressBook.getAddressBook()).isNull();
+    }
+
+    @Test
+    public void winstromMightHaveMultipleAddressBooks() throws Exception {
+        String responseBody = "<winstrom version=\"1.0\">\n" +
+                "<adresar></adresar>" +
+                "<adresar></adresar>" +
+                "</winstrom>\n";
+
+        Serializer serializer = Factory.persister();
+        AddressBookResponse addressBook = serializer.read(AddressBookResponse.class, responseBody);
+        assertThat(addressBook.getAddressBook()).hasSize(2);
+    }
 }
