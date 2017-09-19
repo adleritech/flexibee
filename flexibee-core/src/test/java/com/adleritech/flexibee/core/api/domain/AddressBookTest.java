@@ -3,6 +3,7 @@ package com.adleritech.flexibee.core.api.domain;
 import com.adleritech.flexibee.core.api.transformers.Factory;
 import org.junit.Test;
 import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.ElementException;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Collections;
@@ -167,12 +168,21 @@ public class AddressBookTest {
     @Test
     public void winstromMightHaveMultipleAddressBooks() throws Exception {
         String responseBody = "<winstrom version=\"1.0\">\n" +
-                "<adresar></adresar>" +
-                "<adresar></adresar>" +
+                "<adresar><nazev>test</nazev></adresar>" +
+                "<adresar><nazev>test</nazev></adresar>" +
                 "</winstrom>\n";
 
         Serializer serializer = Factory.persister();
         AddressBookResponse addressBook = serializer.read(AddressBookResponse.class, responseBody);
         assertThat(addressBook.getAddressBook()).hasSize(2);
+    }
+
+    @Test(expected = ElementException.class)
+    public void nameIsMandatory() throws Exception {
+        AddressBook address = AddressBook.builder().build();
+
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
+        Serializer serializer = Factory.persister();
+        serializer.write(address, result);
     }
 }

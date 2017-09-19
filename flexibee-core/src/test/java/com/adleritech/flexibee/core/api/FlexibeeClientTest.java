@@ -81,6 +81,7 @@ public class FlexibeeClientTest {
         WinstromRequest request = WinstromRequest.builder()
                 .addressBook(
                     AddressBook.builder()
+                        .name("test")
                         .id(Collections.singletonList(String.format("ext:%s", new Random().nextInt())))
                         .build()
                 ).build();
@@ -94,7 +95,7 @@ public class FlexibeeClientTest {
     @Test(expected = FlexibeeClient.FlexibeeException.class)
     public void updateCompanyWithDuplicatedId() throws Exception {
         String alreadyExistingId = "-1207125871";
-        WinstromRequest request = WinstromRequest.builder().addressBook(AddressBook.builder().id(Collections.singletonList(Helpers.externalId(alreadyExistingId))).build()).build();
+        WinstromRequest request = WinstromRequest.builder().addressBook(AddressBook.builder().name("test").id(Collections.singletonList(Helpers.externalId(alreadyExistingId))).build()).build();
 
         FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         flexibeeClient.updateAddressBook("1568", request);

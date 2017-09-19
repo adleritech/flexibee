@@ -37,7 +37,7 @@ public class AddressBook {
     @Element(name = "stat", required = false)
     private String country;
 
-    @Element(name = "nazev", required = false)
+    @Element(name = "nazev")
     private String name;
 
     @Element(name = "mesto", required = false)
