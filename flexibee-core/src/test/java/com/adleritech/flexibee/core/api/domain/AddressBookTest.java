@@ -3,7 +3,6 @@ package com.adleritech.flexibee.core.api.domain;
 import com.adleritech.flexibee.core.api.transformers.Factory;
 import org.junit.Test;
 import org.simpleframework.xml.Serializer;
-import org.simpleframework.xml.core.ElementException;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Collections;
@@ -177,12 +176,4 @@ public class AddressBookTest {
         assertThat(addressBook.getAddressBook()).hasSize(2);
     }
 
-    @Test(expected = ElementException.class)
-    public void nameIsMandatory() throws Exception {
-        AddressBook address = AddressBook.builder().build();
-
-        ByteArrayOutputStream result = new ByteArrayOutputStream();
-        Serializer serializer = Factory.persister();
-        serializer.write(address, result);
-    }
 }

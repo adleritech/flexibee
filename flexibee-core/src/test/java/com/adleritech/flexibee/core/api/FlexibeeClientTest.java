@@ -3,6 +3,7 @@ package com.adleritech.flexibee.core.api;
 import com.adleritech.flexibee.core.api.domain.AddressBook;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoice;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoiceItem;
+import com.adleritech.flexibee.core.api.domain.Order;
 import com.adleritech.flexibee.core.api.domain.WinstromRequest;
 import com.adleritech.flexibee.core.api.domain.WinstromResponse;
 import org.assertj.core.api.Assertions;
@@ -101,4 +102,61 @@ public class FlexibeeClientTest {
         flexibeeClient.updateAddressBook("1568", request);
     }
 
+    @Test
+    public void createOrder() throws Exception {
+        String alreadyExistingId = "-1207125871";
+        WinstromRequest request = WinstromRequest.builder().order(
+                Order.builder().name("test").id(Collections.singletonList(Helpers.externalId(alreadyExistingId))).build()
+        ).build();
+
+        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
+        WinstromResponse order = flexibeeClient.createOrder(request);
+
+        assertThat(order).isNotNull();
+    }
+
+    @Test
+    public void createInvoiceWithOrderButNoCompany() throws Exception {
+        String alreadyExistingId = String.valueOf(Math.random());
+        WinstromRequest request = WinstromRequest.builder()
+                .order(Order.builder().name("test").id(Collections.singletonList(Helpers.externalId(alreadyExistingId))).build())
+                .issuedInvoice(
+                        IssuedInvoice.builder()
+                                .company("code:ABCFIRM1#")
+                                .documentType("code:faktura")
+                                .items(Collections.singletonList(
+                                        IssuedInvoiceItem.builder()
+                                                .name("Invoice line")
+                                                .amount(1)
+                                                .unitPrice(128_140.96)
+                                                .vatRate(21d).build()
+                                ))
+                                .order(Helpers.externalId(alreadyExistingId))
+                                .build())
+                .build();
+
+        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
+        WinstromResponse order = flexibeeClient.createOrder(request);
+
+        assertThat(order).isNotNull();
+    }
+
+    @Test
+    public void name() throws Exception {
+        String ext = String.format("ext:%s", new Random().nextInt());
+        WinstromRequest request = WinstromRequest.builder()
+                .addressBook(
+                        AddressBook.builder()
+                                .id(Collections.singletonList(ext))
+                                .build()
+                ).build();
+
+        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
+        WinstromResponse response = flexibeeClient.updateAddressBook("1569", request);
+        assertThat(response.getResults().get(0).getId()).isNotEmpty();
+        assertThat(response.isSuccess()).isTrue();
+
+        WinstromResponse bla = flexibeeClient.updateAddressBook(response.getResults().get(0).getId(), request);
+        assertThat(response.getResults().get(0).getId()).isNotEmpty();
+    }
 }

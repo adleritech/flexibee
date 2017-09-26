@@ -35,13 +35,20 @@ public class FlexibeeClient {
         client = RetrofitClientFactory.createService(Api.class, apiBaseUrl, username, password);
     }
 
-    public WinstromResponse createInvoice(WinstromRequest winstromRequest) throws IOException {
+    public WinstromResponse createInvoice(WinstromRequest winstromRequest) throws IOException, FlexibeeException {
         Response<WinstromResponse> response = client.issueInvoice(company, winstromRequest).execute();
+        handleErrorResponse(response);
         return response.body();
     }
 
     public WinstromResponse createAddressBook(WinstromRequest winstromRequest) throws IOException, FlexibeeException {
         Response<WinstromResponse> response = client.createAddressBook(company, winstromRequest).execute();
+        handleErrorResponse(response);
+        return response.body();
+    }
+
+    public WinstromResponse createOrder(WinstromRequest winstromRequest) throws IOException, FlexibeeException {
+        Response<WinstromResponse> response = client.createOrder(company, winstromRequest).execute();
         handleErrorResponse(response);
         return response.body();
     }
@@ -57,6 +64,12 @@ public class FlexibeeClient {
 
     public AddressBookResponse findAddressBookByRegNo(String regNo) throws IOException, FlexibeeException {
         Response<AddressBookResponse> response = client.findAddressBookByRegNo(company, regNo).execute();
+        handleErrorResponse(response);
+        return response.body();
+    }
+
+    public AddressBookResponse findAddressBookfindAddressBookByExternalId(String externalId) throws IOException, FlexibeeException {
+        Response<AddressBookResponse> response = client.findAddressBookByExternalId(company, externalId).execute();
         handleErrorResponse(response);
         return response.body();
     }
@@ -77,7 +90,7 @@ public class FlexibeeClient {
         Response<WinstromResponse> response = client.updateAddressBook(company, id, request).execute();
         if (!response.isSuccessful()) {
             String errorBody = new String(response.errorBody().bytes(), StandardCharsets.UTF_8);
-            throw new FlexibeeException("Address book u update failed for " +
+            throw new FlexibeeException("Address book update failed for " +
                     "company=" + id + ", " +
                     "httpStatusCode=" + response.code() + "," +
                     "responseBody=" + errorBody + "," +
@@ -103,6 +116,9 @@ public class FlexibeeClient {
         @GET("c/{company}/adresar/in:{regNo}.xml")
         Call<AddressBookResponse> findAddressBookByRegNo(@Path("company") String company, @Path("regNo") String regNo);
 
+        @GET("c/{company}/adresar/ext:{regNo}.xml")
+        Call<AddressBookResponse> findAddressBookByExternalId(@Path("company") String company, @Path("regNo") String externalId);
+
         @GET("c/{company}/adresar/(kod='{kod}').xml")
         Call<AddressBookResponse> findAddressBookByCode(@Path("company") String company, @Path("kod") String kod);
 
@@ -114,6 +130,9 @@ public class FlexibeeClient {
 
         @PUT("/c/{company}/adresar.xml")
         Call<WinstromResponse> createAddressBook(@Path("company") String company, @Body WinstromRequest request);
+
+        @PUT("/c/{company}/zakazka.xml")
+        Call<WinstromResponse> createOrder(@Path("company") String company, @Body WinstromRequest request);
 
     }
 

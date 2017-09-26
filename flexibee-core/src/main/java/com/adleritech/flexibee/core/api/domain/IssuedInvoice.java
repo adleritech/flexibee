@@ -41,6 +41,9 @@ public class IssuedInvoice {
     @Element(name = "sumDphZakl", required = false)
     private Double sumWithoutVat;
 
+    @Element(name = "zakazka", required = false)
+    private String order;
+
     @ElementList(name = "polozkyFaktury", required = false)
     private List<IssuedInvoiceItem> items;
 
