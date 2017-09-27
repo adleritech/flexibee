@@ -47,4 +47,7 @@ public class IssuedInvoice {
     @ElementList(name = "polozkyFaktury", required = false)
     private List<IssuedInvoiceItem> items;
 
+    @Element(name="zavTxt", required = false)
+    private String text;
+
 }
