@@ -14,7 +14,6 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 public class FlexibeeClient {
 
@@ -58,7 +57,18 @@ public class FlexibeeClient {
             throw new NotFound();
         }
         if (!response.isSuccessful()) {
-            throw new FlexibeeException(response.message());
+            throw new FlexibeeException("Flexibee error" +
+                " httpStatusCode=" + response.code() +
+                " errorBody=" + getErrorBody(response)
+            );
+        }
+    }
+
+    private String getErrorBody(Response response) {
+        try {
+            return response.errorBody().string();
+        } catch (IOException e) {
+            return "--Can not read error body--";
         }
     }
 
@@ -89,7 +99,7 @@ public class FlexibeeClient {
     public WinstromResponse updateAddressBook(String id, WinstromRequest request) throws IOException, FlexibeeException {
         Response<WinstromResponse> response = client.updateAddressBook(company, id, request).execute();
         if (!response.isSuccessful()) {
-            String errorBody = new String(response.errorBody().bytes(), StandardCharsets.UTF_8);
+            String errorBody = getErrorBody(response);
             throw new FlexibeeException("Address book update failed for " +
                     "company=" + id + ", " +
                     "httpStatusCode=" + response.code() + "," +
