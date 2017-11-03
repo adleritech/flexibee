@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
+import java.math.BigDecimal;
+
 
 @Data
 @Builder
@@ -22,19 +24,19 @@ public class IssuedInvoiceItem {
     Integer amount;
 
     @Element(name = "szbDph")
-    Double vatRate;
+    BigDecimal vatRate;
 
     @Element(name = "sumZkl", required = false)
-    Double sumWithoutVat;
+    BigDecimal sumWithoutVat;
 
     @Element(name = "sumDph", required = false)
-    Double sumVat;
+    BigDecimal sumVat;
 
     @Element(name = "sumCelkem", required = false)
-    Double sumTotal;
+    BigDecimal sumTotal;
 
     @Element(name = "cenaMj")
-    Double unitPrice;
+    BigDecimal unitPrice;
 
     @Element(name = "typCenyDphK", required = false)
     PriceKind priceKind;

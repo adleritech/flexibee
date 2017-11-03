@@ -112,11 +112,11 @@ public class IssuedInvoiceTest {
                                 IssuedInvoiceItem.builder()
                                         .name("Bla bla jizdne")
                                         .amount(1)
-                                        .sumVat(1500d)
-                                        .unitPrice(7500d)
-                                        .sumTotal(9000d)
+                                        .sumVat(BigDecimal.valueOf(1500))
+                                        .unitPrice(BigDecimal.valueOf(7500))
+                                        .sumTotal(BigDecimal.valueOf(9000))
                                         .priceKind(PriceKind.withVat)
-                                        .vatRate(21d).build()
+                                        .vatRate(BigDecimal.valueOf(21)).build()
                         ))
                         .build()).build();
 
@@ -135,10 +135,10 @@ public class IssuedInvoiceTest {
                 "            <faktura-vydana-polozka>\n" +
                 "                <nazev>Bla bla jizdne</nazev>\n" +
                 "                <mnozBaleni>1</mnozBaleni>\n" +
-                "                <szbDph>21.0</szbDph>\n" +
-                "                <sumDph>1500.0</sumDph>\n" +
-                "                <sumCelkem>9000.0</sumCelkem>\n" +
-                "                <cenaMj>7500.0</cenaMj>\n" +
+                "                <szbDph>21</szbDph>\n" +
+                "                <sumDph>1500</sumDph>\n" +
+                "                <sumCelkem>9000</sumCelkem>\n" +
+                "                <cenaMj>7500</cenaMj>\n" +
                 "                <typCenyDphK>typCeny.sDphKoef</typCenyDphK>\n" +
                 "            </faktura-vydana-polozka>\n" +
                 "        </polozkyFaktury>\n" +
@@ -184,10 +184,10 @@ public class IssuedInvoiceTest {
                                 IssuedInvoiceItem.builder()
                                         .name("Bla bla jizdne")
                                         .amount(1)
-                                        .sumVat(1500d)
-                                        .unitPrice(7500d)
-                                        .sumTotal(9000d)
-                                        .vatRate(21d).build()
+                                        .sumVat(BigDecimal.valueOf(1500))
+                                        .unitPrice(BigDecimal.valueOf(7500))
+                                        .sumTotal(BigDecimal.valueOf(9000))
+                                        .vatRate(BigDecimal.valueOf(21)).build()
                         ))
                         .build()).build();
 
@@ -211,10 +211,10 @@ public class IssuedInvoiceTest {
                 "            <faktura-vydana-polozka>\n" +
                 "                <nazev>Bla bla jizdne</nazev>\n" +
                 "                <mnozBaleni>1</mnozBaleni>\n" +
-                "                <szbDph>21.0</szbDph>\n" +
-                "                <sumDph>1500.0</sumDph>\n" +
-                "                <sumCelkem>9000.0</sumCelkem>\n" +
-                "                <cenaMj>7500.0</cenaMj>\n" +
+                "                <szbDph>21</szbDph>\n" +
+                "                <sumDph>1500</sumDph>\n" +
+                "                <sumCelkem>9000</sumCelkem>\n" +
+                "                <cenaMj>7500</cenaMj>\n" +
                 "            </faktura-vydana-polozka>\n" +
                 "        </polozkyFaktury>\n" +
                 "    </faktura-vydana>\n" +

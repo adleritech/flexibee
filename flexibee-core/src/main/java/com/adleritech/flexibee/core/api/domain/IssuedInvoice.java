@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class IssuedInvoice {
     private Boolean withoutItems;
 
     @Element(name = "sumDphZakl", required = false)
-    private Double sumWithoutVat;
+    private BigDecimal sumWithoutVat;
 
     @Element(name = "zakazka", required = false)
     private String order;

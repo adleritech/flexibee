@@ -10,6 +10,7 @@ import com.adleritech.flexibee.core.api.domain.WinstromResponse;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Random;
@@ -25,7 +26,7 @@ public class FlexibeeClientTest {
                         .company("code:ABCFIRM1#")
                         .documentType("code:faktura")
                         .withoutItems(true)
-                        .sumWithoutVat(1000d)
+                        .sumWithoutVat(BigDecimal.valueOf(1000))
                         .build()).build();
 
         FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
@@ -45,10 +46,10 @@ public class FlexibeeClientTest {
                                 IssuedInvoiceItem.builder()
                                         .name("Bla bla jizdne")
                                         .amount(1)
-                                        .sumVat(1500d)
-                                        .unitPrice(7500d)
-                                        .sumTotal(9000d)
-                                        .vatRate(21d).build()
+                                        .sumVat(BigDecimal.valueOf(1500))
+                                        .unitPrice(BigDecimal.valueOf(7500))
+                                        .sumTotal(BigDecimal.valueOf(9000))
+                                        .vatRate(BigDecimal.valueOf(21)).build()
                         ))
                         .build()).build();
 
@@ -68,8 +69,8 @@ public class FlexibeeClientTest {
                                 IssuedInvoiceItem.builder()
                                         .name("Invoice line")
                                         .amount(1)
-                                        .unitPrice(128_140.96)
-                                        .vatRate(21d).build()
+                                        .unitPrice(BigDecimal.valueOf(128_140.96))
+                                        .vatRate(BigDecimal.valueOf(21)).build()
                         ))
                         .build()).build();
 
@@ -130,8 +131,8 @@ public class FlexibeeClientTest {
                                         IssuedInvoiceItem.builder()
                                                 .name("Invoice line")
                                                 .amount(1)
-                                                .unitPrice(128_140.96)
-                                                .vatRate(21d).build()
+                                                .unitPrice(BigDecimal.valueOf(128_140.96))
+                                                .vatRate(BigDecimal.valueOf(21)).build()
                                 ))
                                 .order(Helpers.externalId(alreadyExistingId))
                                 .build())
