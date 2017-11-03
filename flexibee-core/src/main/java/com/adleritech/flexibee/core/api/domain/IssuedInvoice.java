@@ -20,6 +20,9 @@ public class IssuedInvoice {
     @Element(name = "typDokl", required = false)
     private String documentType;
 
+    @Element(name = "stavUhrK", required = false)
+    private PaymentStatus paymentStatus;
+
     @Element(name = "firma", required = false)
     private String company;
 
@@ -46,6 +49,9 @@ public class IssuedInvoice {
 
     @ElementList(name = "polozkyFaktury", required = false)
     private List<IssuedInvoiceItem> items;
+
+    @ElementList(name="odpocty-zaloh", required = false)
+    private List<Deposit> deposits;
 
     @Element(name="zavTxt", required = false)
     private String text;
