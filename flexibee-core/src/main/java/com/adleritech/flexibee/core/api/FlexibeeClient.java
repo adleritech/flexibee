@@ -40,6 +40,12 @@ public class FlexibeeClient {
         return response.body();
     }
 
+    public WinstromResponse createInternalDocument(WinstromRequest winstromRequest) throws IOException, FlexibeeException {
+        Response<WinstromResponse> response = client.createInternalDocument(company, winstromRequest).execute();
+        handleErrorResponse(response);
+        return response.body();
+    }
+
     public WinstromResponse createAddressBook(WinstromRequest winstromRequest) throws IOException, FlexibeeException {
         Response<WinstromResponse> response = client.createAddressBook(company, winstromRequest).execute();
         handleErrorResponse(response);
@@ -122,6 +128,9 @@ public class FlexibeeClient {
 
         @GET("/c/{company}/faktura-vydana/{id}.pdf")
         Call<ResponseBody> downloadIssuedInvoiceAsPdf(@Path("company") String company, @Path("id") String id);
+
+        @PUT("/c/{company}/interni-doklad.xml")
+        Call<WinstromResponse> createInternalDocument(@Path("company") String company, @Body WinstromRequest request);
 
         @GET("c/{company}/adresar/in:{regNo}.xml")
         Call<AddressBookResponse> findAddressBookByRegNo(@Path("company") String company, @Path("regNo") String regNo);

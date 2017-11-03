@@ -50,4 +50,7 @@ public class IssuedInvoice {
     @Element(name="zavTxt", required = false)
     private String text;
 
+    @Element(name="varSym", required = false)
+    private String variableSymbol;
+
 }
