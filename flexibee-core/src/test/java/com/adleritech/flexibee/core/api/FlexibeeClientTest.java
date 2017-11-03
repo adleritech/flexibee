@@ -142,7 +142,7 @@ public class FlexibeeClientTest {
     }
 
     @Test
-    public void name() throws Exception {
+    public void canUpdateSameRecordWithSameExternalId() throws Exception {
         String ext = String.format("ext:%s", new Random().nextInt());
         WinstromRequest request = WinstromRequest.builder()
                 .addressBook(
