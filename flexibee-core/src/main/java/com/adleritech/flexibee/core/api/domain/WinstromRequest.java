@@ -3,6 +3,7 @@ package com.adleritech.flexibee.core.api.domain;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
@@ -11,6 +12,7 @@ import org.simpleframework.xml.Root;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Root(name = "winstrom")
 @org.simpleframework.xml.Order(elements = {"adresar", "zakazka", "faktura-vydana"})
 public class WinstromRequest extends Winstrom {

@@ -6,6 +6,7 @@ import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
 import java.io.ByteArrayOutputStream;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
@@ -218,6 +219,59 @@ public class IssuedInvoiceTest {
                 "        </polozkyFaktury>\n" +
                 "    </faktura-vydana>\n" +
                 "</winstrom>";
+        assertThat(result.toString()).isXmlEqualTo(xml);
+    }
+
+    @Test
+    public void invoiceWithDeposits() throws Exception {
+        String xml = "<winstrom version=\"1.0\">\n" +
+                "     <faktura-vydana>\n" +
+                "          <odpocty-zaloh class=\"java.util.Collections$SingletonList\">\n" +
+                "               <odpocet>\n" +
+                "                    <castkaMen>100</castkaMen>\n" +
+                "                    <doklad>41</doklad>\n" +
+                "               </odpocet>\n" +
+                "          </odpocty-zaloh>\n" +
+                "     </faktura-vydana>\n" +
+                "</winstrom>\n";
+
+        WinstromRequest envelope = WinstromRequest.builder()
+                .issuedInvoice(
+                        IssuedInvoice.builder()
+                        .deposits(Collections.singletonList(
+                                Deposit.builder()
+                                        .amount(BigDecimal.valueOf(100))
+                                        .deposit("41").build()
+                        ))
+                        .build()
+                ).build();
+
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
+        Serializer serializer = Factory.persister();
+        serializer.write(envelope, result);
+
+        assertThat(result.toString()).isXmlEqualTo(xml);
+    }
+
+    @Test
+    public void paymentStatusIsParsedCorrectly() throws Exception {
+        String xml = "<winstrom version=\"1.0\">\n" +
+                "    <faktura-vydana>\n" +
+                "        <stavUhrK>stavUhr.uhrazenoRucne</stavUhrK>\n" +
+                "    </faktura-vydana>\n" +
+                "</winstrom>\n";
+
+        WinstromRequest envelope = WinstromRequest.builder()
+                .issuedInvoice(
+                        IssuedInvoice.builder()
+                                .paymentStatus(PaymentStatus.MANUALLY)
+                                .build()
+                ).build();
+
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
+        Serializer serializer = Factory.persister();
+        serializer.write(envelope, result);
+
         assertThat(result.toString()).isXmlEqualTo(xml);
     }
 }
