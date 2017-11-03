@@ -26,6 +26,9 @@ public class WinstromRequest extends Winstrom {
     @Element(name = "faktura-vydana", required = false)
     private IssuedInvoice issuedInvoice;
 
+    @Element(name = "interni-doklad", required = false)
+    private InternalDocument internalDocument;
+
 }
 
 

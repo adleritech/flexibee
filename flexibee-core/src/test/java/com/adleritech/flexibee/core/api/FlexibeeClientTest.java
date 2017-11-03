@@ -1,6 +1,7 @@
 package com.adleritech.flexibee.core.api;
 
 import com.adleritech.flexibee.core.api.domain.AddressBook;
+import com.adleritech.flexibee.core.api.domain.InternalDocument;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoice;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoiceItem;
 import com.adleritech.flexibee.core.api.domain.Order;
@@ -9,6 +10,7 @@ import com.adleritech.flexibee.core.api.domain.WinstromResponse;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Random;
 
@@ -158,5 +160,23 @@ public class FlexibeeClientTest {
 
         WinstromResponse bla = flexibeeClient.updateAddressBook(response.getResults().get(0).getId(), request);
         assertThat(response.getResults().get(0).getId()).isNotEmpty();
+    }
+
+    @Test
+    public void createInternalDocument() throws Exception {
+        WinstromRequest request = WinstromRequest.builder()
+            .internalDocument(
+                InternalDocument.builder()
+                    .company("code:PBENDA")
+                    .documentType("code:ID")
+                    .issued(LocalDate.parse("2017-10-03"))
+                    .variableSymbol("123")
+                    .build())
+            .build();
+
+        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
+        WinstromResponse response = flexibeeClient.createInternalDocument(request);
+        assertThat(response.getResults().get(0).getId()).isNotEmpty();
+        assertThat(response.isSuccess()).isTrue();
     }
 }
