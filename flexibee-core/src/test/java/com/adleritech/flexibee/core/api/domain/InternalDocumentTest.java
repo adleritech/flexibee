@@ -8,6 +8,7 @@ import org.simpleframework.xml.core.Persister;
 import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class InternalDocumentTest {
@@ -36,6 +37,8 @@ public class InternalDocumentTest {
     public void serializeToXml() throws Exception {
         String xml = "<winstrom version=\"1.0\">\n" +
             "    <interni-doklad>\n" +
+            "        <id>ext:id1</id>\n" +
+            "        <id>ext:id2</id>\n" +
             "        <typDokl>code:ID</typDokl>\n" +
             "        <firma>code:PBENDA</firma>\n" +
             "        <datVyst>2017-10-03</datVyst>\n" +
@@ -46,6 +49,7 @@ public class InternalDocumentTest {
         WinstromRequest request = WinstromRequest.builder()
                 .internalDocument(
                         InternalDocument.builder()
+                                .id(asList("ext:id1", "ext:id2"))
                                 .company("code:PBENDA")
                                 .documentType("code:ID")
                                 .issued(LocalDate.parse("2017-10-03"))
