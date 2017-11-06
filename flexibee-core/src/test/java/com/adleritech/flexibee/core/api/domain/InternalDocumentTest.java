@@ -17,7 +17,7 @@ public class InternalDocumentTest {
         String xml = "<winstrom version=\"1.0\">\n" +
             "    <interni-doklad>\n" +
             "        <typDokl>code:ID</typDokl>\n" +
-            "        <datVyst>2011-01-01</datVyst>\n" +
+            "        <datVyst>2011-01-01+01:00</datVyst>\n" +
             "        <varSym>123</varSym><!-- účet MD -->\n" +
             "    </interni-doklad>\n" +
             "</winstrom>";

@@ -1,6 +1,7 @@
 package com.adleritech.flexibee.core.api;
 
 import com.adleritech.flexibee.core.api.domain.AddressBookResponse;
+import com.adleritech.flexibee.core.api.domain.IssuedInvoiceResponse;
 import com.adleritech.flexibee.core.api.domain.WinstromRequest;
 import com.adleritech.flexibee.core.api.domain.WinstromResponse;
 import lombok.Getter;
@@ -96,6 +97,12 @@ public class FlexibeeClient {
         return response.body();
     }
 
+    public IssuedInvoiceResponse getIssuedInvoice(String id) throws IOException, FlexibeeException {
+        Response<IssuedInvoiceResponse> response = client.getIssuedInvoice(company, id).execute();
+        handleErrorResponse(response);
+        return response.body();
+    }
+
     public AddressBookResponse findAddressBookByCode(String code) throws IOException, FlexibeeException {
         Response<AddressBookResponse> response = client.findAddressBookByCode(company, code).execute();
         handleErrorResponse(response);
@@ -128,6 +135,9 @@ public class FlexibeeClient {
 
         @GET("/c/{company}/faktura-vydana/{id}.pdf")
         Call<ResponseBody> downloadIssuedInvoiceAsPdf(@Path("company") String company, @Path("id") String id);
+
+        @GET("/c/{company}/faktura-vydana/{id}.xml")
+        Call<IssuedInvoiceResponse> getIssuedInvoice(@Path("company") String company, @Path("id") String id);
 
         @PUT("/c/{company}/interni-doklad.xml")
         Call<WinstromResponse> createInternalDocument(@Path("company") String company, @Body WinstromRequest request);

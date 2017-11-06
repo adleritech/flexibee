@@ -20,7 +20,7 @@ class RetrofitClientFactory {
     static <S> S createService(Class<S> serviceClass, String apiBaseUrl, String username, String password) {
         builder = new Retrofit.Builder()
                 .baseUrl(apiBaseUrl)
-                .addConverterFactory(SimpleXmlConverterFactory.create(Factory.persister()));
+                .addConverterFactory(SimpleXmlConverterFactory.createNonStrict(Factory.persister()));
         String authToken = Credentials.basic(username, password);
         return createService(serviceClass, authToken);
     }
