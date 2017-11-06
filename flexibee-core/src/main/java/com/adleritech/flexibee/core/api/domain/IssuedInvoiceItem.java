@@ -17,13 +17,13 @@ import java.math.BigDecimal;
 @Root(name = "faktura-vydana-polozka")
 public class IssuedInvoiceItem {
 
-    @Element(name = "nazev")
+    @Element(name = "nazev", required = false)
     String name;
 
-    @Element(name = "mnozBaleni")
+    @Element(name = "mnozBaleni", required = false)
     Integer amount;
 
-    @Element(name = "szbDph")
+    @Element(name = "szbDph", required = false)
     BigDecimal vatRate;
 
     @Element(name = "sumZkl", required = false)
@@ -35,7 +35,7 @@ public class IssuedInvoiceItem {
     @Element(name = "sumCelkem", required = false)
     BigDecimal sumTotal;
 
-    @Element(name = "cenaMj")
+    @Element(name = "cenaMj", required = false)
     BigDecimal unitPrice;
 
     @Element(name = "typCenyDphK", required = false)
