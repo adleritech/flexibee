@@ -17,6 +17,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class IssuedInvoice {
+    @Element(name = "id", required = false)
+    private String id;
 
     @Element(name = "typDokl", required = false)
     private String documentType;

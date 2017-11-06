@@ -4,10 +4,10 @@ import com.adleritech.flexibee.core.api.domain.AddressBook;
 import com.adleritech.flexibee.core.api.domain.InternalDocument;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoice;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoiceItem;
+import com.adleritech.flexibee.core.api.domain.IssuedInvoiceResponse;
 import com.adleritech.flexibee.core.api.domain.Order;
 import com.adleritech.flexibee.core.api.domain.WinstromRequest;
 import com.adleritech.flexibee.core.api.domain.WinstromResponse;
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -32,8 +32,10 @@ public class FlexibeeClientTest {
         FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         WinstromResponse response = flexibeeClient.createInvoice(request);
         assertThat(response.getResults().get(0).getId()).isNotEmpty();
-        Assertions.assertThat(response.getResults().get(0).getId()).isNotEmpty();
         assertThat(response.isSuccess()).isTrue();
+
+        IssuedInvoiceResponse issuedInvoice = flexibeeClient.getIssuedInvoice(response.getResults().get(0).getId());
+        assertThat(issuedInvoice).isNotNull();
     }
 
     @Test
