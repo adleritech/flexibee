@@ -12,10 +12,10 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.Random;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static java.util.Collections.singletonList;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class FlexibeeClientTest {
 
@@ -44,7 +44,7 @@ public class FlexibeeClientTest {
                 .issuedInvoice(IssuedInvoice.builder()
                         .company("code:ABCFIRM1#")
                         .documentType("code:faktura")
-                        .items(Collections.singletonList(
+                        .items(singletonList(
                                 IssuedInvoiceItem.builder()
                                         .name("Bla bla jizdne")
                                         .amount(1)
@@ -67,7 +67,7 @@ public class FlexibeeClientTest {
                 .issuedInvoice(IssuedInvoice.builder()
                         .company("code:ABCFIRM1#")
                         .documentType("code:faktura")
-                        .items(Collections.singletonList(
+                        .items(singletonList(
                                 IssuedInvoiceItem.builder()
                                         .name("Invoice line")
                                         .amount(1)
@@ -88,7 +88,7 @@ public class FlexibeeClientTest {
                 .addressBook(
                     AddressBook.builder()
                         .name("test")
-                        .id(Collections.singletonList(String.format("ext:%s", new Random().nextInt())))
+                        .id(singletonList(String.format("ext:%s", new Random().nextInt())))
                         .build()
                 ).build();
 
@@ -101,7 +101,7 @@ public class FlexibeeClientTest {
     @Test(expected = FlexibeeClient.FlexibeeException.class)
     public void updateCompanyWithDuplicatedId() throws Exception {
         String alreadyExistingId = "-1207125871";
-        WinstromRequest request = WinstromRequest.builder().addressBook(AddressBook.builder().name("test").id(Collections.singletonList(Helpers.externalId(alreadyExistingId))).build()).build();
+        WinstromRequest request = WinstromRequest.builder().addressBook(AddressBook.builder().name("test").id(singletonList(Helpers.externalId(alreadyExistingId))).build()).build();
 
         FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         flexibeeClient.updateAddressBook("1568", request);
@@ -111,7 +111,7 @@ public class FlexibeeClientTest {
     public void createOrder() throws Exception {
         String alreadyExistingId = "-1207125871";
         WinstromRequest request = WinstromRequest.builder().order(
-                Order.builder().name("test").id(Collections.singletonList(Helpers.externalId(alreadyExistingId))).build()
+                Order.builder().name("test").id(singletonList(Helpers.externalId(alreadyExistingId))).build()
         ).build();
 
         FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
@@ -124,12 +124,12 @@ public class FlexibeeClientTest {
     public void createInvoiceWithOrderButNoCompany() throws Exception {
         String alreadyExistingId = String.valueOf(Math.random());
         WinstromRequest request = WinstromRequest.builder()
-                .order(Order.builder().name("test").id(Collections.singletonList(Helpers.externalId(alreadyExistingId))).build())
+                .order(Order.builder().name("test").id(singletonList(Helpers.externalId(alreadyExistingId))).build())
                 .issuedInvoice(
                         IssuedInvoice.builder()
                                 .company("code:ABCFIRM1#")
                                 .documentType("code:faktura")
-                                .items(Collections.singletonList(
+                                .items(singletonList(
                                         IssuedInvoiceItem.builder()
                                                 .name("Invoice line")
                                                 .amount(1)
@@ -152,7 +152,7 @@ public class FlexibeeClientTest {
         WinstromRequest request = WinstromRequest.builder()
                 .addressBook(
                         AddressBook.builder()
-                                .id(Collections.singletonList(ext))
+                                .id(singletonList(ext))
                                 .build()
                 ).build();
 
@@ -167,9 +167,11 @@ public class FlexibeeClientTest {
 
     @Test
     public void createInternalDocument() throws Exception {
+        String extId = "ext:123:456";
         WinstromRequest request = WinstromRequest.builder()
             .internalDocument(
                 InternalDocument.builder()
+                    .id(singletonList(extId))
                     .company("code:PBENDA")
                     .documentType("code:ID")
                     .issued(LocalDate.parse("2017-10-03"))
@@ -181,5 +183,16 @@ public class FlexibeeClientTest {
         WinstromResponse response = flexibeeClient.createInternalDocument(request);
         assertThat(response.getResults().get(0).getId()).isNotEmpty();
         assertThat(response.isSuccess()).isTrue();
+
+        InternalDocument internalDocument = flexibeeClient.getInternalDocument(extId).getInternalDocument();
+        assertThat(internalDocument.getId()).contains(response.getResults().get(0).getId());
+    }
+
+    @Test(expected = FlexibeeClient.NotFound.class)
+    public void getNonexistingInternalDocument() throws Exception {
+        String extId = "ext:123:unknown";
+
+        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
+        flexibeeClient.getInternalDocument(extId).getInternalDocument();
     }
 }

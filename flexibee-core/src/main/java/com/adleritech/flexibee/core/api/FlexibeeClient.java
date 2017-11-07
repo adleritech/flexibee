@@ -1,6 +1,7 @@
 package com.adleritech.flexibee.core.api;
 
 import com.adleritech.flexibee.core.api.domain.AddressBookResponse;
+import com.adleritech.flexibee.core.api.domain.InternalDocumentResponse;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoiceResponse;
 import com.adleritech.flexibee.core.api.domain.WinstromRequest;
 import com.adleritech.flexibee.core.api.domain.WinstromResponse;
@@ -103,6 +104,12 @@ public class FlexibeeClient {
         return response.body();
     }
 
+    public InternalDocumentResponse getInternalDocument(String id) throws IOException, FlexibeeException {
+        Response<InternalDocumentResponse> response = client.getInternalDocument(company, id).execute();
+        handleErrorResponse(response);
+        return response.body();
+    }
+
     public AddressBookResponse findAddressBookByCode(String code) throws IOException, FlexibeeException {
         Response<AddressBookResponse> response = client.findAddressBookByCode(company, code).execute();
         handleErrorResponse(response);
@@ -142,6 +149,9 @@ public class FlexibeeClient {
         @PUT("/c/{company}/interni-doklad.xml")
         Call<WinstromResponse> createInternalDocument(@Path("company") String company, @Body WinstromRequest request);
 
+        @GET("/c/{company}/interni-doklad/{id}.xml")
+        Call<InternalDocumentResponse> getInternalDocument(@Path("company") String company, @Path("id") String id);
+
         @GET("c/{company}/adresar/in:{regNo}.xml")
         Call<AddressBookResponse> findAddressBookByRegNo(@Path("company") String company, @Path("regNo") String regNo);
 
@@ -166,7 +176,7 @@ public class FlexibeeClient {
     }
 
     public static class NotFound extends FlexibeeException {
-        private NotFound() {
+        public NotFound() {
             super("");
         }
     }
