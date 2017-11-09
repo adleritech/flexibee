@@ -17,7 +17,7 @@ import java.io.IOException;
 class RetrofitClientFactory {
 
     private static final OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-    private static final Logger LOGGER = LoggerFactory.getLogger("com.adleritech.flexibee.core.api");
+    private static final Logger LOGGER = LoggerFactory.getLogger("com.adleritech.flexibee.core.api.http");
 
     private static Retrofit.Builder builder;
 
