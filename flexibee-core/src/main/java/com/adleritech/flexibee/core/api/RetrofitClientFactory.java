@@ -6,6 +6,9 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import retrofit2.Retrofit;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
@@ -14,6 +17,7 @@ import java.io.IOException;
 class RetrofitClientFactory {
 
     private static final OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+    private static final Logger LOGGER = LoggerFactory.getLogger("com.adleritech.flexibee.core.api");
 
     private static Retrofit.Builder builder;
 
@@ -30,6 +34,9 @@ class RetrofitClientFactory {
         Retrofit retrofit = null;
         if (!httpClient.interceptors().contains(interceptor)) {
             httpClient.addInterceptor(interceptor);
+            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(LOGGER::debug);
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            httpClient.addInterceptor(loggingInterceptor);
             httpClient.followRedirects(true);
             httpClient.followSslRedirects(true);
             builder.client(httpClient.build());
