@@ -41,6 +41,9 @@ public class InternalDocument {
     @Element(name="popis", required = false)
     private String description;
 
+    @Element(name="sumZklCelkem", required = false)
+    private BigDecimal baseTotalSum;
+
     @Element(name="sumOsv", required = false)
     private BigDecimal vatFreeSum;
 

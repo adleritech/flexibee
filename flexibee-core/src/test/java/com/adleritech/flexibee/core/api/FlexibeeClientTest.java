@@ -168,15 +168,30 @@ public class FlexibeeClientTest {
     @Test
     public void createInternalDocument() throws Exception {
         String extId = "ext:123:456";
+
+        String varSymbol = "132456";
+        LocalDate rideFinishedAt = LocalDate.now();
+        BigDecimal amount = BigDecimal.TEN;
+        String driverUserId = "100";
         WinstromRequest request = WinstromRequest.builder()
-            .internalDocument(
-                InternalDocument.builder()
-                    .id(singletonList(extId))
-                    .company("code:PBENDA")
-                    .documentType("code:ID")
-                    .issued(LocalDate.parse("2017-10-03"))
-                    .variableSymbol("123")
-                    .build())
+            .internalDocument(InternalDocument
+                .builder()
+                .id(singletonList(extId))
+                .documentType("code:ID")
+                .variableSymbol(varSymbol)
+                .incomingNumber(varSymbol)
+                .description("Liftago Kredit")
+                .timeOfSupply(rideFinishedAt)
+                .baseTotalSum(amount)
+                //.vatFreeSum(amount)
+                //.totalSum(amount)
+                .currency("code:CZK")
+                .primaryAccount("101")
+                .contraAccount("102")
+                //.order("code:" + driverUserId)
+                .vatRow("code:000P")
+                .company("code:PBENDA")
+                .build())
             .build();
 
         FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
