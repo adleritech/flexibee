@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 
+import static java.math.BigDecimal.ONE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class IssuedInvoiceTest {
@@ -111,7 +112,7 @@ public class IssuedInvoiceTest {
                         .items(Arrays.asList(
                                 IssuedInvoiceItem.builder()
                                         .name("Bla bla jizdne")
-                                        .amount(1)
+                                        .amount(ONE)
                                         .sumVat(BigDecimal.valueOf(1500))
                                         .unitPrice(BigDecimal.valueOf(7500))
                                         .sumTotal(BigDecimal.valueOf(9000))
@@ -183,7 +184,7 @@ public class IssuedInvoiceTest {
                         .items(Arrays.asList(
                                 IssuedInvoiceItem.builder()
                                         .name("Bla bla jizdne")
-                                        .amount(1)
+                                        .amount(ONE)
                                         .sumVat(BigDecimal.valueOf(1500))
                                         .unitPrice(BigDecimal.valueOf(7500))
                                         .sumTotal(BigDecimal.valueOf(9000))

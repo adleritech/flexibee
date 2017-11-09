@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Random;
 
+import static java.math.BigDecimal.ONE;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -47,7 +48,7 @@ public class FlexibeeClientTest {
                         .items(singletonList(
                                 IssuedInvoiceItem.builder()
                                         .name("Bla bla jizdne")
-                                        .amount(1)
+                                        .amount(ONE)
                                         .sumVat(BigDecimal.valueOf(1500))
                                         .unitPrice(BigDecimal.valueOf(7500))
                                         .sumTotal(BigDecimal.valueOf(9000))
@@ -70,7 +71,7 @@ public class FlexibeeClientTest {
                         .items(singletonList(
                                 IssuedInvoiceItem.builder()
                                         .name("Invoice line")
-                                        .amount(1)
+                                        .amount(ONE)
                                         .unitPrice(BigDecimal.valueOf(128_140.96))
                                         .vatRate(BigDecimal.valueOf(21)).build()
                         ))
@@ -132,7 +133,7 @@ public class FlexibeeClientTest {
                                 .items(singletonList(
                                         IssuedInvoiceItem.builder()
                                                 .name("Invoice line")
-                                                .amount(1)
+                                                .amount(ONE)
                                                 .unitPrice(BigDecimal.valueOf(128_140.96))
                                                 .vatRate(BigDecimal.valueOf(21)).build()
                                 ))
