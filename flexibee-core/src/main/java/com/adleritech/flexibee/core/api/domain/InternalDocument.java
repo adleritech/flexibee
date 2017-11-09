@@ -64,4 +64,12 @@ public class InternalDocument {
 
     @Element(name="clenDph", required = false)
     private String vatRow;
+
+    @Element(name="clenKonVykDph", required = false)
+    private String vatReportRow;
+
+    @Element(name="bezPolozek", required = false)
+    private Boolean noLines;
+
+
 }
