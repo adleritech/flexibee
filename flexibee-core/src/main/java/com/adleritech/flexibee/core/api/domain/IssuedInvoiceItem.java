@@ -21,7 +21,7 @@ public class IssuedInvoiceItem {
     String name;
 
     @Element(name = "mnozBaleni", required = false)
-    Integer amount;
+    BigDecimal amount;
 
     @Element(name = "szbDph", required = false)
     BigDecimal vatRate;
