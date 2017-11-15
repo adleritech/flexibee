@@ -2,6 +2,8 @@ package com.adleritech.flexibee.core.api.domain;
 
 public enum PaymentStatus {
 
+    FULLY("stavUhr.uhrazeno"),
+    PARTIALLY("stavUhr.castUhr"),
     MANUALLY("stavUhr.uhrazenoRucne");
 
     private final String value;

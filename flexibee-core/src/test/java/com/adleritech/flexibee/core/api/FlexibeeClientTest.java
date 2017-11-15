@@ -45,6 +45,7 @@ public class FlexibeeClientTest {
                 .issuedInvoice(IssuedInvoice.builder()
                         .company("code:ABCFIRM1#")
                         .documentType("code:faktura")
+                        .paymentForm("code:KARTA")
                         .items(singletonList(
                                 IssuedInvoiceItem.builder()
                                         .name("Bla bla jizdne")
@@ -173,7 +174,6 @@ public class FlexibeeClientTest {
         String varSymbol = "132456";
         LocalDate rideFinishedAt = LocalDate.now();
         BigDecimal amount = BigDecimal.TEN;
-        String driverUserId = "100";
         WinstromRequest request = WinstromRequest.builder()
             .internalDocument(InternalDocument
                 .builder()
