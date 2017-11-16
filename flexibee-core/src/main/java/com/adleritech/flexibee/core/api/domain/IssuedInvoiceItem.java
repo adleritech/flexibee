@@ -20,7 +20,7 @@ public class IssuedInvoiceItem {
     @Element(name = "nazev", required = false)
     String name;
 
-    @Element(name = "mnozBaleni", required = false)
+    @Element(name = "mnozMj", required = false)
     BigDecimal amount;
 
     @Element(name = "szbDph", required = false)
