@@ -20,9 +20,11 @@ public class IssuedInvoiceItem {
     @Element(name = "nazev", required = false)
     String name;
 
-    @Element(name = "mnozMj", required = false)
+    @Element(name = "mnozBaleni", required = false)
     BigDecimal amount;
 
+    @Element(name = "mnozMj", required = false)
+    BigDecimal unitAmount;
     @Element(name = "szbDph", required = false)
     BigDecimal vatRate;
 
