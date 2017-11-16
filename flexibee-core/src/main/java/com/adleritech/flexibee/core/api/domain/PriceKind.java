@@ -4,7 +4,7 @@ public enum PriceKind {
 
     withVat("typCeny.sDphKoef");
 
-    String label;
+    private final String label;
 
     PriceKind(String s) {
         label = s;

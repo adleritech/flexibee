@@ -6,6 +6,7 @@ import com.adleritech.flexibee.core.api.domain.IssuedInvoice;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoiceItem;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoiceResponse;
 import com.adleritech.flexibee.core.api.domain.Order;
+import com.adleritech.flexibee.core.api.domain.VatRateKind;
 import com.adleritech.flexibee.core.api.domain.WinstromRequest;
 import com.adleritech.flexibee.core.api.domain.WinstromResponse;
 import org.junit.Test;
@@ -51,6 +52,7 @@ public class FlexibeeClientTest {
                                         .name("Bla bla jizdne")
                                         .amount(ONE)
                                         .sumVat(BigDecimal.valueOf(1500))
+                                        .vatRateKind(VatRateKind.BASIC)
                                         .unitPrice(BigDecimal.valueOf(7500))
                                         .sumTotal(BigDecimal.valueOf(9000))
                                         .vatRate(BigDecimal.valueOf(21)).build()
