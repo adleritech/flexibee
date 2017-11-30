@@ -15,40 +15,31 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 import java.io.IOException;
 
 class RetrofitClientFactory {
-
-    private static final OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
     private static final Logger LOGGER = LoggerFactory.getLogger("com.adleritech.flexibee.core.api.http");
 
-    private static Retrofit.Builder builder;
-
     static <S> S createService(Class<S> serviceClass, String apiBaseUrl, String username, String password) {
-        builder = new Retrofit.Builder()
-                .baseUrl(apiBaseUrl)
-                .addConverterFactory(SimpleXmlConverterFactory.createNonStrict(Factory.persister()));
+        Retrofit.Builder builder = new Retrofit.Builder()
+            .baseUrl(apiBaseUrl)
+            .addConverterFactory(SimpleXmlConverterFactory.createNonStrict(Factory.persister()));
         String authToken = Credentials.basic(username, password);
-        return createService(serviceClass, authToken);
+        builder.client(createOkHttpClient(authToken));
+
+        return builder.build().create(serviceClass);
     }
 
-    private static <S> S createService(Class<S> serviceClass, final String authToken) {
+    private static OkHttpClient createOkHttpClient(String authToken) {
         AuthenticationInterceptor interceptor = new AuthenticationInterceptor(authToken);
-        Retrofit retrofit = null;
-        if (!httpClient.interceptors().contains(interceptor)) {
-            httpClient.addInterceptor(interceptor);
-            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(LOGGER::debug);
-            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-            httpClient.addInterceptor(loggingInterceptor);
-            httpClient.followRedirects(true);
-            httpClient.followSslRedirects(true);
-            builder.client(httpClient.build());
-            retrofit = builder.build();
-        }
-
-        assert retrofit != null;
-        return retrofit.create(serviceClass);
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.addInterceptor(interceptor);
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(LOGGER::debug);
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        httpClient.addInterceptor(loggingInterceptor);
+        httpClient.followRedirects(true);
+        httpClient.followSslRedirects(true);
+        return httpClient.build();
     }
 
     static class AuthenticationInterceptor implements Interceptor {
-
         private String authToken;
 
         AuthenticationInterceptor(String token) {
