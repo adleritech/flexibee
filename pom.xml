@@ -5,7 +5,7 @@
     <groupId>com.adleritech</groupId>
     <artifactId>flexibee</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.33</version>
+    <version>0.0.34-SNAPSHOT</version>
     <modules>
         <module>flexibee-core</module>
     </modules>
@@ -18,7 +18,7 @@
         <connection>scm:git:git@github.com:adleritech/flexibee.git</connection>
         <developerConnection>scm:git:git@github.com:adleritech/flexibee.git</developerConnection>
         <url>scm:git:git@github.com:adleritech/flexibee.git</url>
-        <tag>flexibee-0.0.33</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <developers>
