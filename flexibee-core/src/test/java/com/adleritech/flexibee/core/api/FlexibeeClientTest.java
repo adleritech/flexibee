@@ -6,6 +6,7 @@ import com.adleritech.flexibee.core.api.domain.IssuedInvoice;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoiceItem;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoiceResponse;
 import com.adleritech.flexibee.core.api.domain.Order;
+import com.adleritech.flexibee.core.api.domain.Receivable;
 import com.adleritech.flexibee.core.api.domain.VatRateKind;
 import com.adleritech.flexibee.core.api.domain.WinstromRequest;
 import com.adleritech.flexibee.core.api.domain.WinstromResponse;
@@ -203,6 +204,42 @@ public class FlexibeeClientTest {
 
         InternalDocument internalDocument = flexibeeClient.getInternalDocument(extId).getInternalDocument();
         assertThat(internalDocument.getId()).contains(response.getResults().get(0).getId());
+    }
+
+    @Test
+    public void createReceivable() throws Exception {
+        String extId = "ext:123:456";
+
+        String varSymbol = "132456";
+        LocalDate rideFinishedAt = LocalDate.now();
+        BigDecimal amount = BigDecimal.TEN;
+        WinstromRequest request = WinstromRequest.builder()
+            .receivable(Receivable
+                .builder()
+                .id(singletonList(extId))
+                .documentType("code:OST. POHLEDÁVKY")
+                .variableSymbol(varSymbol)
+                .incomingNumber(varSymbol)
+                .description("Liftago Kredit")
+                .timeOfSupply(rideFinishedAt)
+                .vatFreeSum(amount)
+                .noLines(true)
+                .currency("code:CZK")
+                .primaryAccount("101")
+                .contraAccount("102")
+                .vatRow("code:000P")
+                .vatReportRow("code:0.0.")
+                .company("code:PBENDA")
+                .build())
+            .build();
+
+        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
+        WinstromResponse response = flexibeeClient.createReceivable(request);
+        assertThat(response.getResults().get(0).getId()).isNotEmpty();
+        assertThat(response.isSuccess()).isTrue();
+
+        Receivable receivable = flexibeeClient.getReceivable(extId).getReceivable();
+        assertThat(receivable.getId()).contains(response.getResults().get(0).getId());
     }
 
     @Test(expected = FlexibeeClient.NotFound.class)

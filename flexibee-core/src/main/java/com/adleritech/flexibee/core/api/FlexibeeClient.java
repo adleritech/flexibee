@@ -3,6 +3,7 @@ package com.adleritech.flexibee.core.api;
 import com.adleritech.flexibee.core.api.domain.AddressBookResponse;
 import com.adleritech.flexibee.core.api.domain.InternalDocumentResponse;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoiceResponse;
+import com.adleritech.flexibee.core.api.domain.ReceivableResponse;
 import com.adleritech.flexibee.core.api.domain.WinstromRequest;
 import com.adleritech.flexibee.core.api.domain.WinstromResponse;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -135,6 +137,18 @@ public class FlexibeeClient {
         return response.body();
     }
 
+    public WinstromResponse createReceivable(WinstromRequest winstromRequest)  throws IOException, FlexibeeException {
+        Response<WinstromResponse> response = client.createReceivable(company, winstromRequest).execute();
+        handleErrorResponse(response);
+        return response.body();
+    }
+
+    public ReceivableResponse getReceivable(String id) throws IOException, FlexibeeException {
+        Response<ReceivableResponse> response = client.getReceivable(company, id).execute();
+        handleErrorResponse(response);
+        return response.body();
+    }
+
     interface Api {
 
         @PUT("/c/{company}/faktura-vydana.xml")
@@ -151,6 +165,12 @@ public class FlexibeeClient {
 
         @GET("/c/{company}/interni-doklad/{id}.xml")
         Call<InternalDocumentResponse> getInternalDocument(@Path("company") String company, @Path("id") String id);
+
+        @POST("/c/{company}/pohledavka.xml")
+        Call<WinstromResponse> createReceivable(@Path("company") String company, @Body WinstromRequest request);
+
+        @GET("/c/{company}/pohledavka/{id}.xml")
+        Call<ReceivableResponse> getReceivable(@Path("company") String company, @Path("id") String id);
 
         @GET("c/{company}/adresar/in:{regNo}.xml")
         Call<AddressBookResponse> findAddressBookByRegNo(@Path("company") String company, @Path("regNo") String regNo);
