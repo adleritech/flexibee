@@ -29,6 +29,9 @@ public class WinstromRequest extends Winstrom {
     @Element(name = "interni-doklad", required = false)
     private InternalDocument internalDocument;
 
+    @Element(name = "pohledavka", required = false)
+    private Receivable receivable;
+
 }
 
 
