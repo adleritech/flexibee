@@ -230,6 +230,7 @@ public class FlexibeeClientTest {
                 .vatRow("code:000P")
                 .vatReportRow("code:0.0.")
                 .company("code:PBENDA")
+                .bankAccount("code:BANKOVNÍ ÚČET")
                 .build())
             .build();
 

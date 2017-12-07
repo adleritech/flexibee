@@ -71,5 +71,8 @@ public class Receivable {
     @Element(name="bezPolozek", required = false)
     private Boolean noLines;
 
+    @Element(name="bankovniUcet", required = false)
+    private String bankAccount;
+
 
 }
