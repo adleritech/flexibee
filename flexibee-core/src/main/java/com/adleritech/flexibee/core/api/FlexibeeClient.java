@@ -12,7 +12,6 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -166,7 +165,7 @@ public class FlexibeeClient {
         @GET("/c/{company}/interni-doklad/{id}.xml")
         Call<InternalDocumentResponse> getInternalDocument(@Path("company") String company, @Path("id") String id);
 
-        @POST("/c/{company}/pohledavka.xml")
+        @PUT("/c/{company}/pohledavka.xml")
         Call<WinstromResponse> createReceivable(@Path("company") String company, @Body WinstromRequest request);
 
         @GET("/c/{company}/pohledavka/{id}.xml")
