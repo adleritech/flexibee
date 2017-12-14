@@ -74,5 +74,7 @@ public class Receivable {
     @Element(name="bankovniUcet", required = false)
     private String bankAccount;
 
+    @Element(name="poznam", required = false)
+    private String note;
 
 }
