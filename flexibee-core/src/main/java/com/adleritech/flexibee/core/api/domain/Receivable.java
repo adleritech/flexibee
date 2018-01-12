@@ -32,6 +32,12 @@ public class Receivable {
     @Element(name = "duzpPuv", required = false)
     private LocalDate timeOfSupply;
 
+    @Element(name = "datUcto", required = false)
+    private LocalDate dateCharged;
+
+    @Element(name = "datSplat", required = false)
+    private LocalDate dueDate;
+
     @Element(name="varSym", required = false)
     private String variableSymbol;
 
