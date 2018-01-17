@@ -10,7 +10,7 @@ public enum PaymentMethod {
     credit("formaUhr.zapocet"),
     undefined("formaUhr.nespec");
 
-    String label;
+    private final String label;
 
     PaymentMethod(String s) {
         label = s;

@@ -1,6 +1,7 @@
 package com.adleritech.flexibee.core.api;
 
 import com.adleritech.flexibee.core.api.domain.AddressBookResponse;
+import com.adleritech.flexibee.core.api.domain.BankResponse;
 import com.adleritech.flexibee.core.api.domain.InternalDocumentResponse;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoiceResponse;
 import com.adleritech.flexibee.core.api.domain.ReceivableResponse;
@@ -61,6 +62,13 @@ public class FlexibeeClient {
         return response.body();
     }
 
+
+    public WinstromResponse createBank(WinstromRequest winstromRequest) throws IOException, FlexibeeException {
+        Response<WinstromResponse> response = client.createBank(company, winstromRequest).execute();
+        handleErrorResponse(response);
+        return response.body();
+    }
+
     private void handleErrorResponse(Response response) throws FlexibeeException {
         if (response.code() == 404) {
             throw new NotFound();
@@ -107,6 +115,12 @@ public class FlexibeeClient {
 
     public InternalDocumentResponse getInternalDocument(String id) throws IOException, FlexibeeException {
         Response<InternalDocumentResponse> response = client.getInternalDocument(company, id).execute();
+        handleErrorResponse(response);
+        return response.body();
+    }
+
+    public BankResponse getBank(String id) throws IOException, FlexibeeException {
+        Response<BankResponse> response = client.getBank(company, id).execute();
         handleErrorResponse(response);
         return response.body();
     }
@@ -192,6 +206,11 @@ public class FlexibeeClient {
         @PUT("/c/{company}/zakazka.xml")
         Call<WinstromResponse> createOrder(@Path("company") String company, @Body WinstromRequest request);
 
+        @PUT("/c/{company}/banka.xml")
+        Call<WinstromResponse> createBank(@Path("company") String company, @Body WinstromRequest request);
+
+        @GET("/c/{company}/banka/{id}.xml")
+        Call<BankResponse> getBank(@Path("company") String company, @Path("id") String id);
     }
 
     public static class NotFound extends FlexibeeException {
