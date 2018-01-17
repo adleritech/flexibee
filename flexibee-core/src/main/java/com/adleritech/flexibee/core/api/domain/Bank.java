@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Path;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -77,4 +78,8 @@ public class Bank {
 
     @Element(name="typPohybuK", required = false)
     private AccountMovementType accountMovementType;
+
+    @Path("polozkyIntDokladu")
+    @ElementList(required = false, inline = true)
+    private List<BankItem> items;
 }
