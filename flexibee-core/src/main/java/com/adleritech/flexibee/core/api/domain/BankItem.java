@@ -14,17 +14,12 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Root(name = "faktura-vydana-polozka")
-public class IssuedInvoiceItem {
+@Root(name = "banka-polozka")
+public class BankItem {
 
     @Element(name = "nazev", required = false)
     private String name;
 
-    @Element(name = "mnozBaleni", required = false)
-    private BigDecimal amount;
-
-    @Element(name = "mnozMj", required = false)
-    private BigDecimal unitAmount;
     @Element(name = "szbDph", required = false)
     private BigDecimal vatRate;
 
@@ -37,13 +32,15 @@ public class IssuedInvoiceItem {
     @Element(name = "sumCelkem", required = false)
     private BigDecimal sumTotal;
 
-    @Element(name = "cenaMj", required = false)
-    private BigDecimal unitPrice;
-
-    @Element(name = "typCenyDphK", required = false)
-    private PriceKind priceKind;
-
     @Element(name = "typSzbDphK", required = false)
     private VatRateKind vatRateKind;
 
+    @Element(name="mena", required = false)
+    private String currency;
+
+    @Element(name="doklInt", required = false)
+    private String document;
+
+    @Element(name="typPolozkyK", required = false)
+    private ItemType itemType;
 }
