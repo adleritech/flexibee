@@ -1,10 +1,14 @@
 package com.adleritech.flexibee.core.api;
 
+import com.adleritech.flexibee.core.api.domain.AccountMovementType;
 import com.adleritech.flexibee.core.api.domain.AddressBook;
+import com.adleritech.flexibee.core.api.domain.Bank;
+import com.adleritech.flexibee.core.api.domain.BankItem;
 import com.adleritech.flexibee.core.api.domain.InternalDocument;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoice;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoiceItem;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoiceResponse;
+import com.adleritech.flexibee.core.api.domain.ItemType;
 import com.adleritech.flexibee.core.api.domain.Order;
 import com.adleritech.flexibee.core.api.domain.Receivable;
 import com.adleritech.flexibee.core.api.domain.VatRateKind;
@@ -17,6 +21,7 @@ import java.time.LocalDate;
 import java.util.Random;
 
 import static java.math.BigDecimal.ONE;
+import static java.math.BigDecimal.valueOf;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -241,6 +246,84 @@ public class FlexibeeClientTest {
 
         Receivable receivable = flexibeeClient.getReceivable(extId).getReceivable();
         assertThat(receivable.getId()).contains(response.getResults().get(0).getId());
+    }
+
+    @Test
+    public void createBank() throws Exception {
+        String extId = "ext:bank:123:456";
+
+        String varSymbol = "132456";
+        LocalDate rideFinishedAt = LocalDate.now();
+        BigDecimal amount = BigDecimal.TEN;
+        WinstromRequest request = WinstromRequest.builder()
+            .bank(Bank
+                .builder()
+                .id(singletonList(extId))
+                .documentType("code:STANDARD")
+                .variableSymbol(varSymbol)
+                .incomingNumber(varSymbol)
+                .description("Liftago Kredit")
+                .timeOfSupply(rideFinishedAt)
+                .vatFreeSum(amount)
+                .noLines(true)
+                .currency("code:CZK")
+                .primaryAccount("101")
+                .contraAccount("102")
+                .vatRow("code:000P")
+                .vatReportRow("code:0.0.")
+                .company("code:PBENDA")
+                .accountMovementType(AccountMovementType.DEBIT)
+                .build())
+            .build();
+
+        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
+        WinstromResponse response = flexibeeClient.createBank(request);
+        assertThat(response.getResults().get(0).getId()).isNotEmpty();
+        assertThat(response.isSuccess()).isTrue();
+
+        Bank bank = flexibeeClient.getBank(extId).getBank();
+        assertThat(bank.getId()).contains(response.getResults().get(0).getId());
+    }
+
+    @Test
+    public void createBankWithItems() throws Exception {
+        String extId = "ext:bank:123:458";
+
+        String varSymbol = "132456";
+        LocalDate rideFinishedAt = LocalDate.now();
+        WinstromRequest request = WinstromRequest.builder()
+            .bank(Bank
+                .builder()
+                .id(singletonList(extId))
+                .documentType("code:STANDARD")
+                .variableSymbol(varSymbol)
+                .incomingNumber(varSymbol)
+                .description("Liftago Kredit")
+                .timeOfSupply(rideFinishedAt)
+                .items(singletonList(
+                    BankItem.builder()
+                        .currency("code:CZK")
+                        .name("Item")
+                        .sumWithoutVat(valueOf(100))
+                        .vatRate(valueOf(21))
+                        .vatRateKind(VatRateKind.BASIC)
+                        .itemType(ItemType.ACCOUNTING)
+                        .build()
+                ))
+                .primaryAccount("101")
+                .contraAccount("102")
+                .company("code:PBENDA")
+                .accountMovementType(AccountMovementType.DEBIT)
+                .build())
+            .build();
+
+        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
+        WinstromResponse response = flexibeeClient.createBank(request);
+        assertThat(response.getResults().get(0).getId()).isNotEmpty();
+        assertThat(response.isSuccess()).isTrue();
+
+        Bank bank = flexibeeClient.getBank(extId).getBank();
+        assertThat(bank.getId()).contains(response.getResults().get(0).getId());
     }
 
     @Test(expected = FlexibeeClient.NotFound.class)
