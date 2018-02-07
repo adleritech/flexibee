@@ -21,6 +21,9 @@ public class Bank {
     @ElementList(required = false, inline = true, entry = "id")
     private List<String> id;
 
+    @Element(name = "kod", required = false)
+    private String code;
+
     @Element(name = "typDokl", required = false)
     private String documentType;
 
