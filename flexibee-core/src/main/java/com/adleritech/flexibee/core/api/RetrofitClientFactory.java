@@ -13,6 +13,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 class RetrofitClientFactory {
     private static final Logger LOGGER = LoggerFactory.getLogger("com.adleritech.flexibee.core.api.http");
@@ -36,6 +37,7 @@ class RetrofitClientFactory {
         httpClient.addInterceptor(loggingInterceptor);
         httpClient.followRedirects(true);
         httpClient.followSslRedirects(true);
+        httpClient.readTimeout(30, TimeUnit.SECONDS);
         return httpClient.build();
     }
 
