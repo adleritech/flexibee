@@ -71,5 +71,7 @@ public class InternalDocument {
     @Element(name="bezPolozek", required = false)
     private Boolean noLines;
 
+    @Element(name="stredisko", required = false)
+    private String department;
 
 }
