@@ -75,8 +75,8 @@ public class Bank {
     @Element(name="bezPolozek", required = false)
     private Boolean noLines;
 
-    @Element(name="bank", required = false)
-    private String banka;
+    @Element(name="banka", required = false)
+    private String bank;
 
 
     @Element(name="typPohybuK", required = false)
