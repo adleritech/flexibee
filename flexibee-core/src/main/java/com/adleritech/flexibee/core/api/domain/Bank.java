@@ -54,6 +54,9 @@ public class Bank {
     @Element(name="sumOsv", required = false)
     private BigDecimal vatFreeSum;
 
+    @Element(name="sumOsvMen", required = false)
+    private BigDecimal vatFreeSumCcy;
+
     @Element(name="sumCelkem", required = false)
     private BigDecimal totalSum;
 
