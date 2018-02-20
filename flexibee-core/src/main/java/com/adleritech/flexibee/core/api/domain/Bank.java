@@ -48,6 +48,9 @@ public class Bank {
     @Element(name="sumZklCelkem", required = false)
     private BigDecimal baseTotalSum;
 
+    @Element(name="sumCelkemMen", required = false)
+    private BigDecimal totalSumCcy;
+
     @Element(name="sumOsv", required = false)
     private BigDecimal vatFreeSum;
 
