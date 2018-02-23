@@ -46,4 +46,7 @@ public class IssuedInvoiceItem {
     @Element(name = "typSzbDphK", required = false)
     private VatRateKind vatRateKind;
 
+    @Element(name="typPolozkyK", required = false)
+    private IssuedInvoiceItemType type;
+
 }
