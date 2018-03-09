@@ -5,7 +5,7 @@
     <groupId>com.adleritech</groupId>
     <artifactId>flexibee</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.44-SNAPSHOT</version>
+    <version>0.0.43-SNAPSHOT</version>
     <modules>
         <module>flexibee-core</module>
     </modules>
