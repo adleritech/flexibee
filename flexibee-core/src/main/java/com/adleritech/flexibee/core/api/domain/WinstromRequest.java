@@ -35,6 +35,9 @@ public class WinstromRequest extends Winstrom {
     @Element(name = "banka", required = false)
     private Bank bank;
 
+    @Element(name = "zavazek", required = false)
+    private Obligation obligation;
+
 }
 
 

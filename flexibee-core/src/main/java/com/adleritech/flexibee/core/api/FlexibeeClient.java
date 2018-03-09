@@ -4,6 +4,7 @@ import com.adleritech.flexibee.core.api.domain.AddressBookResponse;
 import com.adleritech.flexibee.core.api.domain.BankResponse;
 import com.adleritech.flexibee.core.api.domain.InternalDocumentResponse;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoiceResponse;
+import com.adleritech.flexibee.core.api.domain.ObligationResponse;
 import com.adleritech.flexibee.core.api.domain.ReceivableResponse;
 import com.adleritech.flexibee.core.api.domain.WinstromRequest;
 import com.adleritech.flexibee.core.api.domain.WinstromResponse;
@@ -162,6 +163,18 @@ public class FlexibeeClient {
         return response.body();
     }
 
+    public WinstromResponse createObligation(WinstromRequest winstromRequest)  throws IOException, FlexibeeException {
+        Response<WinstromResponse> response = client.createObligation(company, winstromRequest).execute();
+        handleErrorResponse(response);
+        return response.body();
+    }
+
+    public ObligationResponse getObligation(String id) throws IOException, FlexibeeException {
+        Response<ObligationResponse> response = client.getObligation(company, id).execute();
+        handleErrorResponse(response);
+        return response.body();
+    }
+
     interface Api {
 
         @PUT("/c/{company}/faktura-vydana.xml")
@@ -211,6 +224,12 @@ public class FlexibeeClient {
 
         @GET("/c/{company}/banka/{id}.xml")
         Call<BankResponse> getBank(@Path("company") String company, @Path("id") String id);
+
+        @PUT("/c/{company}/zavazek.xml")
+        Call<WinstromResponse> createObligation(@Path("company") String company, @Body WinstromRequest request);
+
+        @GET("/c/{company}/zavazek/{id}.xml")
+        Call<ObligationResponse> getObligation(@Path("company") String company, @Path("id") String id);
     }
 
     public static class NotFound extends FlexibeeException {
