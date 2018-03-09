@@ -15,6 +15,7 @@ import com.adleritech.flexibee.core.api.domain.Receivable;
 import com.adleritech.flexibee.core.api.domain.VatRateKind;
 import com.adleritech.flexibee.core.api.domain.WinstromRequest;
 import com.adleritech.flexibee.core.api.domain.WinstromResponse;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -250,6 +251,7 @@ public class FlexibeeClientTest {
     }
 
     @Test
+    @Ignore
     public void createObligation() throws Exception {
         String extId = "ext:liftago:1235";
 
