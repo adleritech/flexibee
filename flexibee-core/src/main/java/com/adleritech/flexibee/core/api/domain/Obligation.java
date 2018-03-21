@@ -86,4 +86,6 @@ public class Obligation {
     @Element(name="rada", required = false)
     private String sequence;
 
+    @Element(name="stredisko", required = false)
+    private String department;
 }
