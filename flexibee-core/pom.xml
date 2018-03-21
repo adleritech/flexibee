@@ -3,7 +3,7 @@
     <parent>
         <artifactId>flexibee</artifactId>
         <groupId>com.adleritech</groupId>
-        <version>0.0.43-SNAPSHOT</version>
+        <version>0.0.45-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

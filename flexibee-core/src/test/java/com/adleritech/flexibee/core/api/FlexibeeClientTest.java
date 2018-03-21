@@ -9,11 +9,13 @@ import com.adleritech.flexibee.core.api.domain.IssuedInvoice;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoiceItem;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoiceResponse;
 import com.adleritech.flexibee.core.api.domain.ItemType;
+import com.adleritech.flexibee.core.api.domain.Obligation;
 import com.adleritech.flexibee.core.api.domain.Order;
 import com.adleritech.flexibee.core.api.domain.Receivable;
 import com.adleritech.flexibee.core.api.domain.VatRateKind;
 import com.adleritech.flexibee.core.api.domain.WinstromRequest;
 import com.adleritech.flexibee.core.api.domain.WinstromResponse;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -245,6 +247,48 @@ public class FlexibeeClientTest {
         assertThat(response.isSuccess()).isTrue();
 
         Receivable receivable = flexibeeClient.getReceivable(extId).getReceivable();
+        assertThat(receivable.getId()).contains(response.getResults().get(0).getId());
+    }
+
+    @Test
+    @Ignore
+    public void createObligation() throws Exception {
+        String extId = "ext:liftago:1235";
+
+        String varSymbol = "142456";
+        LocalDate rideFinishedAt = LocalDate.now();
+        BigDecimal amount = BigDecimal.TEN;
+        WinstromRequest request = WinstromRequest.builder()
+            .obligation(Obligation
+                .builder()
+                .id(singletonList(extId))
+                .documentType("code:OZSK")
+                .variableSymbol(varSymbol)
+                .incomingNumber(varSymbol)
+                .description("závazkové zrcadlo OPSK pro výplatu do LSK")
+                .timeOfSupply(rideFinishedAt)
+                .dueDate(rideFinishedAt)
+                .vatFreeSum(amount)
+                .noLines(true)
+                .currency("code:CZK")
+                .primaryAccount("code:395100")
+                .contraAccount("code:379200")
+                .vatRow("code:000P")
+                .vatReportRow("code:0.0.")
+                .company("code:400219161")
+                .bankAccount("code:BANKOVNÍ ÚČET")
+                .order("code:PBENDA")
+                .sequence("code:OZSK")
+                .build())
+            .build();
+
+        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
+
+        WinstromResponse response = flexibeeClient.createObligation(request);
+        assertThat(response.getResults().get(0).getId()).isNotEmpty();
+        assertThat(response.isSuccess()).isTrue();
+
+        Obligation receivable = flexibeeClient.getObligation(extId).getObligation();
         assertThat(receivable.getId()).contains(response.getResults().get(0).getId());
     }
 
