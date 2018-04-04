@@ -109,7 +109,7 @@ public class IssuedInvoiceTest {
                         .company("code:ABCFIRM1#")
                         .documentType("code:FAKTURA")
                         .issued(LocalDate.of(2017, 4, 2))
-                        .items(Arrays.asList(
+                        .items(new IssuedInvoiceItems(
                                 IssuedInvoiceItem.builder()
                                         .name("Bla bla jizdne")
                                         .amount(ONE)
@@ -132,7 +132,7 @@ public class IssuedInvoiceTest {
                 "        <typDokl>code:FAKTURA</typDokl>\n" +
                 "        <firma>code:ABCFIRM1#</firma>\n" +
                 "        <datVyst>2017-04-02</datVyst>\n" +
-                "        <polozkyFaktury class=\"java.util.Arrays$ArrayList\">\n" +
+                "        <polozkyFaktury removeAll=\"false\">\n" +
                 "            <faktura-vydana-polozka>\n" +
                 "                <nazev>Bla bla jizdne</nazev>\n" +
                 "                <mnozBaleni>1</mnozBaleni>\n" +
@@ -181,7 +181,7 @@ public class IssuedInvoiceTest {
                 .issuedInvoice(IssuedInvoice.builder()
                         .company("code:ČESKOSLOVENSKÁ0")
                         .documentType("code:FAKTURA")
-                        .items(Arrays.asList(
+                        .items(new IssuedInvoiceItems(
                                 IssuedInvoiceItem.builder()
                                         .name("Bla bla jizdne")
                                         .amount(ONE)
@@ -208,7 +208,7 @@ public class IssuedInvoiceTest {
                 "    <faktura-vydana>\n" +
                 "        <typDokl>code:FAKTURA</typDokl>\n" +
                 "        <firma>code:ČESKOSLOVENSKÁ0</firma>\n" +
-                "        <polozkyFaktury class=\"java.util.Arrays$ArrayList\">\n" +
+                "        <polozkyFaktury removeAll=\"false\">\n" +
                 "            <faktura-vydana-polozka>\n" +
                 "                <nazev>Bla bla jizdne</nazev>\n" +
                 "                <mnozBaleni>1</mnozBaleni>\n" +

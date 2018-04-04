@@ -7,6 +7,7 @@ import com.adleritech.flexibee.core.api.domain.BankItem;
 import com.adleritech.flexibee.core.api.domain.InternalDocument;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoice;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoiceItem;
+import com.adleritech.flexibee.core.api.domain.IssuedInvoiceItems;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoiceResponse;
 import com.adleritech.flexibee.core.api.domain.ItemType;
 import com.adleritech.flexibee.core.api.domain.Obligation;
@@ -55,7 +56,7 @@ public class FlexibeeClientTest {
                         .company("code:ABCFIRM1#")
                         .documentType("code:faktura")
                         .paymentForm("code:KARTA")
-                        .items(singletonList(
+                        .items(new IssuedInvoiceItems(
                                 IssuedInvoiceItem.builder()
                                         .name("Bla bla jizdne")
                                         .amount(ONE)
@@ -71,6 +72,9 @@ public class FlexibeeClientTest {
         WinstromResponse response = flexibeeClient.createInvoice(request);
         assertThat(response.getResults().get(0).getId()).isNotEmpty();
         assertThat(response.isSuccess()).isTrue();
+
+        IssuedInvoiceResponse issuedInvoice = flexibeeClient.getIssuedInvoice(response.getResults().get(0).getId());
+        assertThat(issuedInvoice).isNotNull();
     }
 
     @Test
@@ -79,7 +83,7 @@ public class FlexibeeClientTest {
                 .issuedInvoice(IssuedInvoice.builder()
                         .company("code:ABCFIRM1#")
                         .documentType("code:faktura")
-                        .items(singletonList(
+                        .items(new IssuedInvoiceItems(
                                 IssuedInvoiceItem.builder()
                                         .name("Invoice line")
                                         .amount(ONE)
@@ -141,7 +145,7 @@ public class FlexibeeClientTest {
                         IssuedInvoice.builder()
                                 .company("code:ABCFIRM1#")
                                 .documentType("code:faktura")
-                                .items(singletonList(
+                                .items(new IssuedInvoiceItems(
                                         IssuedInvoiceItem.builder()
                                                 .name("Invoice line")
                                                 .amount(ONE)
