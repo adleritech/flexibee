@@ -16,6 +16,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Root(name = "faktura-vydana-polozka")
 public class IssuedInvoiceItem {
+    @Element(name = "id", required = false)
+    private String id;
 
     @Element(name = "nazev", required = false)
     private String name;
