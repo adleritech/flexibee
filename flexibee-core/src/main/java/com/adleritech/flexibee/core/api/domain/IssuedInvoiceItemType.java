@@ -3,6 +3,7 @@ package com.adleritech.flexibee.core.api.domain;
 public enum IssuedInvoiceItemType {
 
     GENERAL("typPolozky.obecny"),
+    CATALOGUE("typPolozky.katalog"),
     DEPOSIT("typPolozky.odpocetZalohy");
 
     private final String label;
