@@ -53,8 +53,8 @@ public class IssuedInvoice {
     @Element(name = "formaUhradyCis", required = false)
     private String paymentForm;
 
-    @ElementList(name = "polozkyFaktury", required = false)
-    private List<IssuedInvoiceItem> items;
+    @Element(name = "polozkyFaktury", required = false)
+    private IssuedInvoiceItems items;
 
     @ElementList(name="odpocty-zaloh", required = false)
     private List<Deposit> deposits;
