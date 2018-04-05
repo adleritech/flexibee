@@ -75,6 +75,7 @@ public class FlexibeeClientTest {
 
         IssuedInvoiceResponse issuedInvoice = flexibeeClient.getIssuedInvoice(response.getResults().get(0).getId());
         assertThat(issuedInvoice).isNotNull();
+        assertThat(issuedInvoice.getIssuedInvoice().getRegNo()).isNotNull();
     }
 
     @Test

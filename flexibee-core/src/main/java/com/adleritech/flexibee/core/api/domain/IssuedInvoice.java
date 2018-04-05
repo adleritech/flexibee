@@ -29,6 +29,9 @@ public class IssuedInvoice {
     @Element(name = "firma", required = false)
     private String company;
 
+    @Element(name = "ic", required = false)
+    private String regNo;
+
     @Element(name = "datVyst", required = false)
     private LocalDate issued;
 
