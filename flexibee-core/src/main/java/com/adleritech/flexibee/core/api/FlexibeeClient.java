@@ -8,8 +8,10 @@ import com.adleritech.flexibee.core.api.domain.ObligationResponse;
 import com.adleritech.flexibee.core.api.domain.ReceivableResponse;
 import com.adleritech.flexibee.core.api.domain.WinstromRequest;
 import com.adleritech.flexibee.core.api.domain.WinstromResponse;
+import com.adleritech.flexibee.core.api.transformers.Factory;
 import lombok.Getter;
 import okhttp3.ResponseBody;
+import org.simpleframework.xml.Serializer;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -19,12 +21,15 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 import java.io.IOException;
+import java.io.StringWriter;
 
 public class FlexibeeClient {
 
     private static final String API_BASE_URL = "https://demo.flexibee.eu:5434";
 
     private final String company;
+
+    private final Serializer xmlPrinter = Factory.persister();
 
     @Getter
     private final Api client;
@@ -41,43 +46,59 @@ public class FlexibeeClient {
 
     public WinstromResponse createInvoice(WinstromRequest winstromRequest) throws IOException, FlexibeeException {
         Response<WinstromResponse> response = client.issueInvoice(company, winstromRequest).execute();
-        handleErrorResponse(response);
+        handleErrorResponse(response, winstromRequest);
         return response.body();
     }
 
     public WinstromResponse createInternalDocument(WinstromRequest winstromRequest) throws IOException, FlexibeeException {
         Response<WinstromResponse> response = client.createInternalDocument(company, winstromRequest).execute();
-        handleErrorResponse(response);
+        handleErrorResponse(response, winstromRequest);
         return response.body();
     }
 
     public WinstromResponse createAddressBook(WinstromRequest winstromRequest) throws IOException, FlexibeeException {
         Response<WinstromResponse> response = client.createAddressBook(company, winstromRequest).execute();
-        handleErrorResponse(response);
+        handleErrorResponse(response, winstromRequest);
         return response.body();
     }
 
     public WinstromResponse createOrder(WinstromRequest winstromRequest) throws IOException, FlexibeeException {
         Response<WinstromResponse> response = client.createOrder(company, winstromRequest).execute();
-        handleErrorResponse(response);
+        handleErrorResponse(response, winstromRequest);
         return response.body();
     }
 
 
     public WinstromResponse createBank(WinstromRequest winstromRequest) throws IOException, FlexibeeException {
         Response<WinstromResponse> response = client.createBank(company, winstromRequest).execute();
-        handleErrorResponse(response);
+        handleErrorResponse(response, winstromRequest);
         return response.body();
     }
 
     private void handleErrorResponse(Response response) throws FlexibeeException {
+        handleErrorResponse(response, null);
+    }
+
+    private void handleErrorResponse(Response response, WinstromRequest winstromRequest) throws FlexibeeException {
         if (response.code() == 404) {
             throw new NotFound();
         }
         if (!response.isSuccessful()) {
+            String request = "n/a";
+            if( winstromRequest != null) {
+                StringWriter writer = new StringWriter(200);
+                try {
+                    xmlPrinter.write(winstromRequest, writer);
+                    request = writer.toString();
+                } catch (Exception e) {
+                    // ignore
+                }
+            }
+
             throw new FlexibeeException("Flexibee error" +
                 " httpStatusCode=" + response.code() +
-                " errorBody=" + getErrorBody(response)
+                " errorBody=" + getErrorBody(response) +
+                "\n request=" + request
             );
         }
     }
@@ -153,7 +174,7 @@ public class FlexibeeClient {
 
     public WinstromResponse createReceivable(WinstromRequest winstromRequest)  throws IOException, FlexibeeException {
         Response<WinstromResponse> response = client.createReceivable(company, winstromRequest).execute();
-        handleErrorResponse(response);
+        handleErrorResponse(response, winstromRequest);
         return response.body();
     }
 
@@ -165,7 +186,7 @@ public class FlexibeeClient {
 
     public WinstromResponse createObligation(WinstromRequest winstromRequest)  throws IOException, FlexibeeException {
         Response<WinstromResponse> response = client.createObligation(company, winstromRequest).execute();
-        handleErrorResponse(response);
+        handleErrorResponse(response, winstromRequest);
         return response.body();
     }
 
