@@ -56,6 +56,15 @@ public class Obligation {
     @Element(name="sumCelkem", required = false)
     private BigDecimal totalSum;
 
+    @Element(name="sumZklCelkemMen", required = false)
+    private BigDecimal baseTotalSumCcy;
+
+    @Element(name="sumOsvMen", required = false)
+    private BigDecimal vatFreeSumCcy;
+
+    @Element(name="sumCelkemMen", required = false)
+    private BigDecimal totalSumCcy;
+
     @Element(name="mena", required = false)
     private String currency;
 

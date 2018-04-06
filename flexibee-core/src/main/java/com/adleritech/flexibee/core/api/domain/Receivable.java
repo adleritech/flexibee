@@ -56,6 +56,12 @@ public class Receivable {
     @Element(name="sumCelkem", required = false)
     private BigDecimal totalSum;
 
+    @Element(name="sumOsvMen", required = false)
+    private BigDecimal vatFreeSumCcy;
+
+    @Element(name="sumCelkemMen", required = false)
+    private BigDecimal totalSumCCy;
+
     @Element(name="mena", required = false)
     private String currency;
 
