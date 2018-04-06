@@ -45,6 +45,9 @@ public class IssuedInvoiceItem {
     @Element(name = "typCenyDphK", required = false)
     private PriceKind priceKind;
 
+    @Element(name="sumZklCelkem", required = false)
+    private BigDecimal baseTotalSum;
+
     @Element(name = "typSzbDphK", required = false)
     private VatRateKind vatRateKind;
 
