@@ -68,4 +68,13 @@ public class IssuedInvoice {
     @Element(name="varSym", required = false)
     private String variableSymbol;
 
+    @Element(name="sumZklCelkem", required = false)
+    private BigDecimal baseTotalSum;
+
+    @Element(name="sumCelkZakl", required = false)
+    private BigDecimal sumTotalWithoutVat;
+
+    @Element(name="sumCelkem", required = false)
+    private BigDecimal sumTotal;
+
 }
