@@ -196,7 +196,16 @@ public class FlexibeeClient {
         return response.body();
     }
 
+    public WinstromResponse createReceivedInvoice(WinstromRequest winstromRequest) throws IOException, FlexibeeException {
+        Response<WinstromResponse> response = client.receivedInvoice(company, winstromRequest).execute();
+        handleErrorResponse(response, winstromRequest);
+        return response.body();
+    }
+
     interface Api {
+
+        @PUT("/c/{company}/faktura-prijata.xml")
+        Call<WinstromResponse> receivedInvoice(@Path("company") String company, @Body WinstromRequest request);
 
         @PUT("/c/{company}/faktura-vydana.xml")
         Call<WinstromResponse> issueInvoice(@Path("company") String company, @Body WinstromRequest request);

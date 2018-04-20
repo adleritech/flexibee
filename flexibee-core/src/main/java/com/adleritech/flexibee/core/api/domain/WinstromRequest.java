@@ -23,6 +23,9 @@ public class WinstromRequest extends Winstrom {
     @Element(name = "zakazka", required = false)
     private Order order;
 
+    @Element(name = "faktura-prijata", required = false)
+    private ReceivedInvoice receivedInvoice;
+
     @Element(name = "faktura-vydana", required = false)
     private IssuedInvoice issuedInvoice;
 
