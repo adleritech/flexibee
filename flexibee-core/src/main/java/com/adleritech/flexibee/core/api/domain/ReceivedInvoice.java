@@ -42,7 +42,7 @@ public class ReceivedInvoice {
     @Element(name = "bezPolozek", required = false)
     private Boolean withoutItems;
 
-    @Element(name = "sumZklCelkem", required = false)
+    @Element(name = "sumCelkZakl", required = false)
     private BigDecimal baseTotalSum;
 
     @Element(name = "sumOsv", required = false)
