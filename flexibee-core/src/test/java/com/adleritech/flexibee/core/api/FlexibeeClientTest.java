@@ -13,6 +13,7 @@ import com.adleritech.flexibee.core.api.domain.ItemType;
 import com.adleritech.flexibee.core.api.domain.Obligation;
 import com.adleritech.flexibee.core.api.domain.Order;
 import com.adleritech.flexibee.core.api.domain.Receivable;
+import com.adleritech.flexibee.core.api.domain.ReceivedInvoice;
 import com.adleritech.flexibee.core.api.domain.VatRateKind;
 import com.adleritech.flexibee.core.api.domain.WinstromRequest;
 import com.adleritech.flexibee.core.api.domain.WinstromResponse;
@@ -382,4 +383,22 @@ public class FlexibeeClientTest {
         FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         flexibeeClient.getInternalDocument(extId).getInternalDocument();
     }
+
+    @Test
+    public void createReceivedInvoice() throws Exception {
+        WinstromRequest request = WinstromRequest.builder()
+            .receivedInvoice(ReceivedInvoice.builder()
+                .company("code:ABCFIRM1#")
+                .documentType("code:faktura")
+                .incomingNumber("112233")
+                .withoutItems(true)
+                .baseTotalSum(BigDecimal.valueOf(1000))
+                .build()).build();
+
+        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
+        WinstromResponse response = flexibeeClient.createReceivedInvoice(request);
+        assertThat(response.getResults().get(0).getId()).isNotEmpty();
+        assertThat(response.isSuccess()).isTrue();
+    }
+
 }
