@@ -41,8 +41,8 @@ public class ReceivedInvoice {
 
     @Element(name = "bezPolozek", required = false)
     private Boolean withoutItems;
-
-    @Element(name = "sumCelkZakl", required = false)
+    //sumZklCelkem
+    @Element(name = "sumZklZakl", required = false)
     private BigDecimal baseTotalSum;
 
     @Element(name = "sumOsv", required = false)
@@ -74,4 +74,14 @@ public class ReceivedInvoice {
 
     @Element(name = "bankovniUcet", required = false)
     private String bankAccount;
+
+    @Element(name="clenKonVykDph", required = false)
+    private String vatReportRow;
+
+    @Element(name = "dphZaklUcet", required = false)
+    private String vatBaseAccount;
+
+    @Element(name="clenDph", required = false)
+    private String vatRow;
+
 }
