@@ -61,7 +61,7 @@ public class IssuedInvoiceTest {
     public void parseFromObjectToXml() throws Exception {
         String xml = "<winstrom version=\"1.0\">\n" +
                 "    <adresar>\n" +
-                "        <id>code</id>\n" +
+                "        <id>123</id>\n" +
                 "        <ic>12345678</ic>\n" +
                 "        <psc>150 </psc>\n" +
                 "        <nazev>Papírnictví</nazev>\n" +
@@ -71,6 +71,7 @@ public class IssuedInvoiceTest {
                 "        <kod>PBENDA</kod>\n" +
                 "    </adresar>\n" +
                 "    <faktura-vydana>\n" +
+                "        <id>456</id>\n" +
                 "        <typDokl>code:FAKTURA</typDokl>\n" +
                 "        <firma>code:PBENDA</firma>\n" +
                 "    </faktura-vydana>\n" +
@@ -79,13 +80,14 @@ public class IssuedInvoiceTest {
         WinstromRequest envelope = WinstromRequest.builder()
                 .issuedInvoice(
                         IssuedInvoice.builder()
+                                .id(Collections.singletonList("456"))
                                 .company("code:PBENDA")
                                 .documentType("code:FAKTURA")
                                 .build())
                 .addressBook(
                         AddressBook.builder()
                                 .code("PBENDA")
-                                .id(Collections.singletonList("code"))
+                                .id(Collections.singletonList("123"))
                                 .name("Papírnictví")
                                 .street("Plzeňská")
                                 .city("Praha ")
