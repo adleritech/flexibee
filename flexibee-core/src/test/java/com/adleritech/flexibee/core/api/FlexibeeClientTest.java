@@ -43,11 +43,14 @@ public class FlexibeeClientTest {
 
         FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         WinstromResponse response = flexibeeClient.createInvoice(request);
-        assertThat(response.getResults().get(0).getId()).isNotEmpty();
+        String invoiceId = response.getResults().get(0).getId();
+        assertThat(invoiceId).isNotEmpty();
         assertThat(response.isSuccess()).isTrue();
 
-        IssuedInvoiceResponse issuedInvoice = flexibeeClient.getIssuedInvoice(response.getResults().get(0).getId());
+        IssuedInvoiceResponse issuedInvoice = flexibeeClient.getIssuedInvoice(invoiceId);
         assertThat(issuedInvoice).isNotNull();
+
+        flexibeeClient.removeInvoice(invoiceId);
     }
 
     @Test

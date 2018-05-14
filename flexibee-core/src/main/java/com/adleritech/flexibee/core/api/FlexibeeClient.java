@@ -15,6 +15,7 @@ import org.simpleframework.xml.Serializer;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -202,6 +203,11 @@ public class FlexibeeClient {
         return response.body();
     }
 
+    public void removeInvoice(String invoiceId) throws FlexibeeException, IOException {
+        Response<Void> response = client.removeInvoice(company, invoiceId).execute();
+        handleErrorResponse(response, null);
+    }
+
     interface Api {
 
         @PUT("/c/{company}/faktura-prijata.xml")
@@ -215,6 +221,9 @@ public class FlexibeeClient {
 
         @GET("/c/{company}/faktura-vydana/{id}.xml")
         Call<IssuedInvoiceResponse> getIssuedInvoice(@Path("company") String company, @Path("id") String id);
+
+        @DELETE("/c/{company}/faktura-vydana/{id}.pdf")
+        Call<Void> removeInvoice(@Path("company") String company, @Path("id") String id);
 
         @PUT("/c/{company}/interni-doklad.xml")
         Call<WinstromResponse> createInternalDocument(@Path("company") String company, @Body WinstromRequest request);
