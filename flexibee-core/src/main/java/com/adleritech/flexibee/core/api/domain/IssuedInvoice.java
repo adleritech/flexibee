@@ -77,4 +77,7 @@ public class IssuedInvoice {
     @Element(name="sumCelkem", required = false)
     private BigDecimal sumTotal;
 
+    @Element(name="zaokrNaSumK", required = false)
+    private RoundingPrecision roundingPrecision;
+
 }
