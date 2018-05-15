@@ -2,6 +2,7 @@ package com.adleritech.flexibee.core.api;
 
 import com.adleritech.flexibee.core.api.domain.AccountMovementType;
 import com.adleritech.flexibee.core.api.domain.AddressBook;
+import com.adleritech.flexibee.core.api.domain.RoundingPrecision;
 import com.adleritech.flexibee.core.api.domain.Bank;
 import com.adleritech.flexibee.core.api.domain.BankItem;
 import com.adleritech.flexibee.core.api.domain.InternalDocument;
@@ -12,6 +13,7 @@ import com.adleritech.flexibee.core.api.domain.IssuedInvoiceResponse;
 import com.adleritech.flexibee.core.api.domain.ItemType;
 import com.adleritech.flexibee.core.api.domain.Obligation;
 import com.adleritech.flexibee.core.api.domain.Order;
+import com.adleritech.flexibee.core.api.domain.PaymentStatus;
 import com.adleritech.flexibee.core.api.domain.Receivable;
 import com.adleritech.flexibee.core.api.domain.ReceivedInvoice;
 import com.adleritech.flexibee.core.api.domain.VatRateKind;
@@ -49,6 +51,31 @@ public class FlexibeeClientTest {
 
         IssuedInvoiceResponse issuedInvoice = flexibeeClient.getIssuedInvoice(invoiceId);
         assertThat(issuedInvoice).isNotNull();
+
+        flexibeeClient.removeInvoice(invoiceId);
+    }
+
+    @Test
+    public void createDeposit() throws Exception {
+        WinstromRequest request = WinstromRequest.builder()
+            .issuedInvoice(IssuedInvoice.builder()
+                .documentType("code:ZÁLOHA")
+                .paymentStatus(PaymentStatus.MANUALLY)
+                .roundingPrecision(RoundingPrecision.UNITS)
+                .items(new IssuedInvoiceItems(
+                    IssuedInvoiceItem.builder().unitPrice(BigDecimal.valueOf(124.20)).vatRateKind(VatRateKind.FREE).build())
+                )
+                .build()).build();
+
+        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
+        WinstromResponse response = flexibeeClient.createInvoice(request);
+        String invoiceId = response.getResults().get(0).getId();
+        assertThat(invoiceId).isNotEmpty();
+        assertThat(response.isSuccess()).isTrue();
+
+        IssuedInvoiceResponse issuedInvoice = flexibeeClient.getIssuedInvoice(invoiceId);
+        assertThat(issuedInvoice).isNotNull();
+        assertThat(issuedInvoice.getIssuedInvoice().getSumTotal()).isEqualByComparingTo("125");
 
         flexibeeClient.removeInvoice(invoiceId);
     }
