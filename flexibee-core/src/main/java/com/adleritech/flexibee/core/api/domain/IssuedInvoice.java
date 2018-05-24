@@ -41,9 +41,6 @@ public class IssuedInvoice {
     @Element(name = "formaUhrK", required = false)
     private PaymentMethod paymentMethod;
 
-    @Element(name = "formaUhradyCis", required = false)
-    private String paymentMethodCode;
-
     @Element(name = "duzpPuv", required = false)
     private LocalDate timeOfSupply;
 
