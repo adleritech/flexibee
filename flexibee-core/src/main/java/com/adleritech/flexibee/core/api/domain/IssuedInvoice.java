@@ -80,4 +80,19 @@ public class IssuedInvoice {
     @Element(name="zaokrNaSumK", required = false)
     private RoundingPrecision roundingPrecision;
 
+    @Element(name="primUcet", required = false)
+    private String primaryAccount;
+
+    @Element(name="protiUcet", required = false)
+    private String contraAccount;
+
+    @Element(name="dphZaklUcet", required = false)
+    private String vatBaseAccount;
+
+    @Element(name="stredisko", required = false)
+    private String department;
+
+    @Element(name="clenKonVykDph", required = false)
+    private String vatReportRow;
+
 }
