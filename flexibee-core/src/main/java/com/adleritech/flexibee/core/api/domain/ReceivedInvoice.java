@@ -45,6 +45,9 @@ public class ReceivedInvoice {
     @Element(name = "sumZklZakl", required = false)
     private BigDecimal baseTotalSum;
 
+    @Element(name = "sumCelkZakl", required = false)
+    private BigDecimal baseTotalWithVat;
+
     @Element(name = "sumOsv", required = false)
     private BigDecimal vatFreeSum;
 
