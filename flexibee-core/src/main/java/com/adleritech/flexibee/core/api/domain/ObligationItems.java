@@ -26,4 +26,7 @@ public class ObligationItems {
     @Attribute(name = "removeAll", required = false)
     private Boolean removeAllItems;
 
+    public List<ObligationItem> getItems() {
+        return items;
+    }
 }
