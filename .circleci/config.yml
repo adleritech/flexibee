@@ -20,6 +20,6 @@ jobs:
           key: flexibee-{{ checksum "pom.xml" }}
 
       - store_test_results:
-          path: target/surefire-reports
+          path: flexibee-core/target/surefire-reports
           destination: surefire-reports/
 
