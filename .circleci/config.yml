@@ -1,0 +1,25 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/work
+    docker:
+      - image: "ltgdocker/circleci-openjdk"
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - flexibee-{{ checksum "pom.xml" }}
+
+      - run: mvn test
+
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: flexibee-{{ checksum "pom.xml" }}
+
+      - store_test_results:
+          path: target/surefire-reports
+          destination: surefire-reports/
+
