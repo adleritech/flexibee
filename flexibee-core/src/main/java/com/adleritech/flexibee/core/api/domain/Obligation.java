@@ -98,7 +98,7 @@ public class Obligation {
     @Element(name="stredisko", required = false)
     private String department;
 
-    @ElementList(name = "polozkyFaktury", required = false)
+    @Element(name = "polozkyFaktury", required = false)
     private ObligationItems items;
 
 }
