@@ -19,6 +19,12 @@ public class ObligationItem {
     @Element(name = "nazev", required = false)
     private String name;
 
+    @Element(name = "kopZklMdUcet", required = false)
+    private Boolean debitSideCopy;
+
+    @Element(name = "kopZklDalUcet", required = false)
+    private Boolean creditSideCopy;
+
     @Element(name = "zklMdUcet", required = false)
     private String debitSide;
 

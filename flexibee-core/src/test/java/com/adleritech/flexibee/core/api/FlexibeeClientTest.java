@@ -338,7 +338,11 @@ public class FlexibeeClientTest {
             .itemType(ItemType.ACCOUNTING)
             .currency("code:CZK")
             .vatRateKind(VatRateKind.FREE)
-            .sumVat(amount)
+            .sumTotal(amount)
+            .creditSideCopy(false)
+            .creditSide("103")
+            .debitSideCopy(false)
+            .debitSide("104")
             .build();
 
         String varSymbol = "142456";
