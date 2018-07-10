@@ -55,4 +55,7 @@ public class ObligationItem {
     @Element(name = "doklFak", required = false)
     private String relDoc;
 
+    @Element(name="clenKonVykDph", required = false)
+    private String vatReportRow;
+
 }
