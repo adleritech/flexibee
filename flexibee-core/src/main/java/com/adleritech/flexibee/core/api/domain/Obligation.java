@@ -32,6 +32,9 @@ public class Obligation {
     @Element(name = "duzpPuv", required = false)
     private LocalDate timeOfSupply;
 
+    @Element(name = "duzpUcto", required = false)
+    private LocalDate taxableFulfillment;
+
     @Element(name = "datUcto", required = false)
     private LocalDate dateCharged;
 
