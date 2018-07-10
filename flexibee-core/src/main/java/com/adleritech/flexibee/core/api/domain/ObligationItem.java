@@ -58,4 +58,7 @@ public class ObligationItem {
     @Element(name="clenKonVykDph", required = false)
     private String vatReportRow;
 
+    @Element(name="clenDph", required = false)
+    private String vatRow;
+
 }
