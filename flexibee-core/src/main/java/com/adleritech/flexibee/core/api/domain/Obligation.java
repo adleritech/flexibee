@@ -92,6 +92,9 @@ public class Obligation {
     @Element(name="bankovniUcet", required = false)
     private String bankAccount;
 
+    @Element(name="banSpojDod", required = false)
+    private String supplierBankAccount;
+
     @Element(name="poznam", required = false)
     private String note;
 
