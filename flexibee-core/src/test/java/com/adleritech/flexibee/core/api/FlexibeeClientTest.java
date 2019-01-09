@@ -2,7 +2,6 @@ package com.adleritech.flexibee.core.api;
 
 import com.adleritech.flexibee.core.api.domain.AccountMovementType;
 import com.adleritech.flexibee.core.api.domain.AddressBook;
-import com.adleritech.flexibee.core.api.domain.RoundingPrecision;
 import com.adleritech.flexibee.core.api.domain.Bank;
 import com.adleritech.flexibee.core.api.domain.BankItem;
 import com.adleritech.flexibee.core.api.domain.InternalDocument;
@@ -12,14 +11,16 @@ import com.adleritech.flexibee.core.api.domain.IssuedInvoiceItems;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoiceResponse;
 import com.adleritech.flexibee.core.api.domain.ItemType;
 import com.adleritech.flexibee.core.api.domain.Obligation;
+import com.adleritech.flexibee.core.api.domain.ObligationItem;
+import com.adleritech.flexibee.core.api.domain.ObligationItems;
 import com.adleritech.flexibee.core.api.domain.Order;
 import com.adleritech.flexibee.core.api.domain.PaymentStatus;
 import com.adleritech.flexibee.core.api.domain.Receivable;
 import com.adleritech.flexibee.core.api.domain.ReceivedInvoice;
+import com.adleritech.flexibee.core.api.domain.RoundingPrecision;
 import com.adleritech.flexibee.core.api.domain.VatRateKind;
 import com.adleritech.flexibee.core.api.domain.WinstromRequest;
 import com.adleritech.flexibee.core.api.domain.WinstromResponse;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -287,7 +288,6 @@ public class FlexibeeClientTest {
     }
 
     @Test
-    @Ignore
     public void createObligation() throws Exception {
         String extId = "ext:liftago:1235";
 
@@ -307,13 +307,68 @@ public class FlexibeeClientTest {
                 .vatFreeSum(amount)
                 .noLines(true)
                 .currency("code:CZK")
-                .primaryAccount("code:395100")
-                .contraAccount("code:379200")
-                .vatRow("code:000P")
+                .primaryAccount("101")
+                .contraAccount("102")
+                .vatRow("code:40-41")
                 .vatReportRow("code:0.0.")
                 .company("code:400219161")
                 .bankAccount("code:BANKOVNÍ ÚČET")
-                .order("code:PBENDA")
+                .company("code:PBENDA")
+                .sequence("code:OZSK")
+                .build())
+            .build();
+
+        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
+
+        WinstromResponse response = flexibeeClient.createObligation(request);
+        assertThat(response.getResults().get(0).getId()).isNotEmpty();
+        assertThat(response.isSuccess()).isTrue();
+
+        Obligation receivable = flexibeeClient.getObligation(extId).getObligation();
+        assertThat(receivable.getId()).contains(response.getResults().get(0).getId());
+    }
+
+    @Test
+    public void createObligationWithItems() throws Exception {
+        String extId = "ext:liftago:1236";
+
+        BigDecimal amount = BigDecimal.TEN;
+        ObligationItem item = ObligationItem.builder()
+            .name("Item")
+            .itemType(ItemType.ACCOUNTING)
+            .currency("code:CZK")
+            .vatRateKind(VatRateKind.FREE)
+            .vatRow("code:000P")
+            .vatRowCopy(false)
+            .sumTotal(amount)
+            .creditSideCopy(false)
+            .creditSide("103")
+            .debitSideCopy(false)
+            .debitSide("104")
+            .build();
+
+        String varSymbol = "142456";
+        LocalDate rideFinishedAt = LocalDate.now();
+        WinstromRequest request = WinstromRequest.builder()
+            .obligation(Obligation
+                .builder()
+                .id(singletonList(extId))
+                .documentType("code:OZSK")
+                .variableSymbol(varSymbol)
+                .incomingNumber(varSymbol)
+                .description("závazkové zrcadlo OPSK pro výplatu do LSK")
+                .timeOfSupply(rideFinishedAt)
+                .taxableFulfillment(rideFinishedAt)
+                .dueDate(rideFinishedAt)
+                .items(new ObligationItems(item))
+                .currency("code:CZK")
+                .primaryAccount("101")
+                .contraAccount("102")
+                .vatRow("code:40-41")
+                .vatReportRow("code:0.0.")
+                .company("code:400219161")
+                .bankAccount("code:BANKOVNÍ ÚČET")
+                .company("code:PBENDA")
                 .sequence("code:OZSK")
                 .build())
             .build();

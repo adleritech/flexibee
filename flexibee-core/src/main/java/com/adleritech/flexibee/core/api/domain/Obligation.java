@@ -32,6 +32,9 @@ public class Obligation {
     @Element(name = "duzpPuv", required = false)
     private LocalDate timeOfSupply;
 
+    @Element(name = "duzpUcto", required = false)
+    private LocalDate taxableFulfillment;
+
     @Element(name = "datUcto", required = false)
     private LocalDate dateCharged;
 
@@ -89,6 +92,9 @@ public class Obligation {
     @Element(name="bankovniUcet", required = false)
     private String bankAccount;
 
+    @Element(name="banSpojDod", required = false)
+    private String supplierBankAccount;
+
     @Element(name="poznam", required = false)
     private String note;
 
@@ -97,4 +103,8 @@ public class Obligation {
 
     @Element(name="stredisko", required = false)
     private String department;
+
+    @Element(name = "polozkyFaktury", required = false)
+    private ObligationItems items;
+
 }

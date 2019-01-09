@@ -44,6 +44,9 @@ public class IssuedInvoice {
     @Element(name = "duzpPuv", required = false)
     private LocalDate timeOfSupply;
 
+    @Element(name = "datUcto", required = false)
+    private LocalDate dateCharged;
+
     @Element(name = "bezPolozek", required = false)
     private Boolean withoutItems;
 

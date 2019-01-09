@@ -9,7 +9,9 @@ import com.adleritech.flexibee.core.api.domain.ReceivableResponse;
 import com.adleritech.flexibee.core.api.domain.WinstromRequest;
 import com.adleritech.flexibee.core.api.domain.WinstromResponse;
 import com.adleritech.flexibee.core.api.transformers.Factory;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 import okhttp3.ResponseBody;
 import org.simpleframework.xml.Serializer;
 import retrofit2.Call;
@@ -21,8 +23,10 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
+import javax.net.ssl.HostnameVerifier;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.security.KeyStore;
 
 public class FlexibeeClient {
 
@@ -36,13 +40,16 @@ public class FlexibeeClient {
     private final Api client;
 
     public FlexibeeClient(String username, String password, String company) {
-        this.company = company;
-        client = RetrofitClientFactory.createService(Api.class, API_BASE_URL, username, password);
+        this(username, password, company, API_BASE_URL);
     }
 
     public FlexibeeClient(String username, String password, String company, String apiBaseUrl) {
+        this(username, password, company, apiBaseUrl, null);
+    }
+
+    public FlexibeeClient(String username, String password, String company, String apiBaseUrl, SSLConfig sslConfig) {
         this.company = company;
-        client = RetrofitClientFactory.createService(Api.class, apiBaseUrl, username, password);
+        client = RetrofitClientFactory.createService(Api.class, apiBaseUrl, username, password, sslConfig);
     }
 
     public WinstromResponse createInvoice(WinstromRequest winstromRequest) throws IOException, FlexibeeException {
@@ -283,4 +290,15 @@ public class FlexibeeClient {
         }
     }
 
+    /**
+     * Support for custom SSL configuration
+     */
+    @AllArgsConstructor
+    @Getter
+    public static class SSLConfig {
+        @NonNull
+        private final KeyStore keyStore;
+
+        private final HostnameVerifier hostnameVerifier;
+    }
 }
