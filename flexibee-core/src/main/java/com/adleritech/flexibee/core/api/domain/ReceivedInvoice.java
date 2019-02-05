@@ -81,6 +81,18 @@ public class ReceivedInvoice {
     @Element(name = "banSpojDod", required = false)
     private String supplierBankAccount;
 
+    @Element(name="buc", required = false)
+    private String buc;
+
+    @Element(name="smerKod", required = false)
+    private String smerKod;
+
+    @Element(name="iban", required = false)
+    private String iban;
+
+    @Element(name="bic", required = false)
+    private String bic;
+
     @Element(name="clenKonVykDph", required = false)
     private String vatReportRow;
 
