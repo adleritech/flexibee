@@ -54,4 +54,7 @@ public class IssuedInvoiceItem {
     @Element(name="typPolozkyK", required = false)
     private IssuedInvoiceItemType type;
 
+    @Element(name="stredisko", required = false)
+    private String department;
+
 }
