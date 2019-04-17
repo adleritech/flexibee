@@ -21,6 +21,7 @@ import com.adleritech.flexibee.core.api.domain.RoundingPrecision;
 import com.adleritech.flexibee.core.api.domain.VatRateKind;
 import com.adleritech.flexibee.core.api.domain.WinstromRequest;
 import com.adleritech.flexibee.core.api.domain.WinstromResponse;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -32,6 +33,8 @@ import static java.math.BigDecimal.valueOf;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
+
+@Ignore
 public class FlexibeeClientTest {
 
     @Test
