@@ -57,4 +57,25 @@ public class IssuedInvoiceItem {
     @Element(name="stredisko", required = false)
     private String department;
 
+    @Element(name = "kopStred", required = false)
+    private Boolean copyDepartment;
+
+    @Element(name="clenKonVykDph", required = false)
+    private String vatReportRow;
+
+    @Element(name="zbyvaUhradit", required = false)
+    private BigDecimal remainingToPay;
+
+    @Element(name="zklMdUcet", required = false)
+    private String debitSideBase;
+
+    @Element(name="zklDalUcet", required = false)
+    private String creditSideBase;
+
+    @Element(name="dphMdUcet", required = false)
+    private String creditSideVat;
+
+    @Element(name="dphDalUcet", required = false)
+    private String debitSideVat;
+
 }
