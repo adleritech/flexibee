@@ -104,4 +104,16 @@ public class IssuedInvoice {
     @Element(name="zbyvaUhradit", required = false)
     private BigDecimal remainingToPay;
 
+    @Element(name="zklMdUcet", required = false)
+    private String debitSideBase;
+
+    @Element(name="zklDalUcet", required = false)
+    private String creditSideBase;
+
+    @Element(name="dphMdUcet", required = false)
+    private String creditSideVat;
+
+    @Element(name="dphDalUcet", required = false)
+    private String debitSideVat;
+
 }
