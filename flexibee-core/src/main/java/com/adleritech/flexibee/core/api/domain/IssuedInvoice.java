@@ -95,6 +95,9 @@ public class IssuedInvoice {
     @Element(name="stredisko", required = false)
     private String department;
 
+    @Element(name = "kopStred")
+    private Boolean copyDepartment;
+
     @Element(name="clenKonVykDph", required = false)
     private String vatReportRow;
 
