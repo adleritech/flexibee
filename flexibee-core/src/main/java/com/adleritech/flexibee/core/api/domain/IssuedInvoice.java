@@ -95,4 +95,10 @@ public class IssuedInvoice {
     @Element(name="stredisko", required = false)
     private String department;
 
+    @Element(name="clenKonVykDph", required = false)
+    private String vatReportRow;
+
+    @Element(name="zbyvaUhradit", required = false)
+    private BigDecimal remainingToPay;
+
 }
