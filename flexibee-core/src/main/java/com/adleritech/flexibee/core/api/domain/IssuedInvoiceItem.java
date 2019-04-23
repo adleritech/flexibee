@@ -82,6 +82,6 @@ public class IssuedInvoiceItem {
     private String accountingEntry;
 
     @Element(name="kopTypUcOp", required = false)
-    private boolean copyAccountingEntry;
+    private Boolean copyAccountingEntry;
 
 }
