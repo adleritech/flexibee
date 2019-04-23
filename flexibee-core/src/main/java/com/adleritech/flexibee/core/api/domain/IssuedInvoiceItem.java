@@ -78,4 +78,10 @@ public class IssuedInvoiceItem {
     @Element(name="dphDalUcet", required = false)
     private String debitSideVat;
 
+    @Element(name="typUcOp", required = false)
+    private String accountingEntry;
+
+    @Element(name="kopTypUcOp", required = false)
+    private boolean copyAccountingEntry;
+
 }
