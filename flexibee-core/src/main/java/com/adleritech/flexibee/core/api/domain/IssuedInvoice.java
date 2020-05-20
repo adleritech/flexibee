@@ -80,6 +80,9 @@ public class IssuedInvoice {
     @Element(name="sumCelkem", required = false)
     private BigDecimal sumTotal;
 
+    @Element(name="mena", required = false)
+    private String currencyCode;
+
     @Element(name="zaokrNaSumK", required = false)
     private RoundingPrecision roundingPrecision;
 
