@@ -77,6 +77,9 @@ public class Obligation {
     @Element(name="protiUcet", required = false)
     private String contraAccount;
 
+    @Element(name="typUcOp", required = false)
+    private String accountingTemplate;
+
     @Element(name="zakazka", required = false)
     private String order;
 

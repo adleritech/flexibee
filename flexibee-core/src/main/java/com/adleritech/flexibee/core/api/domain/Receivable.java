@@ -65,6 +65,9 @@ public class Receivable {
     @Element(name="mena", required = false)
     private String currency;
 
+    @Element(name="typUcOp", required = false)
+    private String accountingTemplate;
+
     @Element(name="primUcet", required = false)
     private String primaryAccount;
 
@@ -88,5 +91,11 @@ public class Receivable {
 
     @Element(name="poznam", required = false)
     private String note;
+
+    @Element(name="rada", required = false)
+    private String sequence;
+
+    @Element(name="stredisko", required = false)
+    private String department;
 
 }
