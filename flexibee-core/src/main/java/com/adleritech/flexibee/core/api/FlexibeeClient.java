@@ -88,9 +88,6 @@ public class FlexibeeClient {
     }
 
     private void handleErrorResponse(Response response, WinstromRequest winstromRequest) throws FlexibeeException {
-        if (response.code() == 404) {
-            throw new NotFound();
-        }
         if (!response.isSuccessful()) {
             String request = "n/a";
             if( winstromRequest != null) {
@@ -103,11 +100,16 @@ public class FlexibeeClient {
                 }
             }
 
-            throw new FlexibeeException("Flexibee error" +
+            String message = "Flexibee error" +
                 " httpStatusCode=" + response.code() +
                 " errorBody=" + getErrorBody(response) +
-                "\n request=" + request
-            );
+                "\n request=" + request;
+
+            if (response.code() == 404) {
+                throw new NotFound(message);
+            } else {
+                throw new FlexibeeException(message);
+            }
         }
     }
 
@@ -279,8 +281,8 @@ public class FlexibeeClient {
     }
 
     public static class NotFound extends FlexibeeException {
-        public NotFound() {
-            super("");
+        public NotFound(String s) {
+            super(s);
         }
     }
 
