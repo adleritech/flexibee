@@ -38,6 +38,9 @@ public class Receivable {
     @Element(name = "datSplat", required = false)
     private LocalDate dueDate;
 
+    @Element(name = "duzpUcto", required = false)
+    private LocalDate taxableFulfillment;
+
     @Element(name="varSym", required = false)
     private String variableSymbol;
 
