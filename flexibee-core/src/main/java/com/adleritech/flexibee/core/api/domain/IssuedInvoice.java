@@ -104,4 +104,22 @@ public class IssuedInvoice {
     @Element(name="zbyvaUhradit", required = false)
     private BigDecimal remainingToPay;
 
+    @Element(name="rada", required = false)
+    private String sequence;
+
+    @Element(name="typUcOp", required = false)
+    private String accountingTemplate;
+
+    @Element(name="nazFirmy", required = false)
+    private String companyName;
+
+    @Element(name="popis", required = false)
+    private String description;
+
+    @Element(name="poznam", required = false)
+    private String note;
+
+    @Element(name = "sumOsv", required = false)
+    private BigDecimal vatFreeSum;
+
 }
