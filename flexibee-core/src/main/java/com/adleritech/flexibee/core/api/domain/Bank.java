@@ -93,4 +93,13 @@ public class Bank {
     @Path("polozkyIntDokladu")
     @ElementList(required = false, inline = true)
     private List<BankItem> items;
+
+    @Element(name="rada", required = false)
+    private String sequence;
+
+    @Element(name="typUcOp", required = false)
+    private String accountingTemplate;
+
+    @Element(name="cisSouhrnne", required = false)
+    private String accountStatementName;
 }
