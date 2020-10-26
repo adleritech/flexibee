@@ -1,12 +1,10 @@
 package com.adleritech.flexibee.core.api.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import org.simpleframework.xml.Element;
+import lombok.*;
+import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
+
+import java.util.ArrayList;
 
 @Data
 @Builder
@@ -14,32 +12,31 @@ import org.simpleframework.xml.Root;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Root(name = "winstrom")
-@org.simpleframework.xml.Order(elements = {"adresar", "zakazka", "faktura-vydana"})
 public class WinstromRequest extends Winstrom {
 
-    @Element(name = "adresar", required = false)
-    private AddressBook addressBook;
+    @ElementList(name = "adresar", required = false, inline = true)
+    private ArrayList<AddressBook> addressBooks = new ArrayList<>();
 
-    @Element(name = "zakazka", required = false)
-    private Order order;
+    @ElementList(name = "zakazka", required = false, inline = true)
+    private ArrayList<Order> orders = new ArrayList<>();
 
-    @Element(name = "faktura-prijata", required = false)
-    private ReceivedInvoice receivedInvoice;
+    @ElementList(name = "faktura-prijata", required = false, inline = true)
+    private ArrayList<ReceivedInvoice> receivedInvoices = new ArrayList<>();
 
-    @Element(name = "faktura-vydana", required = false)
-    private IssuedInvoice issuedInvoice;
+    @ElementList(name = "faktura-vydana", required = false, inline = true)
+    private ArrayList<IssuedInvoice> issuedInvoices = new ArrayList<>();
 
-    @Element(name = "interni-doklad", required = false)
-    private InternalDocument internalDocument;
+    @ElementList(name = "interni-doklad", required = false, inline = true)
+    private ArrayList<InternalDocument> internalDocuments = new ArrayList<>();
 
-    @Element(name = "pohledavka", required = false)
-    private Receivable receivable;
+    @ElementList(name = "pohledavka", required = false, inline = true)
+    private ArrayList<Receivable> receivables = new ArrayList<>();
 
-    @Element(name = "banka", required = false)
-    private Bank bank;
+    @ElementList(name = "banka", required = false, inline = true)
+    private ArrayList<Bank> banks = new ArrayList<>();
 
-    @Element(name = "zavazek", required = false)
-    private Obligation obligation;
+    @ElementList(name = "zavazek", required = false, inline = true)
+    private ArrayList<Obligation> obligations = new ArrayList<>();
 
 }
 

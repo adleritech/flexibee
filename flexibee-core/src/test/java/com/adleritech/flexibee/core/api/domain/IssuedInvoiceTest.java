@@ -42,19 +42,19 @@ public class IssuedInvoiceTest {
 
         WinstromRequest example = serializer.read(WinstromRequest.class, xml);
 
-        assertThat(example.getAddressBook()).isNotNull();
-        assertThat(example.getAddressBook().getCode()).isEqualTo("PBENDA");
-        assertThat(example.getAddressBook().getId()).isEqualTo(Arrays.asList("ext:33866089", "ext:1976780508"));
-        assertThat(example.getAddressBook().getName()).isEqualTo("Papírnictví Benda");
-        assertThat(example.getAddressBook().getStreet()).isEqualTo("Plzeňská 65");
-        assertThat(example.getAddressBook().getCity()).isEqualTo("Praha 5");
-        assertThat(example.getAddressBook().getRegNo()).isEqualTo("12345678");
-        assertThat(example.getAddressBook().getPostCode()).isEqualTo("150 00");
-        assertThat(example.getAddressBook().getVatId()).isEqualTo("CZ7002051235");
+        assertThat(example.getAddressBooks().get(0)).isNotNull();
+        assertThat(example.getAddressBooks().get(0).getCode()).isEqualTo("PBENDA");
+        assertThat(example.getAddressBooks().get(0).getId()).isEqualTo(Arrays.asList("ext:33866089", "ext:1976780508"));
+        assertThat(example.getAddressBooks().get(0).getName()).isEqualTo("Papírnictví Benda");
+        assertThat(example.getAddressBooks().get(0).getStreet()).isEqualTo("Plzeňská 65");
+        assertThat(example.getAddressBooks().get(0).getCity()).isEqualTo("Praha 5");
+        assertThat(example.getAddressBooks().get(0).getRegNo()).isEqualTo("12345678");
+        assertThat(example.getAddressBooks().get(0).getPostCode()).isEqualTo("150 00");
+        assertThat(example.getAddressBooks().get(0).getVatId()).isEqualTo("CZ7002051235");
 
-        assertThat(example.getIssuedInvoice()).isNotNull();
-        assertThat(example.getIssuedInvoice().getCompany()).isEqualTo("code:PBENDA");
-        assertThat(example.getIssuedInvoice().getDocumentType()).isEqualTo("code:FAKTURA");
+        assertThat(example.getIssuedInvoices().get(0)).isNotNull();
+        assertThat(example.getIssuedInvoices().get(0).getCompany()).isEqualTo("code:PBENDA");
+        assertThat(example.getIssuedInvoices().get(0).getDocumentType()).isEqualTo("code:FAKTURA");
     }
 
     @Test
@@ -77,25 +77,25 @@ public class IssuedInvoiceTest {
                 "    </faktura-vydana>\n" +
                 "</winstrom>";
 
-        WinstromRequest envelope = WinstromRequest.builder()
-                .issuedInvoice(
-                        IssuedInvoice.builder()
-                                .id(Collections.singletonList("456"))
-                                .company("code:PBENDA")
-                                .documentType("code:FAKTURA")
-                                .build())
-                .addressBook(
-                        AddressBook.builder()
-                                .code("PBENDA")
-                                .id(Collections.singletonList("123"))
-                                .name("Papírnictví")
-                                .street("Plzeňská")
-                                .city("Praha ")
-                                .postCode("150 ")
-                                .regNo("12345678")
-                                .vatId("CZ7002051235")
-                                .build())
-                .build();
+        WinstromRequest envelope = new WinstromRequest();
+        envelope.getIssuedInvoices().add(
+                IssuedInvoice.builder()
+                        .id(Collections.singletonList("456"))
+                        .company("code:PBENDA")
+                        .documentType("code:FAKTURA")
+                        .build());
+        envelope.getAddressBooks().add(
+                AddressBook.builder()
+                        .code("PBENDA")
+                        .id(Collections.singletonList("123"))
+                        .name("Papírnictví")
+                        .street("Plzeňská")
+                        .city("Praha ")
+                        .postCode("150 ")
+                        .regNo("12345678")
+                        .vatId("CZ7002051235")
+                        .build()
+        );
 
         ByteArrayOutputStream result = new ByteArrayOutputStream();
         Serializer serializer = new Persister(Factory.matchers());
@@ -106,22 +106,22 @@ public class IssuedInvoiceTest {
 
     @Test
     public void createInvoiceWithItems() throws Exception {
-        WinstromRequest envelope = WinstromRequest.builder()
-                .issuedInvoice(IssuedInvoice.builder()
-                        .company("code:ABCFIRM1#")
-                        .documentType("code:FAKTURA")
-                        .issued(LocalDate.of(2017, 4, 2))
-                        .items(new IssuedInvoiceItems(
-                                IssuedInvoiceItem.builder()
-                                        .name("Bla bla jizdne")
-                                        .amount(ONE)
-                                        .sumVat(BigDecimal.valueOf(1500))
-                                        .unitPrice(BigDecimal.valueOf(7500))
-                                        .sumTotal(BigDecimal.valueOf(9000))
-                                        .priceKind(PriceKind.withVat)
-                                        .vatRate(BigDecimal.valueOf(21)).build()
-                        ))
-                        .build()).build();
+        WinstromRequest envelope = new WinstromRequest();
+        envelope.getIssuedInvoices().add(IssuedInvoice.builder()
+                .company("code:ABCFIRM1#")
+                .documentType("code:FAKTURA")
+                .issued(LocalDate.of(2017, 4, 2))
+                .items(new IssuedInvoiceItems(
+                        IssuedInvoiceItem.builder()
+                                .name("Bla bla jizdne")
+                                .amount(ONE)
+                                .sumVat(BigDecimal.valueOf(1500))
+                                .unitPrice(BigDecimal.valueOf(7500))
+                                .sumTotal(BigDecimal.valueOf(9000))
+                                .priceKind(PriceKind.withVat)
+                                .vatRate(BigDecimal.valueOf(21)).build()
+                ))
+                .build());
 
         // Maybe you have to correct this or use another / no Locale
 
@@ -152,10 +152,10 @@ public class IssuedInvoiceTest {
 
     @Test
     public void LocalDateIsParsed() throws Exception {
-        WinstromRequest envelope = WinstromRequest.builder()
-                .issuedInvoice(IssuedInvoice.builder()
-                        .issued(LocalDate.of(2017, 4, 2))
-                        .build()).build();
+        WinstromRequest envelope = new WinstromRequest();
+        envelope.getIssuedInvoices().add(IssuedInvoice.builder()
+                .issued(LocalDate.of(2017, 4, 2))
+                .build());
 
         ByteArrayOutputStream result = new ByteArrayOutputStream();
         Serializer serializer = Factory.persister();
@@ -171,28 +171,30 @@ public class IssuedInvoiceTest {
 
     @Test
     public void invoiceWithAddressBook() throws Exception {
-        WinstromRequest envelope = WinstromRequest.builder()
-                .addressBook(AddressBook.builder()
+        WinstromRequest envelope = new WinstromRequest();
+        envelope.getAddressBooks().add(
+                AddressBook.builder()
                         .name("Československá obchodní banka, a. s.")
                         .vatId("CZ00001350")
                         .regNo("00001350")
                         .city("Praha 5")
                         .street("Radlická 333/150")
                         .postCode("15057")
-                        .build())
-                .issuedInvoice(IssuedInvoice.builder()
-                        .company("code:ČESKOSLOVENSKÁ0")
-                        .documentType("code:FAKTURA")
-                        .items(new IssuedInvoiceItems(
-                                IssuedInvoiceItem.builder()
-                                        .name("Bla bla jizdne")
-                                        .amount(ONE)
-                                        .sumVat(BigDecimal.valueOf(1500))
-                                        .unitPrice(BigDecimal.valueOf(7500))
-                                        .sumTotal(BigDecimal.valueOf(9000))
-                                        .vatRate(BigDecimal.valueOf(21)).build()
-                        ))
-                        .build()).build();
+                        .build()
+        );
+        envelope.getIssuedInvoices().add(IssuedInvoice.builder()
+                .company("code:ČESKOSLOVENSKÁ0")
+                .documentType("code:FAKTURA")
+                .items(new IssuedInvoiceItems(
+                        IssuedInvoiceItem.builder()
+                                .name("Bla bla jizdne")
+                                .amount(ONE)
+                                .sumVat(BigDecimal.valueOf(1500))
+                                .unitPrice(BigDecimal.valueOf(7500))
+                                .sumTotal(BigDecimal.valueOf(9000))
+                                .vatRate(BigDecimal.valueOf(21)).build()
+                ))
+                .build());
 
         ByteArrayOutputStream result = new ByteArrayOutputStream();
         Serializer serializer = Factory.persister();
@@ -238,16 +240,15 @@ public class IssuedInvoiceTest {
                 "     </faktura-vydana>\n" +
                 "</winstrom>\n";
 
-        WinstromRequest envelope = WinstromRequest.builder()
-                .issuedInvoice(
-                        IssuedInvoice.builder()
+        WinstromRequest envelope = new WinstromRequest();
+        envelope.getIssuedInvoices().add(
+                IssuedInvoice.builder()
                         .deposits(Collections.singletonList(
                                 Deposit.builder()
                                         .amount(BigDecimal.valueOf(100))
                                         .deposit("41").build()
                         ))
-                        .build()
-                ).build();
+                        .build());
 
         ByteArrayOutputStream result = new ByteArrayOutputStream();
         Serializer serializer = Factory.persister();
@@ -264,12 +265,12 @@ public class IssuedInvoiceTest {
                 "    </faktura-vydana>\n" +
                 "</winstrom>\n";
 
-        WinstromRequest envelope = WinstromRequest.builder()
-                .issuedInvoice(
-                        IssuedInvoice.builder()
-                                .paymentStatus(PaymentStatus.MANUALLY)
-                                .build()
-                ).build();
+        WinstromRequest envelope = new WinstromRequest();
+        envelope.getIssuedInvoices().add(
+                IssuedInvoice.builder()
+                        .paymentStatus(PaymentStatus.MANUALLY)
+                        .build()
+        );
 
         ByteArrayOutputStream result = new ByteArrayOutputStream();
         Serializer serializer = Factory.persister();

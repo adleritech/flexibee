@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Path;
+import org.simpleframework.xml.Root;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -17,6 +18,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Root(name = "banka")
 public class Bank {
     @ElementList(required = false, inline = true, entry = "id")
     private List<String> id;

@@ -16,46 +16,46 @@ public class InternalDocumentTest {
     @Test
     public void parseFromXmlToObject() throws Exception {
         String xml = "<winstrom version=\"1.0\">\n" +
-            "    <interni-doklad>\n" +
-            "        <typDokl>code:ID</typDokl>\n" +
-            "        <datVyst>2011-01-01+01:00</datVyst>\n" +
-            "        <varSym>123</varSym><!-- účet MD -->\n" +
-            "    </interni-doklad>\n" +
-            "</winstrom>";
+                "    <interni-doklad>\n" +
+                "        <typDokl>code:ID</typDokl>\n" +
+                "        <datVyst>2011-01-01+01:00</datVyst>\n" +
+                "        <varSym>123</varSym><!-- účet MD -->\n" +
+                "    </interni-doklad>\n" +
+                "</winstrom>";
 
 
         Serializer serializer = new Persister(Factory.matchers());
 
         WinstromRequest example = serializer.read(WinstromRequest.class, xml);
 
-        assertThat(example.getInternalDocument()).isNotNull();
-        assertThat(example.getInternalDocument().getIssued()).isEqualTo("2011-01-01");
-        assertThat(example.getInternalDocument().getVariableSymbol()).isEqualTo("123");
+        assertThat(example.getInternalDocuments().get(0)).isNotNull();
+        assertThat(example.getInternalDocuments().get(0).getIssued()).isEqualTo("2011-01-01");
+        assertThat(example.getInternalDocuments().get(0).getVariableSymbol()).isEqualTo("123");
     }
 
     @Test
     public void serializeToXml() throws Exception {
         String xml = "<winstrom version=\"1.0\">\n" +
-            "    <interni-doklad>\n" +
-            "        <id>ext:id1</id>\n" +
-            "        <id>ext:id2</id>\n" +
-            "        <typDokl>code:ID</typDokl>\n" +
-            "        <firma>code:PBENDA</firma>\n" +
-            "        <datVyst>2017-10-03</datVyst>\n" +
-            "        <varSym>123</varSym>\n" +
-            "    </interni-doklad>\n" +
-            "</winstrom>";
+                "    <interni-doklad>\n" +
+                "        <id>ext:id1</id>\n" +
+                "        <id>ext:id2</id>\n" +
+                "        <typDokl>code:ID</typDokl>\n" +
+                "        <firma>code:PBENDA</firma>\n" +
+                "        <datVyst>2017-10-03</datVyst>\n" +
+                "        <varSym>123</varSym>\n" +
+                "    </interni-doklad>\n" +
+                "</winstrom>";
 
-        WinstromRequest request = WinstromRequest.builder()
-                .internalDocument(
-                        InternalDocument.builder()
-                                .id(asList("ext:id1", "ext:id2"))
-                                .company("code:PBENDA")
-                                .documentType("code:ID")
-                                .issued(LocalDate.parse("2017-10-03"))
-                                .variableSymbol("123")
-                                .build())
-                .build();
+        WinstromRequest request = new WinstromRequest();
+        request.getInternalDocuments().add(
+                InternalDocument.builder()
+                        .id(asList("ext:id1", "ext:id2"))
+                        .company("code:PBENDA")
+                        .documentType("code:ID")
+                        .issued(LocalDate.parse("2017-10-03"))
+                        .variableSymbol("123")
+                        .build()
+        );
 
         ByteArrayOutputStream result = new ByteArrayOutputStream();
         Serializer serializer = new Persister(Factory.matchers());

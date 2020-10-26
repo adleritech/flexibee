@@ -13,13 +13,21 @@ public class WinstromRequestTest {
 
     @Test
     public void parseRequestToXml() throws Exception {
-        WinstromRequest request = WinstromRequest.builder()
-                .issuedInvoice(IssuedInvoice.builder()
-                        .company("code:ABCFIRM1#")
-                        .documentType("code:FAKTURA")
-                        .withoutItems(true)
-                        .sumWithoutVat(BigDecimal.valueOf(1000))
-                        .build()).build();
+        WinstromRequest request = new WinstromRequest();
+        request.getIssuedInvoices().add(IssuedInvoice.builder()
+                .company("code:ABCFIRM1#")
+                .documentType("code:FAKTURA")
+                .withoutItems(true)
+                .sumWithoutVat(BigDecimal.valueOf(1000))
+                .build()
+        );
+        request.getIssuedInvoices().add(IssuedInvoice.builder()
+                .company("code:STH")
+                .documentType("code:FAKTURA")
+                .withoutItems(true)
+                .sumWithoutVat(BigDecimal.valueOf(100))
+                .build()
+        );
 
         ByteArrayOutputStream result = new ByteArrayOutputStream();
         Serializer serializer = Factory.persister();
@@ -31,6 +39,12 @@ public class WinstromRequestTest {
                 "    <firma>code:ABCFIRM1#</firma>\n" +
                 "    <bezPolozek>true</bezPolozek>\n" +
                 "    <sumDphZakl>1000</sumDphZakl>\n" +
+                "  </faktura-vydana>\n" +
+                "  <faktura-vydana>\n" +
+                "    <typDokl>code:FAKTURA</typDokl>\n" +
+                "    <firma>code:STH</firma>\n" +
+                "    <bezPolozek>true</bezPolozek>\n" +
+                "    <sumDphZakl>100</sumDphZakl>\n" +
                 "  </faktura-vydana>\n" +
                 "</winstrom>";
         assertThat(result.toString()).isXmlEqualTo(xml);
