@@ -122,4 +122,7 @@ public class IssuedInvoice {
     @Element(name = "sumOsv", required = false)
     private BigDecimal vatFreeSum;
 
+    @Element(name="bezPolozek", required = false)
+    private Boolean noLines;
+
 }
