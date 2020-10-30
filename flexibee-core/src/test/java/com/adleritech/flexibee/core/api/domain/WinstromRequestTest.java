@@ -17,14 +17,14 @@ public class WinstromRequestTest {
         request.getIssuedInvoices().add(IssuedInvoice.builder()
                 .company("code:ABCFIRM1#")
                 .documentType("code:FAKTURA")
-                .withoutItems(true)
+                .noLines(true)
                 .sumWithoutVat(BigDecimal.valueOf(1000))
                 .build()
         );
         request.getIssuedInvoices().add(IssuedInvoice.builder()
                 .company("code:STH")
                 .documentType("code:FAKTURA")
-                .withoutItems(true)
+                .noLines(true)
                 .sumWithoutVat(BigDecimal.valueOf(100))
                 .build()
         );

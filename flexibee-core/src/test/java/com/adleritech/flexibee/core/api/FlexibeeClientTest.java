@@ -23,7 +23,7 @@ public class FlexibeeClientTest {
         request.getIssuedInvoices().add(IssuedInvoice.builder()
                 .company("code:ABCFIRM1#")
                 .documentType("code:faktura")
-                .withoutItems(true)
+                .noLines(true)
                 .sumWithoutVat(BigDecimal.valueOf(1000))
                 .build());
 

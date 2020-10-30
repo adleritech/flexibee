@@ -50,7 +50,7 @@ public class IssuedInvoice {
     private LocalDate dateCharged;
 
     @Element(name = "bezPolozek", required = false)
-    private Boolean withoutItems;
+    private Boolean noLines;
 
     @Element(name = "sumDphZakl", required = false)
     private BigDecimal sumWithoutVat;
@@ -83,7 +83,7 @@ public class IssuedInvoice {
     private BigDecimal sumTotal;
 
     @Element(name="mena", required = false)
-    private String currencyCode;
+    private String currency;
 
     @Element(name="zaokrNaSumK", required = false)
     private RoundingPrecision roundingPrecision;
@@ -123,8 +123,5 @@ public class IssuedInvoice {
 
     @Element(name = "sumOsv", required = false)
     private BigDecimal vatFreeSum;
-
-    @Element(name="bezPolozek", required = false)
-    private Boolean noLines;
 
 }
