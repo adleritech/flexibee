@@ -13,21 +13,24 @@ public class WinstromRequestTest {
 
     @Test
     public void parseRequestToXml() throws Exception {
-        WinstromRequest request = new WinstromRequest();
-        request.getIssuedInvoices().add(IssuedInvoice.builder()
-                .company("code:ABCFIRM1#")
-                .documentType("code:FAKTURA")
-                .noLines(true)
-                .sumWithoutVat(BigDecimal.valueOf(1000))
-                .build()
-        );
-        request.getIssuedInvoices().add(IssuedInvoice.builder()
-                .company("code:STH")
-                .documentType("code:FAKTURA")
-                .noLines(true)
-                .sumWithoutVat(BigDecimal.valueOf(100))
-                .build()
-        );
+        WinstromRequest request = WinstromRequest.builder()
+                .issuedInvoice(
+                        IssuedInvoice.builder()
+                        .company("code:ABCFIRM1#")
+                        .documentType("code:FAKTURA")
+                        .noLines(true)
+                        .sumWithoutVat(BigDecimal.valueOf(1000))
+                        .build()
+                )
+                .issuedInvoice(
+                        IssuedInvoice.builder()
+                                .company("code:STH")
+                                .documentType("code:FAKTURA")
+                                .noLines(true)
+                                .sumWithoutVat(BigDecimal.valueOf(100))
+                                .build()
+                )
+                .build();
 
         ByteArrayOutputStream result = new ByteArrayOutputStream();
         Serializer serializer = Factory.persister();

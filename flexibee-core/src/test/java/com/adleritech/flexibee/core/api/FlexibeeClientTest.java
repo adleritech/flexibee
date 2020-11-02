@@ -19,13 +19,14 @@ public class FlexibeeClientTest {
 
     @Test
     public void createInvoice() throws Exception {
-        WinstromRequest request = new WinstromRequest();
-        request.getIssuedInvoices().add(IssuedInvoice.builder()
-                .company("code:ABCFIRM1#")
-                .documentType("code:faktura")
-                .noLines(true)
-                .sumWithoutVat(BigDecimal.valueOf(1000))
-                .build());
+        WinstromRequest request = WinstromRequest.builder()
+                .issuedInvoice(IssuedInvoice.builder()
+                        .company("code:ABCFIRM1#")
+                        .documentType("code:faktura")
+                        .noLines(true)
+                        .sumWithoutVat(BigDecimal.valueOf(1000))
+                        .build())
+                .build();
 
         FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         WinstromResponse response = flexibeeClient.createInvoice(request);
@@ -41,15 +42,16 @@ public class FlexibeeClientTest {
 
     @Test
     public void createDeposit() throws Exception {
-        WinstromRequest request = new WinstromRequest();
-        request.getIssuedInvoices().add(IssuedInvoice.builder()
-                .documentType("code:ZÁLOHA")
-                .paymentStatus(PaymentStatus.MANUALLY)
-                .roundingPrecision(RoundingPrecision.UNITS)
-                .items(new IssuedInvoiceItems(
-                        IssuedInvoiceItem.builder().unitPrice(BigDecimal.valueOf(124.20)).vatRateKind(VatRateKind.FREE).build())
-                )
-                .build());
+        WinstromRequest request = WinstromRequest.builder()
+                .issuedInvoice(IssuedInvoice.builder()
+                        .documentType("code:ZÁLOHA")
+                        .paymentStatus(PaymentStatus.MANUALLY)
+                        .roundingPrecision(RoundingPrecision.UNITS)
+                        .items(new IssuedInvoiceItems(
+                                IssuedInvoiceItem.builder().unitPrice(BigDecimal.valueOf(124.20)).vatRateKind(VatRateKind.FREE).build())
+                        )
+                        .build())
+                .build();
 
         FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         WinstromResponse response = flexibeeClient.createInvoice(request);
@@ -66,22 +68,23 @@ public class FlexibeeClientTest {
 
     @Test
     public void createDummyInvoice() throws Exception {
-        WinstromRequest request = new WinstromRequest();
-        request.getIssuedInvoices().add(IssuedInvoice.builder()
-                .company("code:ABCFIRM1#")
-                .documentType("code:faktura")
-                .paymentForm("code:KARTA")
-                .items(new IssuedInvoiceItems(
-                        IssuedInvoiceItem.builder()
-                                .name("Bla bla jizdne")
-                                .amount(ONE)
-                                .sumVat(BigDecimal.valueOf(1500))
-                                .vatRateKind(VatRateKind.BASIC)
-                                .unitPrice(BigDecimal.valueOf(7500))
-                                .sumTotal(BigDecimal.valueOf(9000))
-                                .vatRate(BigDecimal.valueOf(21)).build()
-                ))
-                .build());
+        WinstromRequest request = WinstromRequest.builder()
+                .issuedInvoice(IssuedInvoice.builder()
+                        .company("code:ABCFIRM1#")
+                        .documentType("code:faktura")
+                        .paymentForm("code:KARTA")
+                        .items(new IssuedInvoiceItems(
+                                IssuedInvoiceItem.builder()
+                                        .name("Bla bla jizdne")
+                                        .amount(ONE)
+                                        .sumVat(BigDecimal.valueOf(1500))
+                                        .vatRateKind(VatRateKind.BASIC)
+                                        .unitPrice(BigDecimal.valueOf(7500))
+                                        .sumTotal(BigDecimal.valueOf(9000))
+                                        .vatRate(BigDecimal.valueOf(21)).build()
+                        ))
+                        .build())
+                .build();
 
         FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         WinstromResponse response = flexibeeClient.createInvoice(request);
@@ -116,13 +119,14 @@ public class FlexibeeClientTest {
 
     @Test
     public void updateAddressBook() throws Exception {
-        WinstromRequest request = new WinstromRequest();
-        request.getAddressBooks().add(
-                AddressBook.builder()
-                        .name("test")
-                        .id(singletonList(String.format("ext:%s", new Random().nextInt())))
-                        .build()
-        );
+        WinstromRequest request = WinstromRequest.builder()
+                .addressBook(
+                        AddressBook.builder()
+                                .name("test")
+                                .id(singletonList(String.format("ext:%s", new Random().nextInt())))
+                                .build()
+                )
+                .build();
 
         FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         WinstromResponse response = flexibeeClient.updateAddressBook("1569", request);
