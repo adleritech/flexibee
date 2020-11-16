@@ -1,9 +1,16 @@
-version: 2
+version: 2.1
+
+workflows:
+  build:
+    jobs:
+      - build:
+          context: java
+
 jobs:
   build:
     working_directory: ~/work
     docker:
-      - image: "ltgdocker/circleci-openjdk"
+      - image: 570645264518.dkr.ecr.eu-central-1.amazonaws.com/build/circleci-openjdk-8:2020-11-18.15.180
 
     steps:
       - checkout
