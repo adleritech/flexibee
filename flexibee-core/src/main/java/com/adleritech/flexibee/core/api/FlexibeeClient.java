@@ -15,17 +15,18 @@ import lombok.NonNull;
 import okhttp3.ResponseBody;
 import org.simpleframework.xml.Serializer;
 import retrofit2.Call;
+import retrofit2.Converter;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-
 import javax.net.ssl.HostnameVerifier;
 import java.io.IOException;
-import java.io.StringWriter;
+import java.lang.annotation.Annotation;
 import java.security.KeyStore;
 
 public class FlexibeeClient {
@@ -39,6 +40,9 @@ public class FlexibeeClient {
     @Getter
     private final Api client;
 
+    private final Converter<ResponseBody, WinstromResponse> errorConverter;
+
+
     public FlexibeeClient(String username, String password, String company) {
         this(username, password, company, API_BASE_URL);
     }
@@ -49,7 +53,9 @@ public class FlexibeeClient {
 
     public FlexibeeClient(String username, String password, String company, String apiBaseUrl, SSLConfig sslConfig) {
         this.company = company;
-        client = RetrofitClientFactory.createService(Api.class, apiBaseUrl, username, password, sslConfig);
+        Retrofit retrofit = RetrofitClientFactory.prepareRetrofit(apiBaseUrl, username, password, sslConfig);
+        this.client = RetrofitClientFactory.createService(Api.class, retrofit);
+        this.errorConverter = retrofit.responseBodyConverter(WinstromResponse.class, new Annotation[0]);
     }
 
     public WinstromResponse createInvoice(WinstromRequest winstromRequest) throws IOException, FlexibeeException {
@@ -89,26 +95,17 @@ public class FlexibeeClient {
 
     private void handleErrorResponse(Response response, WinstromRequest winstromRequest) throws FlexibeeException {
         if (!response.isSuccessful()) {
-            String request = "n/a";
-            if( winstromRequest != null) {
-                StringWriter writer = new StringWriter(200);
-                try {
-                    xmlPrinter.write(winstromRequest, writer);
-                    request = writer.toString();
-                } catch (Exception e) {
-                    // ignore
-                }
-            }
-
-            String message = "Flexibee error" +
-                " httpStatusCode=" + response.code() +
-                " errorBody=" + getErrorBody(response) +
-                "\n request=" + request;
-
             if (response.code() == 404) {
-                throw new NotFound(message);
+                throw new NotFound(getErrorBody(response));
             } else {
-                throw new FlexibeeException(message);
+                WinstromResponse errorResponse;
+                try {
+                    errorResponse = errorConverter.convert(response.errorBody());
+                    String errorMessage = "Error while creating document in Flexibee";
+                    throw new FlexibeeException(errorMessage, winstromRequest, errorResponse);
+                } catch (IOException e) {
+                    throw new FlexibeeException("Cannot parse flexibee errorResponse: " + e.getMessage());
+                }
             }
         }
     }
@@ -287,8 +284,20 @@ public class FlexibeeClient {
     }
 
     public static class FlexibeeException extends Exception {
+        @Getter
+        private WinstromRequest request;
+
+        @Getter
+        private WinstromResponse errorResponse;
+
         private FlexibeeException(String s) {
             super(s);
+        }
+
+        private FlexibeeException(String message, WinstromRequest request, WinstromResponse errorResponse) {
+            super(message);
+            this.request = request;
+            this.errorResponse = errorResponse;
         }
     }
 

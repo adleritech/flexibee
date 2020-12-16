@@ -25,14 +25,18 @@ import java.util.concurrent.TimeUnit;
 class RetrofitClientFactory {
     private static final Logger LOGGER = LoggerFactory.getLogger("com.adleritech.flexibee.core.api.http");
 
-    static <S> S createService(Class<S> serviceClass, String apiBaseUrl, String username, String password, SSLConfig sslConfig) {
+    static Retrofit prepareRetrofit(String apiBaseUrl, String username, String password, SSLConfig sslConfig) {
         Retrofit.Builder builder = new Retrofit.Builder()
-            .baseUrl(apiBaseUrl)
-            .addConverterFactory(SimpleXmlConverterFactory.createNonStrict(Factory.persister()));
+                .baseUrl(apiBaseUrl)
+                .addConverterFactory(SimpleXmlConverterFactory.createNonStrict(Factory.persister()));
         String authToken = Credentials.basic(username, password);
         builder.client(createOkHttpClient(authToken, sslConfig));
 
-        return builder.build().create(serviceClass);
+        return builder.build();
+    }
+
+    static <S> S createService(Class<S> serviceClass, Retrofit retrofit) {
+        return retrofit.create(serviceClass);
     }
 
     private static OkHttpClient createOkHttpClient(String authToken, SSLConfig sslConfig) {
