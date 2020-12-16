@@ -102,13 +102,13 @@ public class FlexibeeClient {
             if (response.code() == 404) {
                 throw new NotFound(getErrorBody(response));
             } else {
+                String errorMessage = "Error while creating document in Flexibee";
+                String rawErrorResponse = readRawResponse(response.errorBody());
                 try {
-                    String rawErrorResponse = readRawResponse(response.errorBody());
                     WinstromResponse errorResponse = errorConverter.convert(response.errorBody());
-                    String errorMessage = "Error while creating document in Flexibee";
                     throw new FlexibeeException(errorMessage, winstromRequest, errorResponse, rawErrorResponse);
                 } catch (IOException e) {
-                    throw new FlexibeeException("Cannot parse flexibee errorResponse: " + e.getMessage());
+                    throw new FlexibeeException(errorMessage, winstromRequest, null, rawErrorResponse);
                 }
             }
         }
@@ -117,11 +117,15 @@ public class FlexibeeClient {
     /**
      * Reads raw response body from cloned buffer so responseBody might be used again
      */
-    private String readRawResponse(ResponseBody responseBody) throws IOException {
-        BufferedSource source = responseBody.source();
-        source.request(Long.MAX_VALUE); // request the entire body.
-        Buffer buffer = source.buffer();
-        return buffer.clone().readString(Charset.forName("UTF-8"));
+    private String readRawResponse(ResponseBody responseBody) throws FlexibeeException {
+        try {
+            BufferedSource source = responseBody.source();
+            source.request(Long.MAX_VALUE); // request the entire body.
+            Buffer buffer = source.buffer();
+            return buffer.clone().readString(Charset.forName("UTF-8"));
+        } catch (IOException ioe) {
+            throw new FlexibeeException("Cannot parse flexibee errorResponse: " + ioe.getMessage());
+        }
     }
 
     private String getErrorBody(Response response) {
