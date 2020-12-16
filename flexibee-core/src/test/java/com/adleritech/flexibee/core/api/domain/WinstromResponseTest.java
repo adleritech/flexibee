@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class WinstromResponseTest {
 
     @Test
-    public void parseSuccessFalse() throws Exception {
+    public void parseBadRequestResponse() throws Exception {
         String xml = "<winstrom version=\"1.0\">\n" +
                 "  <success>false</success>\n" +
                 "  <stats>\n" +
@@ -22,10 +22,11 @@ public class WinstromResponseTest {
                 "  <results>\n" +
                 "    <result>\n" +
                 "      <errors>\n" +
-                "        <error>javax.xml.stream.XMLStreamException: ParseError at [row,col]:[1,1]\n" +
-                "Message: Premature end of file.\n" +
-                "ParseError at [row,col]:[1,1]\n" +
-                "Message: Premature end of file.</error>\n" +
+                "        <error " +
+                "          path=\"faktura-vydana[temporary-id=null].firma\" " +
+                "          code=\"PROP\" " +
+                "          for=\"firma\" " +
+                "          value=\"ext:user:400513200\">Zadaný text 'ext:user:400513200' musí identifikovat objekt [200600000009]</error>\n" +
                 "      </errors>\n" +
                 "    </result>\n" +
                 "  </results>\n" +
@@ -36,6 +37,12 @@ public class WinstromResponseTest {
         WinstromResponse example = serializer.read(WinstromResponse.class, xml);
 
         assertThat(example.isSuccess()).isFalse();
+        assertThat(example.getResults().size()).isEqualTo(1);
+
+        Result firstResult = example.getResults().get(0);
+        assertThat(firstResult.getErrors().size()).isEqualTo(1);
+        assertThat(firstResult.getErrors().get(0).getValue()).isEqualTo("ext:user:400513200");
+        assertThat(firstResult.getErrors().get(0).getMsg()).isEqualTo("Zadaný text 'ext:user:400513200' musí identifikovat objekt [200600000009]");
     }
 
     @Test
@@ -67,6 +74,7 @@ public class WinstromResponseTest {
 
         assertThat(example.isSuccess()).isTrue();
         assertThat(example.getResults().get(0).getId()).isEqualTo("2234");
+        assertThat(example.getStats().getCreated()).isEqualTo(2);
     }
 
 }

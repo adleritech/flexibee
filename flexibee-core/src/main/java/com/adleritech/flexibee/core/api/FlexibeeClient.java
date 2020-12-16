@@ -1,5 +1,11 @@
 package com.adleritech.flexibee.core.api;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.security.KeyStore;
+
+import javax.net.ssl.HostnameVerifier;
+
 import com.adleritech.flexibee.core.api.domain.AddressBookResponse;
 import com.adleritech.flexibee.core.api.domain.BankResponse;
 import com.adleritech.flexibee.core.api.domain.InternalDocumentResponse;
@@ -8,38 +14,25 @@ import com.adleritech.flexibee.core.api.domain.ObligationResponse;
 import com.adleritech.flexibee.core.api.domain.ReceivableResponse;
 import com.adleritech.flexibee.core.api.domain.WinstromRequest;
 import com.adleritech.flexibee.core.api.domain.WinstromResponse;
-import com.adleritech.flexibee.core.api.transformers.Factory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 import okhttp3.ResponseBody;
-import org.simpleframework.xml.Serializer;
-
 import okio.Buffer;
 import okio.BufferedSource;
 import retrofit2.Call;
 import retrofit2.Converter;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import javax.net.ssl.HostnameVerifier;
-import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.nio.charset.Charset;
-import java.security.KeyStore;
 
 public class FlexibeeClient {
 
-    private static final String API_BASE_URL = "https://demo.flexibee.eu:5434";
-
     private final String company;
-
-    private final Serializer xmlPrinter = Factory.persister();
 
     @Getter
     private final Api client;
@@ -47,19 +40,10 @@ public class FlexibeeClient {
     private final Converter<ResponseBody, WinstromResponse> errorConverter;
 
 
-    public FlexibeeClient(String username, String password, String company) {
-        this(username, password, company, API_BASE_URL);
-    }
-
-    public FlexibeeClient(String username, String password, String company, String apiBaseUrl) {
-        this(username, password, company, apiBaseUrl, null);
-    }
-
-    public FlexibeeClient(String username, String password, String company, String apiBaseUrl, SSLConfig sslConfig) {
+    protected FlexibeeClient(String company, Api retrofitApi, Converter<ResponseBody, WinstromResponse> errorConverter) {
         this.company = company;
-        Retrofit retrofit = RetrofitClientFactory.prepareRetrofit(apiBaseUrl, username, password, sslConfig);
-        this.client = RetrofitClientFactory.createService(Api.class, retrofit);
-        this.errorConverter = retrofit.responseBodyConverter(WinstromResponse.class, new Annotation[0]);
+        this.client = retrofitApi;
+        this.errorConverter = errorConverter;
     }
 
     public WinstromResponse createInvoice(WinstromRequest winstromRequest) throws IOException, FlexibeeException {
@@ -102,14 +86,19 @@ public class FlexibeeClient {
             if (response.code() == 404) {
                 throw new NotFound(getErrorBody(response));
             } else {
-                String errorMessage = "Error while creating document in Flexibee";
                 String rawErrorResponse = readRawResponse(response.errorBody());
+                FlexibeeException flexibeeException;
                 try {
+                    String message = "Error while creating document in Flexibee";
                     WinstromResponse errorResponse = errorConverter.convert(response.errorBody());
-                    throw new FlexibeeException(errorMessage, winstromRequest, errorResponse, rawErrorResponse);
-                } catch (IOException e) {
-                    throw new FlexibeeException(errorMessage, winstromRequest, null, rawErrorResponse);
+                    flexibeeException = new FlexibeeException(message, winstromRequest, errorResponse, rawErrorResponse);
+
+                } catch (Exception e) {
+                    String message = "Error while creating document in Flexibee, " + e.getMessage();
+                    flexibeeException = new FlexibeeException(message, winstromRequest, null, rawErrorResponse);
                 }
+
+                throw flexibeeException;
             }
         }
     }
