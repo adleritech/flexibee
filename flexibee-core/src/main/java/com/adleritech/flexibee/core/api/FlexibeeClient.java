@@ -14,6 +14,9 @@ import lombok.Getter;
 import lombok.NonNull;
 import okhttp3.ResponseBody;
 import org.simpleframework.xml.Serializer;
+
+import okio.Buffer;
+import okio.BufferedSource;
 import retrofit2.Call;
 import retrofit2.Converter;
 import retrofit2.Response;
@@ -27,6 +30,7 @@ import retrofit2.http.Query;
 import javax.net.ssl.HostnameVerifier;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.nio.charset.Charset;
 import java.security.KeyStore;
 
 public class FlexibeeClient {
@@ -98,16 +102,26 @@ public class FlexibeeClient {
             if (response.code() == 404) {
                 throw new NotFound(getErrorBody(response));
             } else {
-                WinstromResponse errorResponse;
                 try {
-                    errorResponse = errorConverter.convert(response.errorBody());
+                    String rawErrorResponse = readRawResponse(response.errorBody());
+                    WinstromResponse errorResponse = errorConverter.convert(response.errorBody());
                     String errorMessage = "Error while creating document in Flexibee";
-                    throw new FlexibeeException(errorMessage, winstromRequest, errorResponse);
+                    throw new FlexibeeException(errorMessage, winstromRequest, errorResponse, rawErrorResponse);
                 } catch (IOException e) {
                     throw new FlexibeeException("Cannot parse flexibee errorResponse: " + e.getMessage());
                 }
             }
         }
+    }
+
+    /**
+     * Reads raw response body from cloned buffer so responseBody might be used again
+     */
+    private String readRawResponse(ResponseBody responseBody) throws IOException {
+        BufferedSource source = responseBody.source();
+        source.request(Long.MAX_VALUE); // request the entire body.
+        Buffer buffer = source.buffer();
+        return buffer.clone().readString(Charset.forName("UTF-8"));
     }
 
     private String getErrorBody(Response response) {
@@ -290,14 +304,18 @@ public class FlexibeeClient {
         @Getter
         private WinstromResponse errorResponse;
 
+        @Getter
+        private String rawErrorResponse;
+
         private FlexibeeException(String s) {
             super(s);
         }
 
-        private FlexibeeException(String message, WinstromRequest request, WinstromResponse errorResponse) {
+        private FlexibeeException(String message, WinstromRequest request, WinstromResponse errorResponse, String rawErrorResponse) {
             super(message);
             this.request = request;
             this.errorResponse = errorResponse;
+            this.rawErrorResponse = rawErrorResponse;
         }
     }
 
