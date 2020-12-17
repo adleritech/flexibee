@@ -1,6 +1,7 @@
 package com.adleritech.flexibee.core.api;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.nio.charset.Charset;
 import java.security.KeyStore;
 
@@ -23,6 +24,7 @@ import okio.BufferedSource;
 import retrofit2.Call;
 import retrofit2.Converter;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -32,6 +34,8 @@ import retrofit2.http.Query;
 
 public class FlexibeeClient {
 
+    private static final String API_BASE_URL = "https://demo.flexibee.eu:5434";
+
     private final String company;
 
     @Getter
@@ -39,8 +43,23 @@ public class FlexibeeClient {
 
     private final Converter<ResponseBody, WinstromResponse> errorConverter;
 
+    public static FlexibeeClient create(String username, String password, String company) {
+        return create(username, password, company, API_BASE_URL);
+    }
 
-    protected FlexibeeClient(String company, Api retrofitApi, Converter<ResponseBody, WinstromResponse> errorConverter) {
+    public static FlexibeeClient create(String username, String password, String company, String apiBaseUrl) {
+        return create(username, password, company, apiBaseUrl, null);
+    }
+
+    public static FlexibeeClient create(String username, String password, String company, String apiBaseUrl, SSLConfig sslConfig) {
+        RetrofitClientFactory retrofitClientFactory = new RetrofitClientFactory();
+        Retrofit retrofit = retrofitClientFactory.prepareRetrofit(apiBaseUrl, username, password, sslConfig);
+        FlexibeeClient.Api api = retrofitClientFactory.createService(FlexibeeClient.Api.class, retrofit);
+        Converter<ResponseBody, WinstromResponse> errorConverter = retrofit.responseBodyConverter(WinstromResponse.class, new Annotation[0]);
+        return new FlexibeeClient(company, api, errorConverter);
+    }
+
+    FlexibeeClient(String company, Api retrofitApi, Converter<ResponseBody, WinstromResponse> errorConverter) {
         this.company = company;
         this.client = retrofitApi;
         this.errorConverter = errorConverter;
