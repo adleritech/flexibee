@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 class RetrofitClientFactory {
     private static final Logger LOGGER = LoggerFactory.getLogger("com.adleritech.flexibee.core.api.http");
 
-    public Retrofit prepareRetrofit(String apiBaseUrl, String username, String password, SSLConfig sslConfig) {
+    public Retrofit createRetrofit(String apiBaseUrl, String username, String password, SSLConfig sslConfig) {
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(apiBaseUrl)
                 .addConverterFactory(SimpleXmlConverterFactory.createNonStrict(Factory.persister()));

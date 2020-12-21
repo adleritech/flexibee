@@ -34,18 +34,12 @@ import retrofit2.http.Query;
 
 public class FlexibeeClient {
 
-    private static final String API_BASE_URL = "https://demo.flexibee.eu:5434";
-
     private final String company;
 
     @Getter
     private final Api client;
 
-    private final Converter<ResponseBody, WinstromResponse> errorConverter;
-
-    public static FlexibeeClient create(String username, String password, String company) {
-        return create(username, password, company, API_BASE_URL);
-    }
+    private final Converter<ResponseBody, WinstromResponse> winstromResponseConverter;
 
     public static FlexibeeClient create(String username, String password, String company, String apiBaseUrl) {
         return create(username, password, company, apiBaseUrl, null);
@@ -53,16 +47,17 @@ public class FlexibeeClient {
 
     public static FlexibeeClient create(String username, String password, String company, String apiBaseUrl, SSLConfig sslConfig) {
         RetrofitClientFactory retrofitClientFactory = new RetrofitClientFactory();
-        Retrofit retrofit = retrofitClientFactory.prepareRetrofit(apiBaseUrl, username, password, sslConfig);
+        Retrofit retrofit = retrofitClientFactory.createRetrofit(apiBaseUrl, username, password, sslConfig);
         FlexibeeClient.Api api = retrofitClientFactory.createService(FlexibeeClient.Api.class, retrofit);
         Converter<ResponseBody, WinstromResponse> errorConverter = retrofit.responseBodyConverter(WinstromResponse.class, new Annotation[0]);
         return new FlexibeeClient(company, api, errorConverter);
     }
 
-    FlexibeeClient(String company, Api retrofitApi, Converter<ResponseBody, WinstromResponse> errorConverter) {
+
+    FlexibeeClient(String company, Api retrofitApi, Converter<ResponseBody, WinstromResponse> winstromResponseConverter) {
         this.company = company;
         this.client = retrofitApi;
-        this.errorConverter = errorConverter;
+        this.winstromResponseConverter = winstromResponseConverter;
     }
 
     public WinstromResponse createInvoice(WinstromRequest winstromRequest) throws IOException, FlexibeeException {
@@ -102,23 +97,21 @@ public class FlexibeeClient {
 
     private void handleErrorResponse(Response response, WinstromRequest winstromRequest) throws FlexibeeException {
         if (!response.isSuccessful()) {
-            if (response.code() == 404) {
-                throw new NotFound(getErrorBody(response));
-            } else {
-                String rawErrorResponse = readRawResponse(response.errorBody());
-                FlexibeeException flexibeeException;
-                try {
-                    String message = "Error while creating document in Flexibee";
-                    WinstromResponse errorResponse = errorConverter.convert(response.errorBody());
-                    flexibeeException = new FlexibeeException(message, winstromRequest, errorResponse, rawErrorResponse);
-
-                } catch (Exception e) {
-                    String message = "Error while creating document in Flexibee, " + e.getMessage();
-                    flexibeeException = new FlexibeeException(message, winstromRequest, null, rawErrorResponse);
-                }
-
-                throw flexibeeException;
+            String rawErrorResponse = readRawResponse(response.errorBody());
+            String message = "Error while creating document in Flexibee";
+            WinstromResponse errorResponse = null;
+            try {
+                errorResponse = winstromResponseConverter.convert(response.errorBody());
+            } catch (Exception e) {
+                message = "Error while creating document in Flexibee, " + e.getMessage();
             }
+
+            if (response.code() == 404) {
+                throw new NotFound(message, winstromRequest, rawErrorResponse);
+            } else {
+                throw new FlexibeeException(message, winstromRequest, errorResponse, rawErrorResponse);
+            }
+
         }
     }
 
@@ -304,8 +297,8 @@ public class FlexibeeClient {
     }
 
     public static class NotFound extends FlexibeeException {
-        public NotFound(String s) {
-            super(s);
+        private NotFound(String message, WinstromRequest request, String rawErrorResponse) {
+            super(message, request, null, rawErrorResponse);
         }
     }
 
