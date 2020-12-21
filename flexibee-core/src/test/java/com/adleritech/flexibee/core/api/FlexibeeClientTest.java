@@ -1,6 +1,9 @@
 package com.adleritech.flexibee.core.api;
 
 import com.adleritech.flexibee.core.api.domain.*;
+import okhttp3.ResponseBody;
+import retrofit2.Converter;
+
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -12,10 +15,18 @@ import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.valueOf;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 
 @Ignore
 public class FlexibeeClientTest {
+
+    private final FlexibeeClient.Api api = mock(FlexibeeClient.Api.class);
+    private final Converter<ResponseBody, WinstromResponse> errorConverter = new WinstromResponseConverter();
+
+
+    private final FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", api, errorConverter);
+
 
     @Test
     public void createInvoice() throws Exception {
@@ -28,7 +39,6 @@ public class FlexibeeClientTest {
                         .build())
                 .build();
 
-        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         WinstromResponse response = flexibeeClient.createInvoice(request);
         String invoiceId = response.getResults().get(0).getId();
         assertThat(invoiceId).isNotEmpty();
@@ -53,7 +63,6 @@ public class FlexibeeClientTest {
                         .build())
                 .build();
 
-        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         WinstromResponse response = flexibeeClient.createInvoice(request);
         String invoiceId = response.getResults().get(0).getId();
         assertThat(invoiceId).isNotEmpty();
@@ -86,7 +95,6 @@ public class FlexibeeClientTest {
                         .build())
                 .build();
 
-        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         WinstromResponse response = flexibeeClient.createInvoice(request);
         assertThat(response.getResults().get(0).getId()).isNotEmpty();
         assertThat(response.isSuccess()).isTrue();
@@ -111,7 +119,6 @@ public class FlexibeeClientTest {
                 ))
                 .build());
 
-        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         WinstromResponse response = flexibeeClient.createInvoice(request);
         assertThat(response.getResults().get(0).getId()).isNotEmpty();
         assertThat(response.isSuccess()).isTrue();
@@ -128,7 +135,6 @@ public class FlexibeeClientTest {
                 )
                 .build();
 
-        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         WinstromResponse response = flexibeeClient.updateAddressBook("1569", request);
         assertThat(response.getResults().get(0).getId()).isNotEmpty();
         assertThat(response.isSuccess()).isTrue();
@@ -140,7 +146,6 @@ public class FlexibeeClientTest {
         WinstromRequest request = new WinstromRequest();
         request.getAddressBooks().add(AddressBook.builder().name("test").id(singletonList(Helpers.externalId(alreadyExistingId))).build());
 
-        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         flexibeeClient.updateAddressBook("1568", request);
     }
 
@@ -152,7 +157,6 @@ public class FlexibeeClientTest {
                 Order.builder().name("test").id(singletonList(Helpers.externalId(alreadyExistingId))).build()
         );
 
-        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         WinstromResponse order = flexibeeClient.createOrder(request);
 
         assertThat(order).isNotNull();
@@ -177,7 +181,6 @@ public class FlexibeeClientTest {
                         .order(Helpers.externalId(alreadyExistingId))
                         .build());
 
-        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         WinstromResponse order = flexibeeClient.createOrder(request);
 
         assertThat(order).isNotNull();
@@ -193,7 +196,6 @@ public class FlexibeeClientTest {
                         .build()
         );
 
-        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         WinstromResponse response = flexibeeClient.updateAddressBook("1569", request);
         assertThat(response.getResults().get(0).getId()).isNotEmpty();
         assertThat(response.isSuccess()).isTrue();
@@ -229,7 +231,6 @@ public class FlexibeeClientTest {
                 .build()
         );
 
-        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         WinstromResponse response = flexibeeClient.createInternalDocument(request);
         assertThat(response.getResults().get(0).getId()).isNotEmpty();
         assertThat(response.isSuccess()).isTrue();
@@ -267,7 +268,6 @@ public class FlexibeeClientTest {
                 .build()
         );
 
-        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         WinstromResponse response = flexibeeClient.createReceivable(request);
         assertThat(response.getResults().get(0).getId()).isNotEmpty();
         assertThat(response.isSuccess()).isTrue();
@@ -307,7 +307,6 @@ public class FlexibeeClientTest {
                 .build()
         );
 
-        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
 
         WinstromResponse response = flexibeeClient.createObligation(request);
         assertThat(response.getResults().get(0).getId()).isNotEmpty();
@@ -362,7 +361,6 @@ public class FlexibeeClientTest {
                 .build()
         );
 
-        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
 
         WinstromResponse response = flexibeeClient.createObligation(request);
         assertThat(response.getResults().get(0).getId()).isNotEmpty();
@@ -400,7 +398,6 @@ public class FlexibeeClientTest {
                 .build()
         );
 
-        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         WinstromResponse response = flexibeeClient.createBank(request);
         assertThat(response.getResults().get(0).getId()).isNotEmpty();
         assertThat(response.isSuccess()).isTrue();
@@ -441,7 +438,6 @@ public class FlexibeeClientTest {
                 .build()
         );
 
-        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         WinstromResponse response = flexibeeClient.createBank(request);
         assertThat(response.getResults().get(0).getId()).isNotEmpty();
         assertThat(response.isSuccess()).isTrue();
@@ -454,7 +450,6 @@ public class FlexibeeClientTest {
     public void getNonexistingInternalDocument() throws Exception {
         String extId = "ext:123:unknown";
 
-        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         flexibeeClient.getInternalDocument(extId).getInternalDocument();
     }
 
@@ -469,7 +464,6 @@ public class FlexibeeClientTest {
                 .baseTotalSum(BigDecimal.valueOf(1000))
                 .build());
 
-        FlexibeeClient flexibeeClient = new FlexibeeClient("winstrom", "winstrom", "demo");
         WinstromResponse response = flexibeeClient.createReceivedInvoice(request);
         assertThat(response.getResults().get(0).getId()).isNotEmpty();
         assertThat(response.isSuccess()).isTrue();

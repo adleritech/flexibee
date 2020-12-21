@@ -10,6 +10,7 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
@@ -25,17 +26,21 @@ import java.util.concurrent.TimeUnit;
 class RetrofitClientFactory {
     private static final Logger LOGGER = LoggerFactory.getLogger("com.adleritech.flexibee.core.api.http");
 
-    static <S> S createService(Class<S> serviceClass, String apiBaseUrl, String username, String password, SSLConfig sslConfig) {
+    public Retrofit createRetrofit(String apiBaseUrl, String username, String password, SSLConfig sslConfig) {
         Retrofit.Builder builder = new Retrofit.Builder()
-            .baseUrl(apiBaseUrl)
-            .addConverterFactory(SimpleXmlConverterFactory.createNonStrict(Factory.persister()));
+                .baseUrl(apiBaseUrl)
+                .addConverterFactory(SimpleXmlConverterFactory.createNonStrict(Factory.persister()));
         String authToken = Credentials.basic(username, password);
         builder.client(createOkHttpClient(authToken, sslConfig));
 
-        return builder.build().create(serviceClass);
+        return builder.build();
     }
 
-    private static OkHttpClient createOkHttpClient(String authToken, SSLConfig sslConfig) {
+    public <S> S createService(Class<S> serviceClass, Retrofit retrofit) {
+        return retrofit.create(serviceClass);
+    }
+
+    private OkHttpClient createOkHttpClient(String authToken, SSLConfig sslConfig) {
         AuthenticationInterceptor interceptor = new AuthenticationInterceptor(authToken);
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addInterceptor(interceptor);
@@ -51,7 +56,7 @@ class RetrofitClientFactory {
         return httpClient.build();
     }
 
-    private static void configureSsl(OkHttpClient.Builder httpClient, SSLConfig sslConfig) {
+    private void configureSsl(OkHttpClient.Builder httpClient, SSLConfig sslConfig) {
         try {
             TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
             trustManagerFactory.init(sslConfig.getKeyStore());

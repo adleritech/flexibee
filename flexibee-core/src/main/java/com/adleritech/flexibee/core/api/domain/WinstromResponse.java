@@ -21,6 +21,9 @@ public class WinstromResponse extends Winstrom {
     @Element(name = "success")
     private boolean success;
 
+    @Element(name = "stats")
+    private Stats stats;
+
     @ElementList(name = "results", required = false)
     private List<Result> results;
 
