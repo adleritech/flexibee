@@ -16,6 +16,9 @@ import org.simpleframework.xml.Root;
 @Root(strict = false)
 public class Result {
 
+    @Element(name = "request-id", required = false)
+    private String requestId;
+
     @Element(name = "id", required = false)
     private String id;
 
