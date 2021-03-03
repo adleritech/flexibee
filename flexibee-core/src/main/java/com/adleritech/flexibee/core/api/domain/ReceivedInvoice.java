@@ -65,6 +65,9 @@ public class ReceivedInvoice {
     @Element(name = "zakazka", required = false)
     private String order;
 
+    @Element(name="typUcOp", required = false)
+    private String accountingTemplate;
+
     @Element(name = "cisDosle", required = false)
     private String incomingNumber;
 
