@@ -98,18 +98,18 @@ public class FlexibeeClient {
     private void handleErrorResponse(Response response, WinstromRequest winstromRequest) throws FlexibeeException {
         if (!response.isSuccessful()) {
             String rawErrorResponse = readRawResponse(response.errorBody());
-            String message = "Error while creating document in Flexibee";
+            String message = "Flexibee error, status code: " + response.code() + ", rawResponse: " + rawErrorResponse;
             WinstromResponse errorResponse = null;
             try {
                 errorResponse = winstromResponseConverter.convert(response.errorBody());
             } catch (Exception e) {
-                message = "Error while creating document in Flexibee, " + e.getMessage();
+                // Nothing to add, the rest of exception is still the same
             }
 
             if (response.code() == 404) {
                 throw new NotFound(message, winstromRequest, rawErrorResponse);
             } else {
-                throw new FlexibeeException(message, winstromRequest, errorResponse, rawErrorResponse);
+                throw new FlexibeeException(message, response.code(), winstromRequest, errorResponse, rawErrorResponse);
             }
 
         }
@@ -298,11 +298,14 @@ public class FlexibeeClient {
 
     public static class NotFound extends FlexibeeException {
         private NotFound(String message, WinstromRequest request, String rawErrorResponse) {
-            super(message, request, null, rawErrorResponse);
+            super(message, 404, request, null, rawErrorResponse);
         }
     }
 
     public static class FlexibeeException extends Exception {
+        @Getter
+        private int statusCode;
+
         @Getter
         private WinstromRequest request;
 
@@ -316,8 +319,9 @@ public class FlexibeeClient {
             super(s);
         }
 
-        private FlexibeeException(String message, WinstromRequest request, WinstromResponse errorResponse, String rawErrorResponse) {
+        private FlexibeeException(String message, int statusCode, WinstromRequest request, WinstromResponse errorResponse, String rawErrorResponse) {
             super(message);
+            this.statusCode = statusCode;
             this.request = request;
             this.errorResponse = errorResponse;
             this.rawErrorResponse = rawErrorResponse;
