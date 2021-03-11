@@ -98,12 +98,12 @@ public class FlexibeeClient {
     private void handleErrorResponse(Response response, WinstromRequest winstromRequest) throws FlexibeeException {
         if (!response.isSuccessful()) {
             String rawErrorResponse = readRawResponse(response.errorBody());
-            String message = "status code: " + response.code() + ", rawResponse: " + rawErrorResponse;
+            String message = "Flexibee error, status code: " + response.code() + ", rawResponse: " + rawErrorResponse;
             WinstromResponse errorResponse = null;
             try {
                 errorResponse = winstromResponseConverter.convert(response.errorBody());
             } catch (Exception e) {
-                // Nothing to add, th erest of exception is still the same
+                // Nothing to add, the rest of exception is still the same
             }
 
             if (response.code() == 404) {
