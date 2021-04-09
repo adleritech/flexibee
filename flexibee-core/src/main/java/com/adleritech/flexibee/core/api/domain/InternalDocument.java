@@ -76,4 +76,7 @@ public class InternalDocument {
     @Element(name="stredisko", required = false)
     private String department;
 
+    @Element(name="poznam", required = false)
+    private String note;
+
 }

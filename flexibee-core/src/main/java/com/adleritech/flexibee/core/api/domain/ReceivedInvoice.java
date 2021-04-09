@@ -107,4 +107,7 @@ public class ReceivedInvoice {
     @Element(name="clenDph", required = false)
     private String vatRow;
 
+    @Element(name="poznam", required = false)
+    private String note;
+
 }
