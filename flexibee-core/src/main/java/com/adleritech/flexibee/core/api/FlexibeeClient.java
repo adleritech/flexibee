@@ -13,6 +13,8 @@ import com.adleritech.flexibee.core.api.domain.InternalDocumentResponse;
 import com.adleritech.flexibee.core.api.domain.IssuedInvoiceResponse;
 import com.adleritech.flexibee.core.api.domain.ObligationResponse;
 import com.adleritech.flexibee.core.api.domain.ReceivableResponse;
+import com.adleritech.flexibee.core.api.domain.ReceivedInvoice;
+import com.adleritech.flexibee.core.api.domain.ReceivedInvoiceResponse;
 import com.adleritech.flexibee.core.api.domain.WinstromRequest;
 import com.adleritech.flexibee.core.api.domain.WinstromResponse;
 import lombok.AllArgsConstructor;
@@ -228,12 +230,21 @@ public class FlexibeeClient {
         return response.body();
     }
 
+    public ReceivedInvoiceResponse getReceivedInvoice(String id) throws IOException, FlexibeeException {
+        Response<ReceivedInvoiceResponse> response = client.getReceivedInvoice(company, id).execute();
+        handleErrorResponse(response);
+        return response.body();
+    }
+
     public void removeInvoice(String invoiceId) throws FlexibeeException, IOException {
         Response<Void> response = client.removeInvoice(company, invoiceId).execute();
         handleErrorResponse(response, null);
     }
 
     interface Api {
+
+        @GET("/c/{company}/faktura-prijata/{id}.xml")
+        Call<ReceivedInvoiceResponse> getReceivedInvoice(@Path("company") String company, @Path("id") String id);
 
         @PUT("/c/{company}/faktura-prijata.xml")
         Call<WinstromResponse> receivedInvoice(@Path("company") String company, @Body WinstromRequest request);

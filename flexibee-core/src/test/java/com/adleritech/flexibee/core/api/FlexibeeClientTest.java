@@ -456,7 +456,9 @@ public class FlexibeeClientTest {
     @Test
     public void createReceivedInvoice() throws Exception {
         WinstromRequest request = new WinstromRequest();
+        String extId = "ext:dd:1234";
         request.getReceivedInvoices().add(ReceivedInvoice.builder()
+                .ids(singletonList(extId))
                 .company("code:ABCFIRM1#")
                 .documentType("code:faktura")
                 .incomingNumber("112233")
@@ -467,6 +469,10 @@ public class FlexibeeClientTest {
         WinstromResponse response = flexibeeClient.createReceivedInvoice(request);
         assertThat(response.getResults().get(0).getId()).isNotEmpty();
         assertThat(response.isSuccess()).isTrue();
+
+        ReceivedInvoiceResponse receivedInvoice = flexibeeClient.getReceivedInvoice(extId);
+        assertThat(receivedInvoice).isNotNull();
+        assertThat(receivedInvoice.getReceivedInvoice().getBaseTotalSum()).isEqualByComparingTo("1000");
     }
 
 }
