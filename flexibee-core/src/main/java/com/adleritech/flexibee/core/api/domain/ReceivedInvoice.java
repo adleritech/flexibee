@@ -41,6 +41,9 @@ public class ReceivedInvoice {
     @Element(name = "duzpPuv", required = false)
     private LocalDate timeOfSupply;
 
+    @Element(name = "duzpUcto", required = false)
+    private LocalDate taxableFulfillment;
+
     @Element(name = "bezPolozek", required = false)
     private Boolean withoutItems;
     //sumZklCelkem
