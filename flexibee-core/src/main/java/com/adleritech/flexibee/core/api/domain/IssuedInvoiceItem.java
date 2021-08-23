@@ -5,9 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 
 @Data
@@ -16,8 +18,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Root(name = "faktura-vydana-polozka")
 public class IssuedInvoiceItem {
-    @Element(name = "id", required = false)
-    private String id;
+    @ElementList(entry = "id", required = false, inline = true)
+    private List<String> id;
 
     @Element(name = "nazev", required = false)
     private String name;
