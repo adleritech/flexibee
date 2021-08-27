@@ -60,7 +60,7 @@
     <repositories>
         <repository>
             <id>adleritech Central</id>
-            <url>https://nexus.aitinternal.org/nexus/content/groups/adleritech-central</url>
+            <url>https://nexus.liftago.net/content/groups/adleritech-central</url>
             <snapshots>
                 <checksumPolicy>ignore</checksumPolicy>
                 <enabled>true</enabled>
@@ -78,12 +78,12 @@
         <repository>
             <id>deployment.release</id>
             <name>Releases</name>
-            <url>https://nexus.aitinternal.org/nexus/content/repositories/adler-itech</url>
+            <url>https://nexus.liftago.net/content/repositories/adler-itech</url>
         </repository>
         <snapshotRepository>
             <id>deployment.snap</id>
             <name>Snapshots</name>
-            <url>https://nexus.aitinternal.org/nexus/content/repositories/adler-itech-snapshots</url>
+            <url>https://nexus.liftago.net/content/repositories/adler-itech-snapshots</url>
         </snapshotRepository>
     </distributionManagement>
 
