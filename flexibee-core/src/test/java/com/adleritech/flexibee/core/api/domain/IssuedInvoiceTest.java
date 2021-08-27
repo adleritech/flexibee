@@ -231,6 +231,7 @@ public class IssuedInvoiceTest {
                 "     <faktura-vydana>\n" +
                 "          <odpocty-zaloh class=\"java.util.Collections$SingletonList\">\n" +
                 "               <odpocet>\n" +
+                "                    <id>ext:deposit</id>\n" +
                 "                    <castkaMen>100</castkaMen>\n" +
                 "                    <doklad>41</doklad>\n" +
                 "               </odpocet>\n" +
@@ -243,6 +244,7 @@ public class IssuedInvoiceTest {
                         IssuedInvoice.builder()
                         .deposits(Collections.singletonList(
                                 Deposit.builder()
+                                        .id("ext:deposit")
                                         .amount(BigDecimal.valueOf(100))
                                         .deposit("41").build()
                         ))
