@@ -23,6 +23,9 @@ public class ReceivedInvoice {
     @ElementList(required = false, inline = true, entry = "id")
     private List<String> ids;
 
+    @Element(name = "kod", required = false)
+    private String invoiceNumber;
+
     @Element(name = "typDokl", required = false)
     private String documentType;
 
