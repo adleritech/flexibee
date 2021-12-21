@@ -111,6 +111,7 @@ public class IssuedInvoiceTest {
                         .company("code:ABCFIRM1#")
                         .documentType("code:FAKTURA")
                         .issued(LocalDate.of(2017, 4, 2))
+                        .orderNumber("123456789")
                         .items(new IssuedInvoiceItems(
                                 IssuedInvoiceItem.builder()
                                         .name("Bla bla jizdne")
@@ -145,6 +146,7 @@ public class IssuedInvoiceTest {
                 "                <typCenyDphK>typCeny.sDphKoef</typCenyDphK>\n" +
                 "            </faktura-vydana-polozka>\n" +
                 "        </polozkyFaktury>\n" +
+                "        <cisObj>123456789</cisObj>" +
                 "    </faktura-vydana>\n" +
                 "</winstrom>";
         assertThat(result.toString()).isXmlEqualTo(xml);
