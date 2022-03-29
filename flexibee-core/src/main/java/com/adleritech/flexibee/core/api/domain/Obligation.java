@@ -46,6 +46,9 @@ public class Obligation {
     @Element(name="varSym", required = false)
     private String variableSymbol;
 
+    @Element(name="specSym", required = false) 
+    private String specificSymbol;
+    
     @Element(name="cisDosle", required = false)
     private String incomingNumber;
 
