@@ -62,6 +62,9 @@ public class IssuedInvoiceItem {
     @Element(name = "kopStred", required = false)
     private Boolean copyDepartment;
 
+    @Element(name="cinnost", required = false)
+    private String businessSegment;
+
     @Element(name="clenKonVykDph", required = false)
     private String vatReportRow;
 

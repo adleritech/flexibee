@@ -43,4 +43,7 @@ public class BankItem {
 
     @Element(name="typPolozkyK", required = false)
     private ItemType itemType;
+
+    @Element(name="cinnost", required = false)
+    private String businessSegment;
 }

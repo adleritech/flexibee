@@ -89,6 +89,9 @@ public class Bank {
     @Element(name="stredisko", required = false)
     private String department;
 
+    @Element(name="cinnost", required = false)
+    private String businessSegment;
+
     @Element(name="typPohybuK", required = false)
     private AccountMovementType accountMovementType;
 

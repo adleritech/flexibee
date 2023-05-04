@@ -106,6 +106,9 @@ public class IssuedInvoice {
     @Element(name="stredisko", required = false)
     private String department;
 
+    @Element(name="cinnost", required = false)
+    private String businessSegment;
+
     @Element(name="clenKonVykDph", required = false)
     private String vatReportRow;
 
@@ -123,9 +126,6 @@ public class IssuedInvoice {
 
     @Element(name="popis", required = false)
     private String description;
-
-    @Element(name="cinnost", required = false)
-    private String businessSegment;
 
     @Element(name="poznam", required = false)
     private String note;

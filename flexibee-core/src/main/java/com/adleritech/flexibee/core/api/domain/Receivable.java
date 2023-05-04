@@ -100,10 +100,10 @@ public class Receivable {
     @Element(name="rada", required = false)
     private String sequence;
 
-    @Element(name="cinnost", required = false)
-    private String businessSegment;
-
     @Element(name="stredisko", required = false)
     private String department;
+
+    @Element(name="cinnost", required = false)
+    private String businessSegment;
 
 }

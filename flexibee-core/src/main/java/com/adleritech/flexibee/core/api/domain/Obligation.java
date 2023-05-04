@@ -124,11 +124,11 @@ public class Obligation {
     @Element(name="stredisko", required = false)
     private String department;
 
-    @Element(name="zakazPlatba", required = false)
-    private Boolean paymentForbidden;
-
     @Element(name="cinnost", required = false)
     private String businessSegment;
+
+    @Element(name="zakazPlatba", required = false)
+    private Boolean paymentForbidden;
 
     @Element(name = "polozkyFaktury", required = false)
     private ObligationItems items;

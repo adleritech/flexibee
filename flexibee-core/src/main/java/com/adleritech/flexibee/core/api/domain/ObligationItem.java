@@ -64,4 +64,7 @@ public class ObligationItem {
     @Element(name="clenDph", required = false)
     private String vatRow;
 
+    @Element(name="cinnost", required = false)
+    private String businessSegment;
+
 }
