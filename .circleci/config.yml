@@ -10,7 +10,7 @@ jobs:
   build:
     working_directory: ~/work
     docker:
-      - image: 570645264518.dkr.ecr.eu-central-1.amazonaws.com/build/circleci-openjdk-8:2020-11-18.15.180
+      - image: public.ecr.aws/l8m7t1q9/build/circleci-openjdk-8:2022-02-03.64.520
 
     steps:
       - checkout
