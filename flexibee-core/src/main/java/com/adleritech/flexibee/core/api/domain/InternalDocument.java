@@ -76,6 +76,9 @@ public class InternalDocument {
     @Element(name="stredisko", required = false)
     private String department;
 
+    @Element(name="cinnost", required = false)
+    private String businessSegment;
+
     @Element(name="poznam", required = false)
     private String note;
 

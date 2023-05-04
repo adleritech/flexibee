@@ -124,6 +124,9 @@ public class IssuedInvoice {
     @Element(name="popis", required = false)
     private String description;
 
+    @Element(name="cinnost", required = false)
+    private String businessSegment;
+
     @Element(name="poznam", required = false)
     private String note;
 

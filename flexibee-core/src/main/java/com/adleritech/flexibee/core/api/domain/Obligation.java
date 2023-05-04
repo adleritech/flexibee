@@ -46,9 +46,9 @@ public class Obligation {
     @Element(name="varSym", required = false)
     private String variableSymbol;
 
-    @Element(name="specSym", required = false) 
+    @Element(name="specSym", required = false)
     private String specificSymbol;
-    
+
     @Element(name="cisDosle", required = false)
     private String incomingNumber;
 
@@ -126,6 +126,9 @@ public class Obligation {
 
     @Element(name="zakazPlatba", required = false)
     private Boolean paymentForbidden;
+
+    @Element(name="cinnost", required = false)
+    private String businessSegment;
 
     @Element(name = "polozkyFaktury", required = false)
     private ObligationItems items;

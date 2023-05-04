@@ -113,6 +113,9 @@ public class ReceivedInvoice {
     @Element(name="clenDph", required = false)
     private String vatRow;
 
+    @Element(name="cinnost", required = false)
+    private String businessSegment;
+
     @Element(name="poznam", required = false)
     private String note;
 
