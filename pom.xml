@@ -16,7 +16,7 @@
     <scm>
         <connection>scm:git:git@github.com:adleritech/flexibee.git</connection>
         <developerConnection>scm:git:git@github.com:adleritech/flexibee.git</developerConnection>
-        <url>scm:git:git@github.com:adleritech/flexibee.git</url>
+        <url>https://github.com/adleritech/flexibee</url>
         <tag>HEAD</tag>
     </scm>
 
