@@ -4,7 +4,7 @@ workflows:
   build:
     jobs:
       - build:
-          context: java
+          context: java-v2
 
 jobs:
   build:
