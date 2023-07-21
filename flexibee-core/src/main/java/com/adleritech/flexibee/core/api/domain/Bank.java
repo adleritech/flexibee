@@ -107,4 +107,8 @@ public class Bank {
 
     @Element(name="cisSouhrnne", required = false)
     private String accountStatementName;
+    
+    @Element(name = "sparovani")
+    private PaymentBinding paymentBinding; 
+    
 }
