@@ -111,7 +111,7 @@ public class Bank {
     @Element(name="poznam", required = false)
     private String note;
     
-    @Element(name = "sparovani")
+    @Element(name = "sparovani", required = false)
     private PaymentBinding paymentBinding; 
     
 }
