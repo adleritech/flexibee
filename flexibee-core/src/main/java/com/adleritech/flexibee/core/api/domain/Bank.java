@@ -107,6 +107,12 @@ public class Bank {
 
     @Element(name="cisSouhrnne", required = false)
     private String accountStatementName;
+
+    @Element(name="poznam", required = false)
+    private String note;
+    
+    @Element(name = "cisSouhrnne", required = false)
+    private String bankStatementNumber;
     
     @Element(name = "sparovani")
     private PaymentBinding paymentBinding; 
