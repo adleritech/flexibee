@@ -110,7 +110,13 @@ public class Bank {
 
     @Element(name="poznam", required = false)
     private String note;
-    
+
+    @Element(name = "buc", required = false)
+    private String companyBankAccount;
+
+    @Element(name = "bic", required = false)
+    private String companyBankCode;
+
     @Element(name = "sparovani", required = false)
     private PaymentBinding paymentBinding; 
     
