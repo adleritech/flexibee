@@ -112,10 +112,10 @@ public class Bank {
     private String note;
 
     @Element(name = "buc", required = false)
-    private String companyBankAccount;
+    private String buc;
 
-    @Element(name = "bic", required = false)
-    private String companyBankCode;
+    @Element(name = "smerKod", required = false)
+    private String smerKod;
 
     @Element(name = "sparovani", required = false)
     private PaymentBinding paymentBinding; 
