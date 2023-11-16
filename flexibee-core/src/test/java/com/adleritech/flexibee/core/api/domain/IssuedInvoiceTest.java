@@ -120,7 +120,9 @@ public class IssuedInvoiceTest {
                                         .unitPrice(BigDecimal.valueOf(7500))
                                         .sumTotal(BigDecimal.valueOf(9000))
                                         .priceKind(PriceKind.withVat)
-                                        .vatRate(BigDecimal.valueOf(21)).build()
+                                        .vatRate(BigDecimal.valueOf(21))
+                                        .businessSegment("code:9_ALO")
+                                        .build()
                         ))
                         .build()).build();
 
@@ -144,6 +146,7 @@ public class IssuedInvoiceTest {
                 "                <sumCelkem>9000</sumCelkem>\n" +
                 "                <cenaMj>7500</cenaMj>\n" +
                 "                <typCenyDphK>typCeny.sDphKoef</typCenyDphK>\n" +
+                "                <cinnost>code:9_ALO</cinnost>\n" +
                 "            </faktura-vydana-polozka>\n" +
                 "        </polozkyFaktury>\n" +
                 "        <cisObj>123456789</cisObj>" +
