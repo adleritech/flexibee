@@ -20,7 +20,7 @@ It's unofficial Java library for [Flexibee.eu](https://www.flexibee.eu). The lib
 compile "com.adleritech:flexibee:0.0.12"
 ```
 
-To create an invoice and send it to Flexibee, you can use the following code snipped:
+To create an invoice and send it to Flexibee, you can use the following code snippet:
 ```java
 WinstromRequest request = WinstromRequest.builder()
         .issuedInvoice(IssuedInvoice.builder()
