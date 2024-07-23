@@ -10,14 +10,14 @@ It's unofficial Java library for [Flexibee.eu](https://www.flexibee.eu). The lib
 <dependency>
     <groupId>com.adleritech</groupId>
     <artifactId>flexibee</artifactId>
-    <version>0.0.12</version>
+    <version>0.3.30</version>
 </dependency>
 ```
 
 
 ### Gradle
 ```
-compile "com.adleritech:flexibee:0.0.12"
+compile "com.adleritech:flexibee:0.3.30"
 ```
 
 To create an invoice and send it to Flexibee, you can use the following code snippet:

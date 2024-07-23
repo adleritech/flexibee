@@ -6,7 +6,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -39,7 +40,7 @@ public class FlexibeeClientResponseTest {
 
     @Before
     public void setUp() {
-        when(api.issueInvoice(any(), any())).thenReturn(call);
+        when(api.issueInvoice(anyString(),any())).thenReturn(call);
     }
 
     @Test
@@ -61,7 +62,7 @@ public class FlexibeeClientResponseTest {
                 "  </results>\n" +
                 "</winstrom>";
         WinstromResponse response = serializer.read(WinstromResponse.class, xml);
-        Response callResponse = Response.success(response);
+        Response<WinstromResponse> callResponse = Response.success(response);
         when(call.execute()).thenReturn(callResponse);
 
         WinstromResponse receivedResponse = flexibeeClient.createInvoice(winstromRequest);
@@ -96,7 +97,7 @@ public class FlexibeeClientResponseTest {
                 "    </result>\n" +
                 "  </results>\n" +
                 "</winstrom>";
-        Response callResponse = Response.error(400, ResponseBody.create(MediaType.parse("application/xml"), xml));
+        Response<WinstromResponse> callResponse = Response.error(400, ResponseBody.create(MediaType.parse("application/xml"), xml));
         when(call.execute()).thenReturn(callResponse);
 
         try {
@@ -137,7 +138,7 @@ public class FlexibeeClientResponseTest {
                 "    </result>\n" +
                 "  </results>\n" +
                 "</winstrom>";
-        Response callResponse = Response.error(400, ResponseBody.create(MediaType.parse("application/xml"), xml));
+        Response<WinstromResponse> callResponse = Response.error(400, ResponseBody.create(MediaType.parse("application/xml"), xml));
         when(call.execute()).thenReturn(callResponse);
 
         try {
@@ -153,7 +154,7 @@ public class FlexibeeClientResponseTest {
     @Test
     public void nonXmlResponse() throws Exception {
         String xml = "Such invalid response that its not even xml";
-        Response callResponse = Response.error(400, ResponseBody.create(MediaType.parse("application/xml"), xml));
+        Response<WinstromResponse> callResponse = Response.error(400, ResponseBody.create(MediaType.parse("application/xml"), xml));
         when(call.execute()).thenReturn(callResponse);
 
         try {
@@ -168,7 +169,7 @@ public class FlexibeeClientResponseTest {
 
     @Test
     public void notFoundResponse() throws Exception {
-        Response callResponse = Response.error(404, ResponseBody.create(MediaType.parse("plain/text"), "NotFound"));
+        Response<WinstromResponse> callResponse = Response.error(404, ResponseBody.create(MediaType.parse("plain/text"), "NotFound"));
         when(call.execute()).thenReturn(callResponse);
 
         try {

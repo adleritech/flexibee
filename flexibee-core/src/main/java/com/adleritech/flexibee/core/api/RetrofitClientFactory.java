@@ -1,7 +1,6 @@
 package com.adleritech.flexibee.core.api;
 
 import com.adleritech.flexibee.core.api.FlexibeeClient.SSLConfig;
-import com.adleritech.flexibee.core.api.transformers.Factory;
 import okhttp3.Credentials;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -12,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import retrofit2.Retrofit;
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
+import retrofit2.converter.jaxb.JaxbConverterFactory;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -29,7 +28,7 @@ class RetrofitClientFactory {
     public Retrofit createRetrofit(String apiBaseUrl, String username, String password, SSLConfig sslConfig) {
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(apiBaseUrl)
-                .addConverterFactory(SimpleXmlConverterFactory.createNonStrict(Factory.persister()));
+                .addConverterFactory(JaxbConverterFactory.create());
         String authToken = Credentials.basic(username, password);
         builder.client(createOkHttpClient(authToken, sslConfig));
 
@@ -84,7 +83,7 @@ class RetrofitClientFactory {
     }
 
     static class AuthenticationInterceptor implements Interceptor {
-        private String authToken;
+        private final String authToken;
 
         AuthenticationInterceptor(String token) {
             this.authToken = token;
