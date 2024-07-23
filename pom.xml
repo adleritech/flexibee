@@ -13,13 +13,6 @@
     <description>flexibee sdk</description>
     <url>https://github.com/adleritech/flexibee</url>
 
-    <scm>
-        <connection>scm:git:git@github.com:adleritech/flexibee.git</connection>
-        <developerConnection>scm:git:git@github.com:adleritech/flexibee.git</developerConnection>
-        <url>https://github.com/adleritech/flexibee</url>
-        <tag>HEAD</tag>
-    </scm>
-
     <developers>
         <developer>
             <id>liftago</id>
@@ -56,36 +49,27 @@
             </plugin>
         </plugins>
     </build>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>repo1.maven.org</id>
+            <url>https://repo1.maven.org/maven2</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>repo.maven.apache.org</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <repositories>
         <repository>
-            <id>adleritech Central</id>
-            <url>https://nexus.liftago.net/content/groups/adleritech-central</url>
-            <snapshots>
-                <checksumPolicy>ignore</checksumPolicy>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-                <checksumPolicy>warn</checksumPolicy>
-                <updatePolicy>never</updatePolicy>
-            </releases>
+            <id>repo1.maven.org</id>
+            <url>https://repo1.maven.org/maven2</url>
+        </repository>
+        <repository>
+            <id>repo.maven.apache.org</id>
+            <url>https://repo.maven.apache.org/maven2</url>
         </repository>
     </repositories>
-
-    <distributionManagement>
-        <repository>
-            <id>deployment.release</id>
-            <name>Releases</name>
-            <url>https://nexus.liftago.net/content/repositories/adler-itech</url>
-        </repository>
-        <snapshotRepository>
-            <id>deployment.snap</id>
-            <name>Snapshots</name>
-            <url>https://nexus.liftago.net/content/repositories/adler-itech-snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <profiles>
         <profile>
@@ -117,23 +101,10 @@
                             </execution>
                         </executions>
                     </plugin>
-
-                    <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.7</version>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                        </configuration>
-                    </plugin>
-
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.0.0</version>
+                        <version>3.8.0</version>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
@@ -147,7 +118,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.5</version>
+                        <version>3.2.4</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
