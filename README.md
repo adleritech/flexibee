@@ -8,16 +8,16 @@ It's unofficial Java library for [Flexibee.eu](https://www.flexibee.eu). The lib
 
 ```xml
 <dependency>
-    <groupId>com.adleritech</groupId>
+    <groupId>net.testuje.app</groupId>
     <artifactId>flexibee</artifactId>
-    <version>0.3.30</version>
+    <version>0.3.31</version>
 </dependency>
 ```
 
 
 ### Gradle
 ```
-compile "com.adleritech:flexibee:0.3.30"
+compile "net.testuje.app:flexibee:0.3.31"
 ```
 
 To create an invoice and send it to Flexibee, you can use the following code snippet:

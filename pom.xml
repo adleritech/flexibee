@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.adleritech</groupId>
+    <groupId>net.testuje.app</groupId>
     <artifactId>flexibee</artifactId>
     <packaging>pom</packaging>
-    <version>0.3.30-SNAPSHOT</version>
+    <version>0.3.31-SNAPSHOT</version>
     <modules>
         <module>flexibee-core</module>
     </modules>
@@ -18,6 +18,12 @@
             <id>liftago</id>
             <name>Liftago</name>
             <email>dev@liftago.com</email>
+        </developer>
+        <developer>
+            <id>pavel.sykora</id>
+            <name>Pavel Sýkora</name>
+            <email>pavel.sykora@testuje.net</email>
+            <url>https://github.com/pavel-sykora/</url>
         </developer>
     </developers>
 
