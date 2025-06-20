@@ -76,6 +76,9 @@ public class IssuedInvoice {
     @Element(name="varSym", required = false)
     private String variableSymbol;
 
+    @Element(name="cisSml", required = false)
+    private String contractNumber;
+
     @Element(name="cisObj", required = false)
     private String orderNumber;
 

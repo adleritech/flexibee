@@ -111,6 +111,7 @@ public class IssuedInvoiceTest {
                         .company("code:ABCFIRM1#")
                         .documentType("code:FAKTURA")
                         .issued(LocalDate.of(2017, 4, 2))
+                        .contractNumber("234")
                         .orderNumber("123456789")
                         .items(new IssuedInvoiceItems(
                                 IssuedInvoiceItem.builder()
@@ -149,6 +150,7 @@ public class IssuedInvoiceTest {
                 "                <cinnost>code:9_ALO</cinnost>\n" +
                 "            </faktura-vydana-polozka>\n" +
                 "        </polozkyFaktury>\n" +
+                "        <cisSml>234</cisSml>" +
                 "        <cisObj>123456789</cisObj>" +
                 "    </faktura-vydana>\n" +
                 "</winstrom>";
