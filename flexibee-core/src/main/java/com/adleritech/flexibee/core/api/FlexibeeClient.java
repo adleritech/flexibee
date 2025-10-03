@@ -15,6 +15,7 @@ import com.adleritech.flexibee.core.api.domain.ObligationResponse;
 import com.adleritech.flexibee.core.api.domain.ReceivableResponse;
 import com.adleritech.flexibee.core.api.domain.ReceivedInvoice;
 import com.adleritech.flexibee.core.api.domain.ReceivedInvoiceResponse;
+import com.adleritech.flexibee.core.api.domain.ReportLanguage;
 import com.adleritech.flexibee.core.api.domain.WinstromRequest;
 import com.adleritech.flexibee.core.api.domain.WinstromResponse;
 import lombok.AllArgsConstructor;
@@ -152,10 +153,16 @@ public class FlexibeeClient {
     }
 
     public ResponseBody downloadIssuedInvoiceAsPdf(String id) throws IOException, FlexibeeException {
-        Response<ResponseBody> response = client.downloadIssuedInvoiceAsPdf(company, id).execute();
+        Response<ResponseBody> response = client.downloadIssuedInvoiceAsPdf(company, id, null).execute();
         handleErrorResponse(response);
         return response.body();
     }
+
+	public ResponseBody downloadIssuedInvoiceAsPdf(String id, ReportLanguage reportLang) throws IOException, FlexibeeException {
+		Response<ResponseBody> response = client.downloadIssuedInvoiceAsPdf(company, id, reportLang).execute();
+		handleErrorResponse(response);
+		return response.body();
+	}
 
     public IssuedInvoiceResponse getIssuedInvoice(String id) throws IOException, FlexibeeException {
         Response<IssuedInvoiceResponse> response = client.getIssuedInvoice(company, id).execute();
@@ -252,10 +259,13 @@ public class FlexibeeClient {
         @PUT("/c/{company}/faktura-vydana.xml")
         Call<WinstromResponse> issueInvoice(@Path("company") String company, @Body WinstromRequest request);
 
-        @GET("/c/{company}/faktura-vydana/{id}.pdf")
-        Call<ResponseBody> downloadIssuedInvoiceAsPdf(@Path("company") String company, @Path("id") String id);
+		@GET("/c/{company}/faktura-vydana/{id}.pdf")
+		Call<ResponseBody> downloadIssuedInvoiceAsPdf(
+				@Path("company") String company,
+				@Path("id") String id,
+				@Query("report-lang") ReportLanguage reportLang);
 
-        @GET("/c/{company}/faktura-vydana/{id}.xml")
+		@GET("/c/{company}/faktura-vydana/{id}.xml")
         Call<IssuedInvoiceResponse> getIssuedInvoice(@Path("company") String company, @Path("id") String id);
 
         @DELETE("/c/{company}/faktura-vydana/{id}.pdf")
