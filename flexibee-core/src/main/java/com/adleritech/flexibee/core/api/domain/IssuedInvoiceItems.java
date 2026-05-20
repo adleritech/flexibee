@@ -21,7 +21,7 @@ public class IssuedInvoiceItems {
         this.removeAllItems = removeAllItems;
     }
 
-    @ElementList(inline = true)
+    @ElementList(inline = true, required = false)
     private List<IssuedInvoiceItem> items;
 
     @Attribute(name="removeAll", required = false)
